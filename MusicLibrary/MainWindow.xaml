@@ -6,7 +6,24 @@
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
+    <Grid RenderTransformOrigin="0.484,0.503">
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="202" Margin="23,62,0,0" VerticalAlignment="Top" Width="171">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="listView1" HorizontalAlignment="Left" Height="202" Margin="311,62,0,0" VerticalAlignment="Top" Width="181">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="button" Content="Add=&gt;" HorizontalAlignment="Left" Margin="217,158,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label x:Name="label" Content="Library" HorizontalAlignment="Right" Margin="0,10,449.4,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="74,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+
     </Grid>
 </Window>
