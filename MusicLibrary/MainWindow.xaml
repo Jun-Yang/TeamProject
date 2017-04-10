@@ -5,25 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid RenderTransformOrigin="0.484,0.503">
-        <ListView x:Name="listView" HorizontalAlignment="Left" Height="202" Margin="23,62,0,0" VerticalAlignment="Top" Width="171">
+        Title="MainWindow" Height="385.261" Width="596.829">
+    <Grid RenderTransformOrigin="0.484,0.503" Margin="10,0,-111.6,11" Height="313" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="692">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="0*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="336*"/>
+            <ColumnDefinition Width="329*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="103*"/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="listView" HorizontalAlignment="Right" Margin="0,0,107.8,25.8" Width="171" Grid.RowSpan="3" Height="202" VerticalAlignment="Bottom">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="listView1" HorizontalAlignment="Left" Height="202" Margin="311,62,0,0" VerticalAlignment="Top" Width="181">
+        <ListView x:Name="listView1" Height="202" Margin="27.2,85,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="159" Grid.Column="1" Grid.RowSpan="3">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="button" Content="Add=&gt;" HorizontalAlignment="Left" Margin="217,158,0,0" VerticalAlignment="Top" Width="75"/>
-        <Label x:Name="label" Content="Library" HorizontalAlignment="Right" Margin="0,10,449.4,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="74,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="button" Content="Add=&gt;" Margin="207,9.4,10,0" VerticalAlignment="Top" RenderTransformOrigin="1.816,0.399" Grid.Row="2"/>
+        <Label x:Name="label" Content="Library" Margin="15,0,0,95.6" VerticalAlignment="Bottom" RenderTransformOrigin="0.618,0.872" HorizontalAlignment="Left" Width="46"/>
+        <TextBox x:Name="textBox" Height="23" Margin="66,0,107.6,95.6" TextWrapping="Wrap" VerticalAlignment="Bottom" RenderTransformOrigin="0.8,0.566" Text="Search box (linq)"/>
+        <Label x:Name="label_Copy" Content="List" HorizontalAlignment="Left" Margin="27,0,0,94.8" VerticalAlignment="Bottom" RenderTransformOrigin="-0.1,0.613" Width="29" Grid.Column="1"/>
+        <ComboBox x:Name="comboBox" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,108.6,95.6" VerticalAlignment="Bottom" Width="118"/>
+        <Button x:Name="button1" Content="Ribbon" HorizontalAlignment="Right" Margin="0,0,245.6,149.6" VerticalAlignment="Bottom" Width="321" Grid.ColumnSpan="2" Height="20"/>
 
     </Grid>
 </Window>
