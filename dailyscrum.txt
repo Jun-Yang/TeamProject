@@ -1,23 +1,27 @@
 --- April 10 Jun Yang
 DID SINCE LAST SCRUM:
-1. I implemented XY, but didn't Z because got stuck on A
-2. .....
-WILL DO IN THE NEXT 24 HOURS
-1. Finish Z then move on to research and implement B
-2. ...
-WHERE I NEED HELP IS...
-1. I need help finding an example how B is used to....
-2. ...
+1. design database
+2. create Trello account and project github 
 
 --- April 10 Chen Chen
-1. I implemented Alpha, Beta and even Gamma
-2. I will implent Theta, Zeta, Yota today
-3. I desperately need help from the teacher to learn
-how to use Micro-Gamma expressions to solve ...
+1. edit the proposal.doc
+2. create my github account and Trello account
+3. create Trello broad
 
 
 --- April 11 Jun Yang
-1. I only got started on Z, and never tog to B at all
-2. Finish Z then move on to research and implement B
-3. I will actually talk to the teacher about B,
-because I think I will get stuck on it otherwise
+1. redesign database
+2. will design user story  
+
+
+--- April 11 Chen Chen
+1. re-edit the proposal.doc
+2. get the picture of our application 
+3. will design user story
+
+--- April 12 Jun Yang
+1. start design WPF 
+2. Continue break down user story
+
+--- April 12 Chen Chen
+1. Finished create database on Azure
