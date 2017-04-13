@@ -24,6 +24,13 @@ namespace MusicLibrary
         public MainWindow()
         {
             InitializeComponent();
+            //WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
         private void MiOpen_Click(object sender, RoutedEventArgs e)
@@ -98,6 +105,7 @@ namespace MusicLibrary
 
             }
         }
+                
     }
 
     public class ImageToHeaderConverter : IValueConverter
@@ -123,6 +131,8 @@ namespace MusicLibrary
         {
             throw new NotImplementedException();
         }
+
+        
     }
 
 
