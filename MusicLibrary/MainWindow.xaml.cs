@@ -105,7 +105,16 @@ namespace MusicLibrary
 
             }
         }
-                
+
+        private void BalanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     public class ImageToHeaderConverter : IValueConverter
