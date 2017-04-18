@@ -153,6 +153,11 @@ namespace MusicLibrary
         {
 
         }
+
+        private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     public class ImageToHeaderConverter : IValueConverter
@@ -162,15 +167,15 @@ namespace MusicLibrary
             string tag = (string)value;
             if (File.Exists(tag))
             {
-                return "file.png";
+                return "pack://application:,,,/image/file.png";
             }
             if (tag.Length > 3)
             {
-                return "folder.png";
+                return "pack://application:,,,/image/folder.png";
             }
             else
             {
-                return "HardDrive.png";
+                return "pack://application:,,,/image/hardDrive.png";
             }
         }
 

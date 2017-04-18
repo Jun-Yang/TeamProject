@@ -5,21 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
-        Title="MainWindow" Height="334.286" Width="1308.57" Loaded="Window_Loaded" Icon="@..\..\Image\folder.png">
+        Title="MusicPlayer" Height="517.021" Width="805.894" MinWidth="400" MinHeight="300" Loaded="Window_Loaded" Icon="@..\..\Image\player.png">
     <Window.Resources>
         <local:ImageToHeaderConverter x:Key="img"/>
     </Window.Resources>
     <Grid Margin="0,0,-0.4,1">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition />
+            <RowDefinition Height="80" />
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Background="#FFE0E0E0">
             <MenuItem Header="_File">
                 <MenuItem Name="MiOpen" Header="_Open..." Click="MiOpen_Click"/>
                 <MenuItem Name="MiOpenAudio" Header="_Open Audio File" Click="MiOpenAudioFile_Click"/>
-                <MenuItem Name="MiAddToLibrary" Header="_Add To Library" Click="MiAddToLibrary_Click"/>
+                <MenuItem Name="MiImportToLibrary" Header="_Import To Library" Click="MiImportToLibrary_Click"/>
                 <MenuItem Name="MiAddToPlayList" Header="_Add to PlayList" Click="MiAddToPlayList_Click"/>
                 <Separator />
                 <MenuItem Name="MiExit" Header="E_xit" Click="MiExit_Click"/>
@@ -80,23 +80,47 @@
             </ListView>
         </Grid>
 
-        <Grid Grid.Row="2" x:Name="PlayControls" >
-            <Button Margin="0,44,1184,72"  HorizontalAlignment="Right" Width="87" >Play</Button>
-            <Button Margin="0,0,1104.6,72" HorizontalAlignment="Right" Width="74" Height="21" VerticalAlignment="Bottom">Pause</Button>
-            <Button Margin="0,0,1022.6,71" HorizontalAlignment="Right" Width="77" RenderTransformOrigin="1.54,0.624" Height="22" VerticalAlignment="Bottom" >Stop</Button>
-            <ToggleButton Margin="0,45,944.6,71" Checked="ToggleButton_Checked" HorizontalAlignment="Right" Width="73" >Mute</ToggleButton>
+        <Grid Grid.Row="2" x:Name="PlayControls" HorizontalAlignment="Left" Height="80" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="31*"/>
+                <ColumnDefinition Width="121*"/>
+            </Grid.ColumnDefinitions>
+            <Button Command="MediaCommands.Play"  Width="40" HorizontalAlignment="Left" Margin="10,20,0,20"  >
+                <Image Source="pack://application:,,,/image/play.png" Width="30" Height="30" />
+            </Button>
+            <Button Command="MediaCommands.Stop"  Width="40" Margin="0,0,40,20" HorizontalAlignment="Right" Height="40" VerticalAlignment="Bottom" >
+                <Image Source="pack://application:,,,/image/stop.png" Width="30" Height="30" />
+            </Button>
+            <Button Command="MediaCommands.Pause" Margin="100,20,2,20" >
+                <Image Source="pack://application:,,,/image/forward.png" Width="30" Height="30" />
+            </Button>
+            <Button Command="MediaCommands.MuteVolume" Margin="0,0,405,20" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1" >
+                <Image Source="pack://application:,,,/image/volume.png" Width="30" Height="30" />
+            </Button>
 
-            <TextBlock FontSize="10" Margin="0,34,844.6,87" RenderTransformOrigin="-2.325,0.73" HorizontalAlignment="Right" Width="51">Volume</TextBlock>
-            <Slider Name="VolumeSlider" Value="0.75" Maximum="1" Margin="0,51,796.6,0" RenderTransformOrigin="0.52,0.999" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Width="123"/>
-
-            <TextBlock FontSize="10" Margin="0,34,726.6,0"  Height="23" VerticalAlignment="Top" HorizontalAlignment="Right" Width="47">Balance</TextBlock>
-            <Slider Name="BalanceSlider" Value="0" Minimum="-1" Maximum="1" ValueChanged="BalanceSlider_ValueChanged" Margin="0,0,646.6,49" RenderTransformOrigin="1.151,0.447" Height="38" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="127"/>
-
-            <TextBlock FontSize="10" Margin="0,34,579.6,88" HorizontalAlignment="Right" Width="42" >Speed</TextBlock>
+            <Label Content="Volume" Margin="0,0,333,50" HorizontalAlignment="Right" Width="52" RenderTransformOrigin="0.717,0.156" Height="25" VerticalAlignment="Bottom" Grid.Column="1" />
+            <Slider Name="VolumeSlider"
+                    Value="1" Minimum="0" Maximum="4"
+                    TickPlacement="Both"
+                    IsSnapToTickEnabled="True" Margin="0,0,261,20" RenderTransformOrigin="1.896,0.699" HorizontalAlignment="Right" Width="124" Height="30" VerticalAlignment="Bottom" Grid.Column="1">
+                <Slider.Ticks>
+                    0, 0.25, 0.5, 1, 2, 4
+                </Slider.Ticks>
+            </Slider>
+            <Label Content="Balance" Margin="0,0,197,50" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="59" Grid.Column="1" />
+            <Slider Name="BalanceSlider"
+                    Value="1" Minimum="0" Maximum="4"
+                    TickPlacement="Both"
+                    IsSnapToTickEnabled="True" Margin="412,0,132,20" RenderTransformOrigin="1.896,0.699" Height="30" VerticalAlignment="Bottom" Grid.Column="1">
+                <Slider.Ticks>
+                    0, 0.25, 0.5, 1, 2, 4
+                </Slider.Ticks>
+            </Slider>
+            <Label Content="Speed" Margin="541,0,40,50" Height="25" VerticalAlignment="Bottom" Grid.Column="1" />
             <Slider Name="SpeedSlider"
                     Value="1" Minimum="0" Maximum="4"
                     TickPlacement="Both"
-                    IsSnapToTickEnabled="True" Margin="0,51,499.6,0" RenderTransformOrigin="1.896,0.699" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right" Width="124">
+                    IsSnapToTickEnabled="True" Margin="541,0,13,20" RenderTransformOrigin="1.896,0.699" Height="30" VerticalAlignment="Bottom" Grid.Column="1">
                 <Slider.Ticks>
                     0, 0.25, 0.5, 1, 2, 4
                 </Slider.Ticks>

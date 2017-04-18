@@ -107,5 +107,26 @@
   <ItemGroup>
     <Resource Include="Image\folder.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Volume.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\harddrive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\Player.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
