@@ -21,8 +21,13 @@ namespace MusicLibrary
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        static string fileName = "";
+        private MediaPlayer mediaPlayer = new MediaPlayer();
+
         public MainWindow()
         {
+            
             InitializeComponent();
             //WindowStartupLocation = WindowStartupLocation.CenterScreen;
             double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -33,24 +38,57 @@ namespace MusicLibrary
             this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
+        private void MiOpenAudioFile_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                mediaPlayer.Open(new Uri(openFileDialog.FileName));
+                mediaPlayer.Play();
+            }
+        }
+
         private void MiOpen_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Microsoft.Win32.OpenFileDialog ofdlg = new Microsoft.Win32.OpenFileDialog();
+
+                ofdlg.DefaultExt = ".mp3";
+                ofdlg.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+                Nullable<bool> result = ofdlg.ShowDialog();
+
+                if (result == true)
+                {
+                    // Open document 
+                    fileName = ofdlg.FileName;
+                    this.Title = "  File Open  ";
+                    
+                        mediaPlayer.Open(new Uri(ofdlg.FileName));
+                        mediaPlayer.Play();
+                    
+                }
+            }
+            catch (ArgumentException ep)
+            {
+                Console.WriteLine(ep.StackTrace);
+            }
         }
 
-        private void MiSave_Click(object sender, RoutedEventArgs e)
+        private void MiAddToLibrary_Click(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        private void MiSaveAs_Click(object sender, RoutedEventArgs e)
+        private void MiAddToPlayList_Click(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
         }
 
         private void MiExit_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            Environment.Exit(0);
         }
 
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)
@@ -105,7 +143,11 @@ namespace MusicLibrary
 
             }
         }
-                
+
+        private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
     public class ImageToHeaderConverter : IValueConverter

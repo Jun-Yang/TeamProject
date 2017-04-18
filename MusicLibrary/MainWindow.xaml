@@ -17,8 +17,9 @@
         <Menu Grid.Row="0" Background="#FFE0E0E0">
             <MenuItem Header="_File">
                 <MenuItem Name="MiOpen" Header="_Open..." Click="MiOpen_Click"/>
-                <MenuItem Name="MiSave" Header="_Save" Click="MiSave_Click"/>
-                <MenuItem Name="MiSaveAs" Header="Save _as..." Click="MiSaveAs_Click"/>
+                <MenuItem Name="MiOpenAudio" Header="_Open Audio File" Click="MiOpenAudioFile_Click"/>
+                <MenuItem Name="MiAddToLibrary" Header="_Add To Library" Click="MiAddToLibrary_Click"/>
+                <MenuItem Name="MiAddToPlayList" Header="_Add to PlayList" Click="MiAddToPlayList_Click"/>
                 <Separator />
                 <MenuItem Name="MiExit" Header="E_xit" Click="MiExit_Click"/>
             </MenuItem>
