@@ -44,7 +44,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TreeView Name="lvDirectory" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="1">
+            <TreeView Name="lvDirectory" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" HorizontalAlignment="Left" Width="211">
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="HeaderTemplate">
@@ -60,16 +60,16 @@
                     </Style>
                 </TreeView.Resources>
             </TreeView>
-            <GridSplitter Grid.Column="1" Background="Black" ShowsPreview="True" />
-            <ListView Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" >
+            <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
+            <ListView Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <GridSplitter Grid.Column="3" Background="Black" ShowsPreview="True" />
-            <ListView Grid.Column="4" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-0.4,0.2" Grid.ColumnSpan="3" >
+            <GridSplitter Grid.Column="3" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
+            <ListView Grid.Column="4" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-0.4,0.2" Grid.ColumnSpan="3" MinWidth="200">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>
