@@ -9,8 +9,12 @@
     <Window.Resources>
         <local:ImageToHeaderConverter x:Key="img"/>
     </Window.Resources>
-    <DockPanel>
-        <Menu DockPanel.Dock="Top" Height="25">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Background="#FFE0E0E0">
             <MenuItem Header="_File">
                 <MenuItem Name="MiOpen" Header="_Open..." Click="MiOpen_Click"/>
                 <MenuItem Name="MiSave" Header="_Save" Click="MiSave_Click"/>
@@ -18,42 +22,29 @@
                 <Separator />
                 <MenuItem Name="MiExit" Header="E_xit" Click="MiExit_Click"/>
             </MenuItem>
+            <MenuItem Header="Settings">
+                <MenuItem Header="Key bindings"  />
+                <MenuItem Header="Color settings"  />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem x:Name="ViewCounters" Header="Counters" IsCheckable="True" IsChecked="True"  />
+                <MenuItem x:Name="ViewSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
+            </MenuItem>
+            <MenuItem Header="Enable">
+                <MenuItem x:Name="EnableCounters" Header="Counters" IsCheckable="True" IsChecked="True"  />
+                <MenuItem x:Name="EnableSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
+            </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
-            <StatusBar.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="100" />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                </ItemsPanelTemplate>
-            </StatusBar.ItemsPanel>
-            <StatusBarItem>
-                <TextBlock Name="lblCursorPosition" />
-            </StatusBarItem>
-            <Separator Grid.Column="1" />
-            <StatusBarItem Grid.Column="2" Margin="-94.8,0,-105.2,0" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="624">
-                <TextBlock Name ="TbFilePath" />
-            </StatusBarItem>
-            <Separator Grid.Column="3" />
-            <StatusBarItem Grid.Column="4">
-                <TextBlock Name ="TbFileStatus" />
-            </StatusBarItem>
-        </StatusBar>
-        <Grid Margin="0,0.2,0,-0.4" Width="629">
+
+        <Grid Grid.Row="1" x:Name="Grid" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <!--<ColumnDefinition Width="Auto" />-->
-                <ColumnDefinition Width="2*" />
-                <!--<ColumnDefinition Width="Auto" />-->
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TreeView Name="lvDirectory" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" Height="405" Margin="0,0,0.6,0" Width="209">
+            <TreeView Name="lvDirectory" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="1">
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="HeaderTemplate">
@@ -69,16 +60,16 @@
                     </Style>
                 </TreeView.Resources>
             </TreeView>
-            <!--<GridSplitter Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" ShowsPreview="True" Width="2" />-->
-            <ListView Grid.Column="1" x:Name="lvLibrary" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="3" Margin="0.4,0,207.8,0" Width="211" Height="405" >
+            <GridSplitter Grid.Column="1" Background="Black" ShowsPreview="True" />
+            <ListView Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <!--<GridSplitter Grid.Column="3"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Black" ShowsPreview="True" Width="2" />-->
-            <ListView Grid.Column="2" x:Name="lvPlay" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-0.2,0" Height="405" Width="209" >
+            <GridSplitter Grid.Column="3" Background="Black" ShowsPreview="True" />
+            <ListView Grid.Column="4" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-0.4,0.2" Grid.ColumnSpan="3" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>
@@ -86,5 +77,6 @@
                 </ListView.View>
             </ListView>
         </Grid>
-    </DockPanel>
+    </Grid>
 </Window>
+   
