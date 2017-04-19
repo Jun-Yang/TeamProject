@@ -63,7 +63,7 @@
                 </TreeView.Resources>
             </TreeView>
             <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-            <ListView Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200">
+            <ListView Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>

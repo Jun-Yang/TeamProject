@@ -27,7 +27,7 @@ namespace MusicLibrary
 
         public MainWindow()
         {
-            
+
             InitializeComponent();
             //WindowStartupLocation = WindowStartupLocation.CenterScreen;
             double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -64,21 +64,16 @@ namespace MusicLibrary
                     // Open document 
                     fileName = ofdlg.FileName;
                     this.Title = "  File Open  ";
-                    
-                        mediaPlayer.Open(new Uri(ofdlg.FileName));
-                        mediaPlayer.Play();
-                    
+
+                    mediaPlayer.Open(new Uri(ofdlg.FileName));
+                    mediaPlayer.Play();
+
                 }
             }
             catch (ArgumentException ep)
             {
                 Console.WriteLine(ep.StackTrace);
             }
-        }
-
-        private void MiAddToLibrary_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         private void MiAddToPlayList_Click(object sender, RoutedEventArgs e)
@@ -91,23 +86,29 @@ namespace MusicLibrary
             Environment.Exit(0);
         }
 
-        
+
         private void BtPlay_Click(object sender, RoutedEventArgs e)
         {
+            fileName = (String)lvLibrary.SelectedItem;
+            mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Play();
         }
 
         private void BtPause_Click(object sender, RoutedEventArgs e)
         {
+            fileName = (String)lvLibrary.SelectedItem;
+            mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Pause();
         }
 
         private void BtStop_Click(object sender, RoutedEventArgs e)
         {
+            fileName = (String)lvLibrary.SelectedItem;
+            mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Stop();
         }
 
-        
+
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)
         {
             TreeViewItem _driitem = new TreeViewItem();
@@ -131,7 +132,6 @@ namespace MusicLibrary
             }
         }
 
-
         void _driitem_Expanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem _item = (TreeViewItem)sender;
@@ -144,36 +144,31 @@ namespace MusicLibrary
                     Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
                 }
 
-                foreach (string dir in Directory.GetFiles(_item.Tag.ToString()))
+                foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
                 {
-                    FileInfo _dirinfo = new FileInfo(dir);
-                    Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, true);
+                    FileInfo _fileinfo = new FileInfo(file);
+                    Populate(_fileinfo.Name, _fileinfo.FullName, null, _item, true);
                 }
 
             }
         }
 
-        private void folders_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Source is TreeViewItem && ((TreeViewItem)e.Source).IsSelected)
+            TreeViewItem _item = (TreeViewItem)lvDirectory.SelectedItem;
+            foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
             {
-
+                FileInfo _fileinfo = new FileInfo(file);
+                Console.WriteLine(_fileinfo.Name, _fileinfo.FullName);
+                lvLibrary.Items.Add(_fileinfo.FullName);
             }
         }
 
-        private void BalanceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void lvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
-        }
-
-        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
-        {
-
+            fileName = (String)lvLibrary.SelectedItem;
+            mediaPlayer.Open(new Uri(fileName));
+            mediaPlayer.Play();
         }
     }
 
@@ -200,9 +195,5 @@ namespace MusicLibrary
         {
             throw new NotImplementedException();
         }
-
-        
     }
-
-
 }
