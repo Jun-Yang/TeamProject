@@ -25,3 +25,28 @@ DID SINCE LAST SCRUM:
 
 --- April 12 Chen Chen
 1. Finished create database on Azure
+
+--- April 13 Chen Chen
+1. Continue Finished create database on Azure
+
+--- April 14 YangJun
+1. Design the main window 
+
+--- April 15 Chen Chen
+1. implement the WPF the main window 
+
+
+--- April 17 Chen Chen
+1. Continue implement the WPF the main window 
+2. will start design button
+
+Yang Jun
+Design the splitter and grid in main window
+will test the main window
+
+--- April 18  YangJun
+finished the spliiter and grid and stackpannel
+
+Chen Chen
+1. Continue implement the button  
+2. finished the spliiter and grid and stackpannel
