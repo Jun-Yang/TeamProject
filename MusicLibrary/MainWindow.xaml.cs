@@ -91,6 +91,23 @@ namespace MusicLibrary
             Environment.Exit(0);
         }
 
+        
+        private void BtPlay_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Play();
+        }
+
+        private void BtPause_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Pause();
+        }
+
+        private void BtStop_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Stop();
+        }
+
+        
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)
         {
             TreeViewItem _driitem = new TreeViewItem();
