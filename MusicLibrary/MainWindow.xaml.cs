@@ -27,7 +27,7 @@ namespace MusicLibrary
         static string fileName = "";
         private MediaPlayer mediaPlayer = new MediaPlayer();
 
-        private bool mediaPlayerIsPlaying = false;
+        //private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
 
         public MainWindow()
@@ -131,6 +131,11 @@ namespace MusicLibrary
                 sliProgress.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
                 sliProgress.Value = mediaPlayer.Position.TotalSeconds;
             }
+
+            if (mediaPlayer.Source != null)
+                lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+            else
+                lblStatus.Content = "No File Selected";
         }
 
         private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)
