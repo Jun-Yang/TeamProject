@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace MusicLibrary
 {
@@ -25,6 +27,9 @@ namespace MusicLibrary
         static string fileName = "";
         private MediaPlayer mediaPlayer = new MediaPlayer();
 
+        private bool mediaPlayerIsPlaying = false;
+        private bool userIsDraggingSlider = false;
+
         public MainWindow()
         {
 
@@ -36,6 +41,13 @@ namespace MusicLibrary
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
             this.Top = (screenHeight / 2) - (windowHeight / 2);
+
+            DispatcherTimer timer = new DispatcherTimer();
+
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+
         }
 
         private void MiOpenAudioFile_Click(object sender, RoutedEventArgs e)
@@ -90,7 +102,7 @@ namespace MusicLibrary
         private void BtPlay_Click(object sender, RoutedEventArgs e)
         {
             fileName = (String)lvLibrary.SelectedItem;
-            mediaPlayer.Open(new Uri(fileName));
+            //mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Play();
         }
 
@@ -108,6 +120,41 @@ namespace MusicLibrary
             mediaPlayer.Stop();
         }
 
+
+        //0419 adding by cc
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if ((mediaPlayer.Source != null) && (mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
+            {
+                sliProgress.Minimum = 0;
+                sliProgress.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                sliProgress.Value = mediaPlayer.Position.TotalSeconds;
+            }
+        }
+
+        private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            userIsDraggingSlider = true;
+        }
+
+        private void sliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            userIsDraggingSlider = false;
+            mediaPlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
+        }
+
+        private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
+        }
+
+        private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
+        }
+
+        //
 
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)
         {
@@ -195,5 +242,8 @@ namespace MusicLibrary
         {
             throw new NotImplementedException();
         }
+
+
+
     }
 }

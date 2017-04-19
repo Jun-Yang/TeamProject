@@ -128,6 +128,31 @@
                 </Slider>
             </StackPanel>
         </Grid>
+      <Grid Grid.Row="3" x:Name="ProgressDisplay" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="40">
+        <StatusBar Grid.Row="3">
+          <StatusBar.ItemsPanel>
+            <ItemsPanelTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+              </Grid>
+            </ItemsPanelTemplate>
+          </StatusBar.ItemsPanel>
+          <StatusBarItem>
+            <TextBlock Name="lblProgressStatus">00:00:00</TextBlock>
+          </StatusBarItem>
+          <StatusBarItem Grid.Column="1" HorizontalContentAlignment="Stretch">
+            <Slider Name="sliProgress" Thumb.DragStarted="sliProgress_DragStarted"  Thumb.DragCompleted="sliProgress_DragCompleted" ValueChanged="sliProgress_ValueChanged" />
+          </StatusBarItem>
+          <StatusBarItem Grid.Column="2">
+            <ProgressBar Name="pbVolume" Width="180" Height="12" Maximum="1" Value="{Binding ElementName=mediaPlayer, Path=Volume}" />
+          </StatusBarItem>
+        </StatusBar>
+
+      </Grid>
     </Grid>
-</Window>
+  </Window>
    
