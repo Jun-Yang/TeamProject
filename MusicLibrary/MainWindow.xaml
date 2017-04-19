@@ -82,51 +82,53 @@
 
         <Grid Grid.Row="2" x:Name="PlayControls" HorizontalAlignment="Left" Height="80" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="31*"/>
+                <ColumnDefinition Width="41*"/>
                 <ColumnDefinition Width="121*"/>
             </Grid.ColumnDefinitions>
-            <Button Name="BtPlay"  Width="40" HorizontalAlignment="Left" Margin="10,20,0,20" Click="BtPlay_Click" MouseDown="BtPlay_Click">
-                <Image Source="pack://application:,,,/image/play.png" Width="30" Height="30" />
-            </Button>
-            
-            <Button Name="BtStop" Width="40" Margin="0,0,40,20" HorizontalAlignment="Right" Height="40" VerticalAlignment="Bottom" Click="BtStop_Click" MouseDown="BtStop_Click">
-                <Image Source="pack://application:,,,/image/stop.png" Width="30" Height="30" />
-            </Button>
-            <Button Name="BtPause" Margin="100,20,2,20" Click="BtPause_Click">
-                <Image Source="pack://application:,,,/image/forward.png" Width="30" Height="30"/>
-            </Button>
-            <Button Command="MediaCommands.MuteVolume" Margin="0,0,405,20" Width="40" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1" >
-                <Image Source="pack://application:,,,/image/volume.png" Width="30" Height="30" />
-            </Button>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Button  Name="BtPlay"  Width="40"  Click="BtPlay_Click" MouseDown="BtPlay_Click">
+                    <Image Source="pack://application:,,,/image/play.png" Width="30" Height="30" />
+                </Button>
+                <Button Name="BtStop" Width="40" Click="BtStop_Click" MouseDown="BtStop_Click">
+                    <Image Source="pack://application:,,,/image/stop.png" Width="30" Height="30" RenderTransformOrigin="3.142,0.582" />
+                </Button>
 
-            <Label Content="Volume" Margin="0,0,333,50" HorizontalAlignment="Right" Width="52" RenderTransformOrigin="0.717,0.156" Height="25" VerticalAlignment="Bottom" Grid.Column="1" />
-            <Slider Name="VolumeSlider"
-                    Value="1" Minimum="0" Maximum="4"
+                <Button Name="BtPause" Click="BtPause_Click">
+                    <Image Source="pack://application:,,,/image/pause.png" Width="30" Height="30"/>
+                </Button>
+
+                <Button Command="MediaCommands.MuteVolume" Width="40" >
+                    <Image Source="pack://application:,,,/image/volume.png" Width="30" Height="30" />
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Label Content="Volume" Margin="0,0,333,50" HorizontalAlignment="Right" Width="52" RenderTransformOrigin="0.717,0.156" Height="25" VerticalAlignment="Bottom" Grid.Column="1" />
+                <Slider Name="VolumeSlider"  Value="1" Minimum="0" Maximum="4"
                     TickPlacement="Both"
-                    IsSnapToTickEnabled="True" Margin="0,0,261,20" RenderTransformOrigin="1.896,0.699" HorizontalAlignment="Right" Width="124" Height="30" VerticalAlignment="Bottom" Grid.Column="1">
-                <Slider.Ticks>
-                    0, 0.25, 0.5, 1, 2, 4
-                </Slider.Ticks>
-            </Slider>
-            <Label Content="Balance" Margin="0,0,197,50" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="59" Grid.Column="1" />
-            <Slider Name="BalanceSlider"
+                    IsSnapToTickEnabled="True" RenderTransformOrigin="1.896,0.699" Width="124" VerticalAlignment="Center">
+                    <Slider.Ticks>
+                        0, 0.25, 0.5, 1, 2, 4
+                    </Slider.Ticks>
+                </Slider>
+                <Label Content="Balance" Height="25"  Width="59" Grid.Column="1" />
+                <Slider Name="BalanceSlider"
                     Value="1" Minimum="0" Maximum="4"
                     TickPlacement="Both"
                     IsSnapToTickEnabled="True" Margin="412,0,132,20" RenderTransformOrigin="1.896,0.699" Height="30" VerticalAlignment="Bottom" Grid.Column="1">
-                <Slider.Ticks>
-                    0, 0.25, 0.5, 1, 2, 4
-                </Slider.Ticks>
-            </Slider>
-            <Label Content="Speed" Margin="541,0,40,50" Height="25" VerticalAlignment="Bottom" Grid.Column="1" />
-            <Slider Name="SpeedSlider"
+                    <Slider.Ticks>
+                        0, 0.25, 0.5, 1, 2, 4
+                    </Slider.Ticks>
+                </Slider>
+                <Label Content="Speed" Margin="541,0,40,50" Height="25" VerticalAlignment="Bottom" Grid.Column="1" />
+                <Slider Name="SpeedSlider"
                     Value="1" Minimum="0" Maximum="4"
                     TickPlacement="Both"
                     IsSnapToTickEnabled="True" Margin="541,0,13,20" RenderTransformOrigin="1.896,0.699" Height="30" VerticalAlignment="Bottom" Grid.Column="1">
-                <Slider.Ticks>
-                    0, 0.25, 0.5, 1, 2, 4
-                </Slider.Ticks>
-            </Slider>
-            
+                    <Slider.Ticks>
+                        0, 0.25, 0.5, 1, 2, 4
+                    </Slider.Ticks>
+                </Slider>
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>
