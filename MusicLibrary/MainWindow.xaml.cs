@@ -52,8 +52,7 @@ namespace MusicLibrary
             openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                mediaPlayer.Open(new Uri(openFileDialog.FileName));
-                mediaPlayer.Play();
+                Play(openFileDialog.FileName);
             }
         }
 
@@ -141,7 +140,8 @@ namespace MusicLibrary
                 img.UriSource = new Uri("pack://application:,,,/image/pause.png");
                 img.EndInit();
                 ImagePlay.Source = img;
-                Play(currentFile);
+                mediaPlayer.Open(new Uri(currentFile));
+                mediaPlayer.Play();
                 isPlaying = true;
                 return;
             }
