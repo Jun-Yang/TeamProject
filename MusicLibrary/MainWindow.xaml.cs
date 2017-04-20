@@ -112,7 +112,7 @@ namespace MusicLibrary
         private void BtPlay_Click(object sender, RoutedEventArgs e)
         {
             fileName = (String)lvLibrary.SelectedItem;
-            //mediaPlayer.Open(new Uri(fileName));
+            mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Play();
         }
 
@@ -143,7 +143,12 @@ namespace MusicLibrary
             }
 
             if (mediaPlayer.Source != null)
-                lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+                try {
+                    lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+                } catch (System.InvalidOperationException ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
             else
                 lblStatus.Content = "No File Selected";
         }
