@@ -45,8 +45,27 @@ Design the splitter and grid in main window
 will test the main window
 
 --- April 18  YangJun
-finished the spliiter and grid and stackpannel
+finished the splitter and grid and stackpannel
 
 Chen Chen
 1. Continue implement the button  
 2. finished the spliiter and grid and stackpannel
+
+--- April 19  YangJun
+
+start import files function
+
+Chen Chen
+1. Continue implement the button  
+
+
+--- April 20  YangJun
+
+finish import files function
+change button 
+
+Chen Chen
+1. fix the problems in buttons
+2. start do listview's right click function
+
+
