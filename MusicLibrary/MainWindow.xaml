@@ -24,6 +24,11 @@
                 <MenuItem Name="MiImportToLibrary" Header="_Import To Library" Click="MiImportToLibrary_Click"/>
                 <MenuItem Name="MiAddToPlayList" Header="_Add to PlayList" Click="MiAddToPlayList_Click"/>
                 <Separator />
+                <MenuItem Name="MiNewPlayList" Header="_New PlayList" />
+                <MenuItem Name="MiLoadPlayList" Header="_Load PlayList" />
+                <MenuItem Name="MiSavePlayList" Header="_Save PlayList" />
+                <MenuItem Name="MiPreferences" Header="_Preferences" />
+                <Separator />
                 <MenuItem Name="MiExit" Header="E_xit" Click="MiExit_Click"/>
             </MenuItem>
             <MenuItem Header="Settings">
