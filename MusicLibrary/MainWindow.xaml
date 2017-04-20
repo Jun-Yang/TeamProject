@@ -7,7 +7,7 @@
         mc:Ignorable="d" Closing="Window_Closing"
         WindowStartupLocation="CenterScreen"
         Title="MusicPlayer" Height="597.144" Width="805.894" MinWidth="400" MinHeight="300" Loaded="Window_Loaded" Icon="@..\..\Image\player.png">
-    <Window.Resources>
+    <Window.Resources> 
         <local:ImageToHeaderConverter x:Key="img"/>
     </Window.Resources>
     <Grid>
@@ -72,7 +72,6 @@
                 <MenuItem Header="Check Update"  />
                 <MenuItem Header="About"  />
             </MenuItem>
-
         </Menu>
 
         <Grid Grid.Row="1" x:Name="ListViews" >
@@ -127,13 +126,10 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <Button  Name="BtPlay"  Height="40" Width="40"  Click="BtPlay_Click" MouseDown="BtPlay_Click">
-                    <Image Source="pack://application:,,,/image/play.png" Width="30" Height="30" />
+                    <Image Name="ImagePlay" Source="pack://application:,,,/image/play.png" Width="30" Height="30" />
                 </Button>
                 <Button Name="BtStop" Height="40" Width="40" Click="BtStop_Click" MouseDown="BtStop_Click">
                     <Image Source="pack://application:,,,/image/stop.png" Width="30" Height="30" RenderTransformOrigin="3.142,0.582" />
-                </Button>
-                <Button Name="BtPause" Height="40" Width="40" Click="BtPause_Click">
-                    <Image Source="pack://application:,,,/image/pause.png" Width="30" Height="30"/>
                 </Button>
                 <Button Command="MediaCommands.MuteVolume" Height="40" Width="40" >
                     <Image Source="pack://application:,,,/image/volume.png" Width="30" Height="30" />

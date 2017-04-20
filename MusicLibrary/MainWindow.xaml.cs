@@ -22,10 +22,13 @@ namespace MusicLibrary
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+    
     public partial class MainWindow : Window
     {
-
+        bool isPlaying = false;
         private MediaPlayer mediaPlayer = new MediaPlayer();
+        private static string currentFile = "";
 
         //private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
@@ -110,8 +113,8 @@ namespace MusicLibrary
         {
             try
             {
-                String fileName = (String)lvLibrary.SelectedItem;
-                Play(fileName);
+                currentFile = (String)lvLibrary.SelectedItem;
+                Play(currentFile);
             }
             catch (ArgumentNullException ex)
             {
@@ -121,13 +124,27 @@ namespace MusicLibrary
 
         private void Play(String fileName)
         {
-            mediaPlayer.Open(new Uri(fileName));
-            mediaPlayer.Play();
-        }
-
-        private void BtPause_Click(object sender, RoutedEventArgs e)
-        {
-            mediaPlayer.Pause();
+            BitmapImage img = new BitmapImage();
+            if (isPlaying)
+            {
+                img.BeginInit();
+                img.UriSource = new Uri("pack://application:,,,/image/play.png");
+                img.EndInit();
+                ImagePlay.Source = img;
+                mediaPlayer.Pause();
+                isPlaying = false;
+                return;
+            }
+            else
+            {
+                img.BeginInit();
+                img.UriSource = new Uri("pack://application:,,,/image/pause.png");
+                img.EndInit();
+                ImagePlay.Source = img;
+                Play(currentFile);
+                isPlaying = true;
+                return;
+            }
         }
 
         private void BtStop_Click(object sender, RoutedEventArgs e)
@@ -218,16 +235,16 @@ namespace MusicLibrary
                         DirectoryInfo _dirinfo = new DirectoryInfo(dir);
                         Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
                     }
+
+                    foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
+                    {
+                        FileInfo _fileinfo = new FileInfo(file);
+                        Populate(_fileinfo.Name, _fileinfo.FullName, null, _item, true);
+                    }
                 }
                 catch (UnauthorizedAccessException ex)
                 {
                     MessageBox.Show("Cannot access this directory" + ex.StackTrace);
-                }
-
-                foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
-                {
-                    FileInfo _fileinfo = new FileInfo(file);
-                    Populate(_fileinfo.Name, _fileinfo.FullName, null, _item, true);
                 }
             }
         }
@@ -252,12 +269,13 @@ namespace MusicLibrary
             {
                 MessageBox.Show("You must select a directory" + ex.StackTrace);
             }
+            currentFile = (String)lvLibrary.SelectedItem;
         }
 
         private void lvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            String fileName = (String)lvLibrary.SelectedItem;
-            Play(fileName);
+            currentFile = (String)lvLibrary.SelectedItem;
+            Play(currentFile);
         }
     }
 
