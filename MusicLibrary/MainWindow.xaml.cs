@@ -25,7 +25,6 @@ namespace MusicLibrary
     public partial class MainWindow : Window
     {
 
-        static string fileName = "";
         private MediaPlayer mediaPlayer = new MediaPlayer();
 
         //private bool mediaPlayerIsPlaying = false;
@@ -68,17 +67,15 @@ namespace MusicLibrary
                 if (result == true)
                 {
                     // Open document 
-                    fileName = ofdlg.FileName;
+                    String fileName = ofdlg.FileName;
                     this.Title = "  File Open  ";
-
-                    mediaPlayer.Open(new Uri(ofdlg.FileName));
-                    mediaPlayer.Play();
-
+                    Play(fileName);
                 }
             }
             catch (ArgumentException ep)
             {
                 Console.WriteLine(ep.StackTrace);
+                MessageBox.Show("File open error" + ep.StackTrace);
             }
         }
 
@@ -111,25 +108,32 @@ namespace MusicLibrary
 
         private void BtPlay_Click(object sender, RoutedEventArgs e)
         {
-            fileName = (String)lvLibrary.SelectedItem;
+            try
+            {
+                String fileName = (String)lvLibrary.SelectedItem;
+                Play(fileName);
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show("You should select a music" + ex.StackTrace);
+            }
+        }
+
+        private void Play(String fileName)
+        {
             mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Play();
         }
 
         private void BtPause_Click(object sender, RoutedEventArgs e)
         {
-            fileName = (String)lvLibrary.SelectedItem;
-            mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Pause();
         }
 
         private void BtStop_Click(object sender, RoutedEventArgs e)
         {
-            fileName = (String)lvLibrary.SelectedItem;
-            mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Stop();
         }
-
 
         //0419 adding by cc
 
@@ -143,14 +147,18 @@ namespace MusicLibrary
             }
 
             if (mediaPlayer.Source != null)
-                try {
+                try
+                {
                     lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
-                } catch (System.InvalidOperationException ex)
+                }
+                catch (System.InvalidOperationException ex)
                 {
                     Console.WriteLine(ex.StackTrace);
                 }
             else
-                lblStatus.Content = "No File Selected";
+            {
+                lblStatus.Content = "";
+            }
         }
 
         private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)
@@ -173,8 +181,6 @@ namespace MusicLibrary
         {
             mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
         }
-
-        //
 
         private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)
         {
@@ -217,14 +223,12 @@ namespace MusicLibrary
                 {
                     MessageBox.Show("Cannot access this directory" + ex.StackTrace);
                 }
-                
 
                 foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
                 {
                     FileInfo _fileinfo = new FileInfo(file);
                     Populate(_fileinfo.Name, _fileinfo.FullName, null, _item, true);
                 }
-
             }
         }
 
@@ -244,13 +248,16 @@ namespace MusicLibrary
             {
                 MessageBox.Show("Invalid directory" + ex.StackTrace);
             }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("You must select a directory" + ex.StackTrace);
+            }
         }
 
         private void lvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            fileName = (String)lvLibrary.SelectedItem;
-            mediaPlayer.Open(new Uri(fileName));
-            mediaPlayer.Play();
+            String fileName = (String)lvLibrary.SelectedItem;
+            Play(fileName);
         }
     }
 

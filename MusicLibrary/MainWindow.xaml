@@ -6,18 +6,17 @@
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d" Closing="Window_Closing"
         WindowStartupLocation="CenterScreen"
-        Title="MusicPlayer" Height="517.021" Width="805.894" MinWidth="400" MinHeight="300" Loaded="Window_Loaded" Icon="@..\..\Image\player.png">
+        Title="MusicPlayer" Height="597.144" Width="805.894" MinWidth="400" MinHeight="300" Loaded="Window_Loaded" Icon="@..\..\Image\player.png">
     <Window.Resources>
         <local:ImageToHeaderConverter x:Key="img"/>
     </Window.Resources>
-    <Grid Margin="0,0,-0.4,1">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
-            <RowDefinition Height="80" />
-            <RowDefinition Height="80" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Background="#FFE0E0E0">
+        <Menu Grid.Row="0">
             <MenuItem Header="_File">
                 <MenuItem Name="MiOpen" Header="_Open..." Click="MiOpen_Click"/>
                 <MenuItem Name="MiOpenAudio" Header="_Open Audio File" Click="MiOpenAudioFile_Click"/>
@@ -73,8 +72,8 @@
                 <MenuItem Header="Check Update"  />
                 <MenuItem Header="About"  />
             </MenuItem>
-            
-     </Menu>
+
+        </Menu>
 
         <Grid Grid.Row="1" x:Name="ListViews" >
             <Grid.ColumnDefinitions>
@@ -120,11 +119,12 @@
             </ListView>
         </Grid>
 
-        <Grid Grid.Row="2" x:Name="PlayControls"  Height="80" >
+        <Grid Grid.Row="2" x:Name="PlayControls">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="51*"/>
-                <ColumnDefinition Width="121*"/>
-           </Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="240*"/>
+                <ColumnDefinition Width="60*"/>
+            </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <Button  Name="BtPlay"  Height="40" Width="40"  Click="BtPlay_Click" MouseDown="BtPlay_Click">
                     <Image Source="pack://application:,,,/image/play.png" Width="30" Height="30" />
@@ -139,9 +139,22 @@
                     <Image Source="pack://application:,,,/image/volume.png" Width="30" Height="30" />
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <StackPanel Grid.Column="1" Orientation="Horizontal" x:Name="ProgressDisplay" Height="40" >
+                <StatusBar>
+                    <StatusBarItem>
+                        <TextBlock Name="lblProgressStatus">00:00:00</TextBlock>
+                    </StatusBarItem>
+                    <StatusBarItem>
+                        <Slider Name="sliProgress" Background="SkyBlue" Thumb.DragStarted="sliProgress_DragStarted" Thumb.DragCompleted="sliProgress_DragCompleted" ValueChanged="sliProgress_ValueChanged"  Width="360"/>
+                    </StatusBarItem>
+                    <StatusBarItem>
+                        <Label Name="lblStatus" />
+                    </StatusBarItem>
+                </StatusBar>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Grid.Column="2">
                 <Label Content="Volume" Width="50" Height="25" Grid.Column="1" />
-                <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="4"
+                <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="4" Background="LightSkyBlue"
                     TickPlacement="Both"
                     IsSnapToTickEnabled="True" Height="30" Width="80" >
                     <Slider.Ticks>
@@ -149,16 +162,7 @@
                     </Slider.Ticks>
                 </Slider>
                 <Label Content="Balance" Height="25" Width="50" Grid.Column="1" />
-                <Slider Name="BalanceSlider"
-                    Value="1" Minimum="0" Maximum="4"
-                    TickPlacement="Both"
-                    IsSnapToTickEnabled="True" Height="30" Width="80" Grid.Column="1">
-                    <Slider.Ticks>
-                        0, 0.25, 0.5, 1, 2, 4
-                    </Slider.Ticks>
-                </Slider>
-                <Label Content="Speed" Height="25" Width="50" Grid.Column="1" />
-                <Slider Name="SpeedSlider"
+                <Slider Name="BalanceSlider" Background="LightSkyBlue"
                     Value="1" Minimum="0" Maximum="4"
                     TickPlacement="Both"
                     IsSnapToTickEnabled="True" Height="30" Width="80" Grid.Column="1">
@@ -168,31 +172,6 @@
                 </Slider>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="5" x:Name="ProgressDisplay" VerticalAlignment="Center" Height="40">
-            <StatusBar Grid.Row="3">
-                <StatusBar.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                        </Grid>
-                    </ItemsPanelTemplate>
-                </StatusBar.ItemsPanel>
-                <StatusBarItem>
-                    <TextBlock Name="lblProgressStatus">00:00:00</TextBlock>
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="1" HorizontalContentAlignment="Stretch">
-                    <Slider Name="sliProgress" Thumb.DragStarted="sliProgress_DragStarted"  Thumb.DragCompleted="sliProgress_DragCompleted" ValueChanged="sliProgress_ValueChanged" Margin="0,0,37,0" />
-                </StatusBarItem>
-                <StatusBarItem Grid.Column="2" Margin="-37.6,0,0,0">
-                    <Label Name="lblStatus" HorizontalContentAlignment="Center" Margin="5" />
-                </StatusBarItem>
-            </StatusBar>
-        </Grid>
-
     </Grid>
 </Window>
    
