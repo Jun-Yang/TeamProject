@@ -152,6 +152,20 @@ namespace MusicLibrary
             mediaPlayer.Stop();
         }
 
+        //0420 adding by cc
+        private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                if (lvLibrary.SelectedIndex == -1) return;
+
+                lvLibrary.Items.RemoveAt(lvLibrary.SelectedIndex);
+            }
+        }
         //0419 adding by cc
 
         private void timer_Tick(object sender, EventArgs e)
