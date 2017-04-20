@@ -31,19 +31,50 @@
                 <Separator />
                 <MenuItem Name="MiExit" Header="E_xit" Click="MiExit_Click"/>
             </MenuItem>
-            <MenuItem Header="Settings">
-                <MenuItem Header="Key bindings"  />
-                <MenuItem Header="Color settings"  />
+            <MenuItem Header="Edit">
+                <MenuItem Name="MiUndo" Header="_Undo" />
+                <MenuItem Name="MiRedo" Header="_Redo" />
+                <Separator />
+                <MenuItem Name="MiClear" Header="_Clear" />
+                <MenuItem Name="MiSelectAll" Header="_SelectAll" />
+                <MenuItem Name="MiSelection" Header="_Selection" />
+                <MenuItem Name="MiSort" Header="_Sort" />
+                <Separator />
+                <MenuItem Name="MiSearch" Header="_Search" />
+                <MenuItem Name="MiRemove" Header="_Remove" />
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem x:Name="ViewCounters" Header="Counters" IsCheckable="True" IsChecked="True"  />
-                <MenuItem x:Name="ViewSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
+                <MenuItem Name="MiVisualizations" Header="_Visualizations" />
+                <MenuItem Name="MiPlaylistManager" Header="_PlaylistManager" />
+                <Separator />
+                <MenuItem Name="MiLayout" Header="_Layout" />
             </MenuItem>
-            <MenuItem Header="Enable">
-                <MenuItem x:Name="EnableCounters" Header="Counters" IsCheckable="True" IsChecked="True"  />
+            <MenuItem Header="Playback">
+                <MenuItem Name="MiStop" Header="_Stop" />
+                <MenuItem Name="MiPause" Header="_Pause" />
+                <MenuItem Name="MiPlay" Header="_Play" />
+                <MenuItem Name="MiPrevious" Header="_Previous" />
+                <MenuItem Name="MiNext" Header="_Next" />
+                <MenuItem Name="MiRandom" Header="_Random" />
+                <Separator />
+                <MenuItem Name="MiOrder" Header="_Order" />
+            </MenuItem>
+            <MenuItem Header="Sound">
+                <MenuItem x:Name="EnableBase" Header="Base" IsCheckable="True" IsChecked="True"  />
                 <MenuItem x:Name="EnableSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
             </MenuItem>
-        </Menu>
+            <MenuItem Header="Library">
+                <MenuItem Header="AlbumList"  />
+                <MenuItem Header="Search"  />
+                <Separator />
+                <MenuItem Header="Configure"  />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Check Update"  />
+                <MenuItem Header="About"  />
+            </MenuItem>
+            
+     </Menu>
 
         <Grid Grid.Row="1" x:Name="ListViews" >
             <Grid.ColumnDefinitions>
