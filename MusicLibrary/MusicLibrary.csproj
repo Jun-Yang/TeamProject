@@ -46,6 +46,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,6 +66,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Album.cs">
+      <DependentUpon>MusicLibrary.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MusicLibrary.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MusicLibrary.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlayList.cs">
+      <DependentUpon>MusicLibrary.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Song.cs">
+      <DependentUpon>MusicLibrary.tt</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -78,6 +94,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MusicLibrary.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MusicLibrary.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MusicLibrary.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MusicLibrary.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,6 +121,23 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="MusicLibrary.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MusicLibrary.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="MusicLibrary.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MusicLibrary.edmx</DependentUpon>
+      <LastGenOutput>MusicLibrary.Context.cs</LastGenOutput>
+    </None>
+    <None Include="MusicLibrary.edmx.diagram">
+      <DependentUpon>MusicLibrary.edmx</DependentUpon>
+    </None>
+    <None Include="MusicLibrary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MusicLibrary.edmx</DependentUpon>
+      <LastGenOutput>MusicLibrary.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -130,6 +173,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

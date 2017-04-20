@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,13 +35,6 @@ namespace MusicLibrary
         {
 
             InitializeComponent();
-            //WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
-            double windowWidth = this.Width;
-            double windowHeight = this.Height;
-            this.Left = (screenWidth / 2) - (windowWidth / 2);
-            this.Top = (screenHeight / 2) - (windowHeight / 2);
 
             DispatcherTimer timer = new DispatcherTimer();
 
@@ -95,9 +89,25 @@ namespace MusicLibrary
 
         private void MiExit_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0);
+            Close();
         }
 
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            //if (!_fileChanged) return;
+            var result = MessageBox.Show("Do you want to save changes to PlayList?", "MusicPlayer", MessageBoxButton.YesNoCancel);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    //MiSave_Click(null, null);
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Cancel:
+                    e.Cancel = true;
+                    return;
+            }
+        }
 
         private void BtPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -190,11 +200,19 @@ namespace MusicLibrary
             if (_item.Items.Count == 1 && ((TreeViewItem)_item.Items[0]).Header == null)
             {
                 _item.Items.Clear();
-                foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
+                try
                 {
-                    DirectoryInfo _dirinfo = new DirectoryInfo(dir);
-                    Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
+                    foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
+                    {
+                        DirectoryInfo _dirinfo = new DirectoryInfo(dir);
+                        Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
+                    }
                 }
+                catch (UnauthorizedAccessException ex)
+                {
+                    MessageBox.Show("Cannot access this directory" + ex.StackTrace);
+                }
+                
 
                 foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
                 {
@@ -208,11 +226,18 @@ namespace MusicLibrary
         private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
         {
             TreeViewItem _item = (TreeViewItem)lvDirectory.SelectedItem;
-            foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
+            try
             {
-                FileInfo _fileinfo = new FileInfo(file);
-                Console.WriteLine(_fileinfo.Name, _fileinfo.FullName);
-                lvLibrary.Items.Add(_fileinfo.FullName);
+                foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
+                {
+                    FileInfo _fileinfo = new FileInfo(file);
+                    Console.WriteLine(_fileinfo.Name, _fileinfo.FullName);
+                    lvLibrary.Items.Add(_fileinfo.FullName);
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("Invalid directory" + ex.StackTrace);
             }
         }
 
@@ -247,8 +272,6 @@ namespace MusicLibrary
         {
             throw new NotImplementedException();
         }
-
-
 
     }
 }
