@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace MusicLibrary
@@ -32,15 +27,16 @@ namespace MusicLibrary
 
         //private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
-        static List<Song> MusicLibrary = new List<Song>();
+        static List<Song> ListMusicLibrary = new List<Song>();
         static List<Song> PlayingList = new List<Song>();
         static List<PlayList> PList = new List<PlayList>();
+
 
         public MainWindow()
         {
 
             InitializeComponent();
-            lvLibrary.ItemsSource = MusicLibrary;
+            lvLibrary.ItemsSource = ListMusicLibrary;
             RefreshMusicLibrary();
 
             DispatcherTimer timer = new DispatcherTimer();
@@ -50,29 +46,69 @@ namespace MusicLibrary
             timer.Start();
         }
 
+        void GetSongsFromLib()
+        {
+            //using (RemoteLibrary ctx = new RemoteLibrary())
+            //{
+            //    ctx.ListMusicLibrary.Add(s);
+            //    ctx.SaveChanges();
+
+            //    var lstMusic = (from r in ctx.ListMusicLibrary select r).ToList<Song>();
+            //    foreach (var s in lstMusic)
+            //    {
+            //        Console.WriteLine("P: {0}, {1}, {2}", s.Id, s.Title, s.);
+            //    }
+
+            //}
+        }
+
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            if ((mediaPlayer.Source != null) && (mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
+            {
+                sliProgress.Minimum = 0;
+                sliProgress.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                sliProgress.Value = mediaPlayer.Position.TotalSeconds;
+            }
+
+            if (mediaPlayer.Source != null)
+                try
+                {
+                    lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+                }
+                catch (System.InvalidOperationException ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                }
+            else
+            {
+                lblStatus.Content = "";
+            }
+        }
+
         private void RefreshMusicLibrary()
         {
-            lvLibrary.ItemsSource = MusicLibrary;
+            lvLibrary.ItemsSource = ListMusicLibrary;
             lvLibrary.Items.Refresh();
             //ResetAllFields();
         }
 
         private void TbFilter_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            string filter = tbFilter.Text.ToLower();
-            if (filter == "")
-            {
-                lvLibrary.ItemsSource = GetAllSongs();
-            }
-            else
-            {
-                List<Song> list = GetAllSongs();
-                /* var filteredList = list.Where(b => b.Title.ToLower().Contains(filter)
-                                                   || b.Author.ToLower().Contains(filter)); */
-                var filteredList = from b in list where b.Description.ToLower().Contains(filter) select b;
+            //string filter = tbFilter.Text.ToLower();
+            //if (filter == "")
+            //{
+            //    lvLibrary.ItemsSource = GetAllSongs();
+            //}
+            //else
+            //{
+            //    List<Song> list = GetAllSongs();
+            //    /* var filteredList = list.Where(b => b.Title.ToLower().Contains(filter)
+            //                                       || b.Author.ToLower().Contains(filter)); */
+            //    var filteredList = from b in list where b.Description.ToLower().Contains(filter) select b;
 
-                lvLibrary.ItemsSource = filteredList;
-            }
+            //    lvLibrary.ItemsSource = filteredList;
+            //}
         }
 
         private List<Song> GetAllSongs()
@@ -86,7 +122,9 @@ namespace MusicLibrary
             openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
-                Play(openFileDialog.FileName);
+                currentFile = openFileDialog.FileName;
+                mediaPlayer.Open(new Uri(currentFile));
+                Play(currentFile);
             }
         }
 
@@ -103,9 +141,10 @@ namespace MusicLibrary
                 if (result == true)
                 {
                     // Open document 
-                    String fileName = ofdlg.FileName;
+                    currentFile = ofdlg.FileName;
                     this.Title = "  File Open  ";
-                    Play(fileName);
+                    mediaPlayer.Open(new Uri(currentFile));
+                    Play(currentFile);
                 }
             }
             catch (ArgumentException ep)
@@ -150,7 +189,7 @@ namespace MusicLibrary
                 {
                     if (lvLibrary.SelectedItem != null)
                     {
-                        currentFile = (String)MusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                        currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
                         Play(currentFile);
                     }
                     else
@@ -176,7 +215,6 @@ namespace MusicLibrary
             img.UriSource = new Uri("pack://application:,,,/image/pause.png");
             img.EndInit();
             ImagePlay.Source = img;
-            mediaPlayer.Open(new Uri(fileName));
             mediaPlayer.Play();
             isPlaying = true;
             return;
@@ -205,6 +243,42 @@ namespace MusicLibrary
             mediaPlayer.Stop();
         }
 
+        private void BtForward_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1)
+            {
+                lvLibrary.SelectedIndex++;
+            }
+            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            Play(currentFile);
+        }
+
+        private void BtBackward_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvLibrary.SelectedIndex > 0)
+            {
+                lvLibrary.SelectedIndex--;
+            }
+            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+
+            Play(currentFile);
+        }
+
+        private void BtLoud_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapImage img = new BitmapImage();
+            img.BeginInit();
+            img.UriSource = new Uri("pack://application:,,,/image/play.png");
+            img.EndInit();
+            ImagePlay.Source = img;
+            isPlaying = false;
+            mediaPlayer.Stop();
+        }
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            mediaPlayer.Volume = VolumeSlider.Value / 4;
+        }
+
         //0420 adding by cc
         private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
         {
@@ -219,115 +293,19 @@ namespace MusicLibrary
                 lvLibrary.Items.RemoveAt(lvLibrary.SelectedIndex);
             }
         }
-        //0419 adding by cc
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            if ((mediaPlayer.Source != null) && (mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
-            {
-                sliProgress.Minimum = 0;
-                sliProgress.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-                sliProgress.Value = mediaPlayer.Position.TotalSeconds;
-            }
-
-            if (mediaPlayer.Source != null)
-                try
-                {
-                    //lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
-                }
-                catch (System.InvalidOperationException ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                }
-            else
-            {
-                //lblStatus.Content = "";
-            }
-        }
-
-        private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)
-        {
-            userIsDraggingSlider = true;
-        }
-
-        private void sliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            userIsDraggingSlider = false;
-            mediaPlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
-        }
-
-        private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            //lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
-        }
-
-        private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
-        }
-
-        private void Populate(string header, string tag, TreeView _root, TreeViewItem _child, bool isfile)
-        {
-            TreeViewItem _driitem = new TreeViewItem();
-            _driitem.Tag = tag;
-            _driitem.Header = header;
-            _driitem.Expanded += new RoutedEventHandler(_driitem_Expanded);
-            if (!isfile)
-                _driitem.Items.Add(new TreeViewItem());
-
-            if (_root != null)
-            { _root.Items.Add(_driitem); }
-            else { _child.Items.Add(_driitem); }
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            foreach (DriveInfo driv in DriveInfo.GetDrives())
-            {
-                if (driv.IsReady)
-                    Populate(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, lvDirectory, null, false);
-            }
-        }
-
-        void _driitem_Expanded(object sender, RoutedEventArgs e)
-        {
-            TreeViewItem _item = (TreeViewItem)sender;
-            if (_item.Items.Count == 1 && ((TreeViewItem)_item.Items[0]).Header == null)
-            {
-                _item.Items.Clear();
-                try
-                {
-                    foreach (string dir in Directory.GetDirectories(_item.Tag.ToString()))
-                    {
-                        DirectoryInfo _dirinfo = new DirectoryInfo(dir);
-                        Populate(_dirinfo.Name, _dirinfo.FullName, null, _item, false);
-                    }
-
-                    foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
-                    {
-                        FileInfo _fileinfo = new FileInfo(file);
-                        Populate(_fileinfo.Name, _fileinfo.FullName, null, _item, true);
-                    }
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    MessageBox.Show("Cannot access this directory" + ex.StackTrace);
-                }
-            }
-        }
 
         private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
         {
-            TreeViewItem _item = (TreeViewItem)lvDirectory.SelectedItem;
+            TreeViewItem item = (TreeViewItem)lvDirectory.SelectedItem;
             try
             {
-                foreach (string file in Directory.GetFiles(_item.Tag.ToString()))
+                foreach (string file in Directory.GetFiles(item.Tag.ToString()))
                 {
-                    FileInfo _fileinfo = new FileInfo(file);
-                    Console.WriteLine(_fileinfo.Name, _fileinfo.FullName);
-                    if (IsMusicFile(_fileinfo))
+                    FileInfo fileInfo = new FileInfo(file);
+                    Console.WriteLine(fileInfo.Name, fileInfo.FullName);
+                    if (IsMusicFile(fileInfo))
                     {
-                        var musicFile = TagLib.File.Create(_fileinfo.FullName);
+                        var musicFile = TagLib.File.Create(fileInfo.FullName);
 
                         string title = musicFile.Tag.Title;
                         string[] artist = musicFile.Tag.AlbumArtists;
@@ -335,16 +313,16 @@ namespace MusicLibrary
                         int albumId = 1;
                         uint sequenceId = musicFile.Tag.Track;
                         string description = musicFile.Tag.Comment;
-                        string filePath = _fileinfo.FullName;
+                        string filePath = fileInfo.FullName;
                         uint year = musicFile.Tag.Year;
                         string[] genre = musicFile.Tag.Genres;
                         int rating = 0;
                         Song song = new Song(title, "", albumId, (int)sequenceId, description, filePath, 2000, "", rating);
-                        MusicLibrary.Add(song);
+                        ListMusicLibrary.Add(song);
                     }
                 }
                 RefreshMusicLibrary();
-                currentFile = (String)MusicLibrary[0].PathToFile;
+                currentFile = (String)ListMusicLibrary[0].PathToFile;
             }
             catch (IOException ex)
             {
@@ -369,46 +347,9 @@ namespace MusicLibrary
 
         private void lvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //var item = ((FrameworkElement)e.OriginalSource).DataContext as Track;
-            //if (item != null)
-            //{
-            //    ListViewItem Item = (ListViewItem)sender;
-            //    Song song = (Song)Item.Content;
-
-            //    // Example
-            //    MessageBox.Show(song.Title + " by " + song.ArtistName);
-
-            //    e.Handled = true;
-
-            //    MessageBox.Show(item.ToString());
-            //}
-            currentFile = (String)MusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            mediaPlayer.Open(new Uri(currentFile));
             Play(currentFile);
-        }
-
-        private void BtForward_Click(object sender, RoutedEventArgs e)
-        {
-            if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1) {
-                lvLibrary.SelectedIndex++;
-            }
-            currentFile = (String)MusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-            Play(currentFile);
-        }
-
-        private void BtBackward_Click(object sender, RoutedEventArgs e)
-        {
-            if (lvLibrary.SelectedIndex > 0 )
-            {
-                lvLibrary.SelectedIndex--;
-            }
-            currentFile = (String)MusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-            
-            Play(currentFile);
-        }
-
-        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            mediaPlayer.Volume = VolumeSlider.Value / 4;
         }
 
         private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -416,16 +357,87 @@ namespace MusicLibrary
 
         }
 
-        //add by chen 0420
         private void lvDirectoryMouseLeftDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
 
+        private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            userIsDraggingSlider = true;
+        }
 
+        private void sliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            userIsDraggingSlider = false;
+            mediaPlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
+        }
+
+        private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            //lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
+        }
+
+        private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
+        }
+
+        private void Populate(string header, string tag, TreeView root, TreeViewItem child, bool isfile)
+        {
+            TreeViewItem driItem = new TreeViewItem();
+            driItem.Tag = tag;
+            driItem.Header = header;
+            driItem.Expanded += new RoutedEventHandler(DriItemExpanded);
+            if (!isfile)
+                driItem.Items.Add(new TreeViewItem());
+
+            if (root != null)
+            {
+                root.Items.Add(driItem);
+            }
+            else
+            {
+                child.Items.Add(driItem);
+            }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            foreach (DriveInfo driv in DriveInfo.GetDrives())
+            {
+                if (driv.IsReady)
+                    Populate(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, lvDirectory, null, false);
+            }
+        }
+
+        void DriItemExpanded(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem item = (TreeViewItem)sender;
+            if (item.Items.Count == 1 && ((TreeViewItem)item.Items[0]).Header == null)
+            {
+                item.Items.Clear();
+                try
+                {
+                    foreach (string dir in Directory.GetDirectories(item.Tag.ToString()))
+                    {
+                        DirectoryInfo dirInfo = new DirectoryInfo(dir);
+                        Populate(dirInfo.Name, dirInfo.FullName, null, item, false);
+                    }
+
+                    foreach (string file in Directory.GetFiles(item.Tag.ToString()))
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        Populate(fileInfo.Name, fileInfo.FullName, null, item, true);
+                    }
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    MessageBox.Show("Cannot access this directory" + ex.StackTrace);
+                }
+            }
+        }
     }
-
-    
 
     public class ImageToHeaderConverter : IValueConverter
     {
@@ -450,7 +462,5 @@ namespace MusicLibrary
         {
             throw new NotImplementedException();
         }
-
-
     }
 }

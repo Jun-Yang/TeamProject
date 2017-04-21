@@ -14,8 +14,13 @@ namespace MusicLibrary
     
     public partial class Album
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Album()
+        {
+            this.Songs = new HashSet<Song>();
+        }
+    
         public int Id { get; set; }
-        public Nullable<int> AlbumID { get; set; }
         public string AlbumTitle { get; set; }
         public Nullable<System.DateTime> Year { get; set; }
         public string Artist { get; set; }
@@ -23,5 +28,8 @@ namespace MusicLibrary
         public byte[] Cover { get; set; }
         public string CoverPatch { get; set; }
         public string Description { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Song> Songs { get; set; }
     }
 }

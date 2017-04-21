@@ -15,8 +15,10 @@ namespace MusicLibrary
     public partial class PlayList
     {
         public int Id { get; set; }
-        public int PlayListId { get; set; }
         public string PlayListName { get; set; }
-        public string Comment { get; set; }
+        public int SongId { get; set; }
+        public string Description { get; set; }
+    
+        public virtual Song Song { get; set; }
     }
 }

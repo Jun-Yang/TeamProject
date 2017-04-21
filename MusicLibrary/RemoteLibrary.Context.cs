@@ -13,10 +13,10 @@ namespace MusicLibrary
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class musiclibraryEntities : DbContext
+    public partial class RemoteLibraryEntities : DbContext
     {
-        public musiclibraryEntities()
-            : base("name=musiclibraryEntities")
+        public RemoteLibraryEntities()
+            : base("name=RemoteLibraryEntities")
         {
         }
     

@@ -32,13 +32,13 @@ namespace MusicLibrary
             SequenceId = sequenceId;
             Description = description;
             PathToFile = filePath;
-            Year = DateTime.ParseExact(year.ToString(),"yyyy",null);
+            Year = DateTime.ParseExact(year.ToString(), "yyyy", null);
             Genre = genre;
             Rating = rating;
         }
 
         [Key]
-        public int Id {get; set; }
+        public int Id { get; set; }
         public string Title
         {
             get { return title; }
