@@ -82,7 +82,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TreeView Name="lvDirectory" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" >
+            <TreeView Name="lvDirectory" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseLeftButtonDown="lvDirectoryMouseLeftDown" >
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="HeaderTemplate">
@@ -99,7 +99,7 @@
                 </TreeView.Resources>
             </TreeView>
             <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-            <ListView Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" ItemsSource="{Binding MediaItems}">
+            <ListView Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" ItemsSource="{Binding MediaItems}" SelectionChanged="lvLibrary_SelectionChanged" AllowDrop="True">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Title" Width="200" DisplayMemberBinding="{Binding Path=Id}" />

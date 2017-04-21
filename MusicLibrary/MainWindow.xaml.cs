@@ -291,6 +291,17 @@ namespace MusicLibrary
             currentFile = (String)lvLibrary.SelectedItem;
             Play(currentFile);
         }
+
+        private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        //add by chen 0420
+        private void lvDirectoryMouseLeftDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
     }
 
     public class ImageToHeaderConverter : IValueConverter
