@@ -23,7 +23,7 @@ namespace MusicLibrary
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    
+
     public partial class MainWindow : Window
     {
         bool isPlaying = false;
@@ -32,18 +32,51 @@ namespace MusicLibrary
 
         //private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
+        static List<Song> MusicLibrary = new List<Song>();
+        static List<Song> PlayingList = new List<Song>();
+        static List<PlayList> PList = new List<PlayList>();
 
         public MainWindow()
         {
 
             InitializeComponent();
+            lvLibrary.ItemsSource = MusicLibrary;
+            RefreshMusicLibrary();
 
             DispatcherTimer timer = new DispatcherTimer();
 
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += timer_Tick;
             timer.Start();
+        }
 
+        private void RefreshMusicLibrary()
+        {
+            lvLibrary.ItemsSource = MusicLibrary;
+            //ResetAllFields();
+        }
+
+        private void TbFilter_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filter = tbFilter.Text.ToLower();
+            if (filter == "")
+            {
+                lvLibrary.ItemsSource = GetAllSongs();
+            }
+            else
+            {
+                List<Song> list = GetAllSongs();
+                /* var filteredList = list.Where(b => b.Title.ToLower().Contains(filter)
+                                                   || b.Author.ToLower().Contains(filter)); */
+                var filteredList = from b in list where b.Description.ToLower().Contains(filter) select b;
+
+                lvLibrary.ItemsSource = filteredList;
+            }
+        }
+
+        private List<Song> GetAllSongs()
+        {
+            throw new NotImplementedException();
         }
 
         private void MiOpenAudioFile_Click(object sender, RoutedEventArgs e)
@@ -112,8 +145,22 @@ namespace MusicLibrary
         {
             try
             {
-                currentFile = (String)lvLibrary.SelectedItem;
-                Play(currentFile);
+                if (!isPlaying)
+                {
+                    if (lvLibrary.SelectedItem != null)
+                    {
+                        currentFile = (String)MusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                        Play(currentFile);
+                    }
+                    else
+                    {
+                        MessageBox.Show("You should select a music");
+                    }
+                }
+                else
+                {
+                    Pause();
+                }
             }
             catch (ArgumentNullException ex)
             {
@@ -124,27 +171,26 @@ namespace MusicLibrary
         private void Play(String fileName)
         {
             BitmapImage img = new BitmapImage();
-            if (isPlaying)
-            {
-                img.BeginInit();
-                img.UriSource = new Uri("pack://application:,,,/image/play.png");
-                img.EndInit();
-                ImagePlay.Source = img;
-                mediaPlayer.Pause();
-                isPlaying = false;
-                return;
-            }
-            else
-            {
-                img.BeginInit();
-                img.UriSource = new Uri("pack://application:,,,/image/pause.png");
-                img.EndInit();
-                ImagePlay.Source = img;
-                mediaPlayer.Open(new Uri(currentFile));
-                mediaPlayer.Play();
-                isPlaying = true;
-                return;
-            }
+            img.BeginInit();
+            img.UriSource = new Uri("pack://application:,,,/image/pause.png");
+            img.EndInit();
+            ImagePlay.Source = img;
+            mediaPlayer.Open(new Uri(fileName));
+            mediaPlayer.Play();
+            isPlaying = true;
+            return;
+        }
+
+        private void Pause()
+        {
+            BitmapImage img = new BitmapImage();
+            img.BeginInit();
+            img.UriSource = new Uri("pack://application:,,,/image/play.png");
+            img.EndInit();
+            ImagePlay.Source = img;
+            mediaPlayer.Pause();
+            isPlaying = false;
+            return;
         }
 
         private void BtStop_Click(object sender, RoutedEventArgs e)
@@ -180,7 +226,7 @@ namespace MusicLibrary
             if (mediaPlayer.Source != null)
                 try
                 {
-                    lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+                    //lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
                 }
                 catch (System.InvalidOperationException ex)
                 {
@@ -188,7 +234,7 @@ namespace MusicLibrary
                 }
             else
             {
-                lblStatus.Content = "";
+                //lblStatus.Content = "";
             }
         }
 
@@ -205,7 +251,7 @@ namespace MusicLibrary
 
         private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
+            //lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
         }
 
         private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -272,8 +318,26 @@ namespace MusicLibrary
                 {
                     FileInfo _fileinfo = new FileInfo(file);
                     Console.WriteLine(_fileinfo.Name, _fileinfo.FullName);
-                    lvLibrary.Items.Add(_fileinfo.FullName);
+                    if (IsMusicFile(_fileinfo))
+                    {
+                        var musicFile = TagLib.File.Create(_fileinfo.FullName);
+
+                        string title = musicFile.Tag.Title;
+                        string[] artist = musicFile.Tag.AlbumArtists;
+                        string album = musicFile.Tag.Album;
+                        int albumId = 1;
+                        uint sequenceId = musicFile.Tag.Track;
+                        string description = musicFile.Tag.Comment;
+                        string filePath = _fileinfo.FullName;
+                        uint year = musicFile.Tag.Year;
+                        string[] genre = musicFile.Tag.Genres;
+                        int rating = 0;
+                        Song song = new Song(title, "", albumId, (int)sequenceId, description, filePath, 2000, "", rating);
+                        MusicLibrary.Add(song);
+                    }
                 }
+                RefreshMusicLibrary();
+                currentFile = (String)MusicLibrary[0].PathToFile;
             }
             catch (IOException ex)
             {
@@ -283,13 +347,61 @@ namespace MusicLibrary
             {
                 MessageBox.Show("You must select a directory" + ex.StackTrace);
             }
-            currentFile = (String)lvLibrary.SelectedItem;
+        }
+
+        private bool IsMusicFile(FileInfo info)
+        {
+            string type = info.Extension;
+            switch (type.ToUpper())
+            {
+                case ".MP3":
+                case ".WMA": return true;
+                default: return false;
+            }
         }
 
         private void lvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            currentFile = (String)lvLibrary.SelectedItem;
+            //var item = ((FrameworkElement)e.OriginalSource).DataContext as Track;
+            //if (item != null)
+            //{
+            //    ListViewItem Item = (ListViewItem)sender;
+            //    Song song = (Song)Item.Content;
+
+            //    // Example
+            //    MessageBox.Show(song.Title + " by " + song.ArtistName);
+
+            //    e.Handled = true;
+
+            //    MessageBox.Show(item.ToString());
+            //}
+            currentFile = (String)MusicLibrary[lvLibrary.SelectedIndex].PathToFile;
             Play(currentFile);
+        }
+
+        private void BtForward_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1) {
+                lvLibrary.SelectedIndex++;
+            }
+            currentFile = (String)MusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            Play(currentFile);
+        }
+
+        private void BtBackward_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvLibrary.SelectedIndex > 0 )
+            {
+                lvLibrary.SelectedIndex--;
+            }
+            currentFile = (String)MusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            
+            Play(currentFile);
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            mediaPlayer.Volume = VolumeSlider.Value / 4;
         }
     }
 
@@ -316,6 +428,7 @@ namespace MusicLibrary
         {
             throw new NotImplementedException();
         }
+
 
     }
 }

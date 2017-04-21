@@ -11,18 +11,78 @@ namespace MusicLibrary
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Song
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string ArtistName { get; set; }
-        public Nullable<int> AlbumId { get; set; }
-        public Nullable<int> SequenceID { get; set; }
-        public string Description { get; set; }
-        public string PathToFile { get; set; }
-        public System.DateTime Year { get; set; }
-        public string Genre { get; set; }
-        public Nullable<int> Rating { get; set; }
+        private string title;
+        private string artistName;
+        private int? albumId;
+        private int? sequenceId;
+        private string description;
+        private int? rating;
+        private DateTime year;
+        private string genre;
+
+        public Song(string title, string artist, int albumId, int sequenceId, string description, string filePath, uint year, string genre, int rating)
+        {
+            Title = title;
+            ArtistName = artist;
+            AlbumId = albumId;
+            SequenceId = sequenceId;
+            Description = description;
+            PathToFile = filePath;
+            Year = DateTime.ParseExact(year.ToString(),"yyyy",null);
+            Genre = genre;
+            Rating = rating;
+        }
+
+        [Key]
+        public int Id {get; set; }
+        public string Title
+        {
+            get { return title; }
+            set { title = value; }
+        }
+        public string ArtistName
+        {
+            get { return artistName; }
+            set { artistName = value; }
+        }
+        public Nullable<int> AlbumId
+        {
+            get { return albumId; }
+            set { albumId = value; }
+        }
+        public Nullable<int> SequenceId
+        {
+            get { return sequenceId; }
+            set { sequenceId = value; }
+        }
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+        public string PathToFile
+        {
+            get { return description; }
+            set { description = value; }
+        }
+        public System.DateTime Year
+        {
+            get { return year; }
+            set { year = value; }
+        }
+        public string Genre
+        {
+            get { return genre; }
+            set { genre = value; }
+        }
+        public Nullable<int> Rating
+        {
+            get { return rating; }
+            set { rating = value; }
+        }
     }
 }
