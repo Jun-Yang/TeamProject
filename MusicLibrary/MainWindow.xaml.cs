@@ -21,8 +21,7 @@ namespace MusicLibrary
 
     public partial class MainWindow : Window
     {
-        bool isPlaying = false;
-        private MediaPlayer mediaPlayer = new MediaPlayer();
+        
         private static string currentFile = "";
 
         //private bool mediaPlayerIsPlaying = false;
@@ -38,7 +37,11 @@ namespace MusicLibrary
             InitializeComponent();
             lvLibrary.ItemsSource = ListMusicLibrary;
             RefreshMusicLibrary();
+            InitTimer();
+        }
 
+        void InitTimer()
+        {
             DispatcherTimer timer = new DispatcherTimer();
 
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -46,35 +49,19 @@ namespace MusicLibrary
             timer.Start();
         }
 
-        void GetSongsFromLib()
-        {
-            //using (RemoteLibrary ctx = new RemoteLibrary())
-            //{
-            //    ctx.ListMusicLibrary.Add(s);
-            //    ctx.SaveChanges();
-
-            //    var lstMusic = (from r in ctx.ListMusicLibrary select r).ToList<Song>();
-            //    foreach (var s in lstMusic)
-            //    {
-            //        Console.WriteLine("P: {0}, {1}, {2}", s.Id, s.Title, s.);
-            //    }
-
-            //}
-        }
-
         private void timer_Tick(object sender, EventArgs e)
         {
-            if ((mediaPlayer.Source != null) && (mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
+            if ((PlayControl.mediaPlayer.Source != null) && (PlayControl.mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
             {
                 sliProgress.Minimum = 0;
-                sliProgress.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-                sliProgress.Value = mediaPlayer.Position.TotalSeconds;
+                sliProgress.Maximum = PlayControl.mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                sliProgress.Value = PlayControl.mediaPlayer.Position.TotalSeconds;
             }
 
-            if (mediaPlayer.Source != null)
+            if (PlayControl.mediaPlayer.Source != null)
                 try
                 {
-                    lblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+                    lblStatus.Content = String.Format("{0} / {1}", PlayControl.mediaPlayer.Position.ToString(@"mm\:ss"), PlayControl.mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
                 }
                 catch (System.InvalidOperationException ex)
                 {
@@ -111,11 +98,6 @@ namespace MusicLibrary
             //}
         }
 
-        private List<Song> GetAllSongs()
-        {
-            throw new NotImplementedException();
-        }
-
         private void MiOpenAudioFile_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
@@ -123,8 +105,8 @@ namespace MusicLibrary
             if (openFileDialog.ShowDialog() == true)
             {
                 currentFile = openFileDialog.FileName;
-                mediaPlayer.Open(new Uri(currentFile));
-                Play(currentFile);
+                PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                PlayControl.Play(currentFile,null);
             }
         }
 
@@ -143,8 +125,8 @@ namespace MusicLibrary
                     // Open document 
                     currentFile = ofdlg.FileName;
                     this.Title = "  File Open  ";
-                    mediaPlayer.Open(new Uri(currentFile));
-                    Play(currentFile);
+                    PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                    PlayControl.Play(currentFile,null);
                 }
             }
             catch (ArgumentException ep)
@@ -185,12 +167,12 @@ namespace MusicLibrary
         {
             try
             {
-                if (!isPlaying)
+                if (!PlayControl.isPlaying)
                 {
                     if (lvLibrary.SelectedItem != null)
                     {
                         currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-                        Play(currentFile);
+                        PlayControl.Play(currentFile,ImagePlay);
                     }
                     else
                     {
@@ -199,7 +181,7 @@ namespace MusicLibrary
                 }
                 else
                 {
-                    Pause();
+                    PlayControl.Pause(ImagePlay);
                 }
             }
             catch (ArgumentNullException ex)
@@ -208,39 +190,9 @@ namespace MusicLibrary
             }
         }
 
-        private void Play(String fileName)
-        {
-            BitmapImage img = new BitmapImage();
-            img.BeginInit();
-            img.UriSource = new Uri("pack://application:,,,/image/pause.png");
-            img.EndInit();
-            ImagePlay.Source = img;
-            mediaPlayer.Play();
-            isPlaying = true;
-            return;
-        }
-
-        private void Pause()
-        {
-            BitmapImage img = new BitmapImage();
-            img.BeginInit();
-            img.UriSource = new Uri("pack://application:,,,/image/play.png");
-            img.EndInit();
-            ImagePlay.Source = img;
-            mediaPlayer.Pause();
-            isPlaying = false;
-            return;
-        }
-
         private void BtStop_Click(object sender, RoutedEventArgs e)
         {
-            BitmapImage img = new BitmapImage();
-            img.BeginInit();
-            img.UriSource = new Uri("pack://application:,,,/image/play.png");
-            img.EndInit();
-            ImagePlay.Source = img;
-            isPlaying = false;
-            mediaPlayer.Stop();
+            PlayControl.Stop(ImagePlay);
         }
 
         private void BtForward_Click(object sender, RoutedEventArgs e)
@@ -250,7 +202,8 @@ namespace MusicLibrary
                 lvLibrary.SelectedIndex++;
             }
             currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-            Play(currentFile);
+            PlayControl.mediaPlayer.Open(new Uri(currentFile));
+            PlayControl.Play(currentFile,ImagePlay);
         }
 
         private void BtBackward_Click(object sender, RoutedEventArgs e)
@@ -260,23 +213,18 @@ namespace MusicLibrary
                 lvLibrary.SelectedIndex--;
             }
             currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-
-            Play(currentFile);
+            PlayControl.mediaPlayer.Open(new Uri(currentFile));
+            PlayControl.Play(currentFile,ImagePlay);
         }
 
-        private void BtLoud_Click(object sender, RoutedEventArgs e)
+        private void BtSpeaker_Click(object sender, RoutedEventArgs e)
         {
-            BitmapImage img = new BitmapImage();
-            img.BeginInit();
-            img.UriSource = new Uri("pack://application:,,,/image/play.png");
-            img.EndInit();
-            ImagePlay.Source = img;
-            isPlaying = false;
-            mediaPlayer.Stop();
+            PlayControl.Speaker(ImageSpeaker);
         }
+
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            mediaPlayer.Volume = VolumeSlider.Value / 4;
+            PlayControl.mediaPlayer.Volume = VolumeSlider.Value / 4;
         }
 
         //0420 adding by cc
@@ -348,8 +296,8 @@ namespace MusicLibrary
         private void lvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-            mediaPlayer.Open(new Uri(currentFile));
-            Play(currentFile);
+            PlayControl.mediaPlayer.Open(new Uri(currentFile));
+            PlayControl.Play(currentFile,ImagePlay);
         }
 
         private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -370,7 +318,7 @@ namespace MusicLibrary
         private void sliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             userIsDraggingSlider = false;
-            mediaPlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
+            PlayControl.mediaPlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
         }
 
         private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -380,7 +328,7 @@ namespace MusicLibrary
 
         private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
+            PlayControl.mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
         }
 
         private void Populate(string header, string tag, TreeView root, TreeViewItem child, bool isfile)
