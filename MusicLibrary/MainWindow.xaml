@@ -84,7 +84,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TreeView Name="lvDirectory" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" >
+            <TreeView Name="lvDirectory" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseLeftButtonDown="lvDirectoryMouseLeftDown" >
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="HeaderTemplate">

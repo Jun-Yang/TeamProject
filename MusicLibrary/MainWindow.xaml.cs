@@ -399,10 +399,21 @@ namespace MusicLibrary
             Play(currentFile);
         }
 
-        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mediaPlayer.Volume = VolumeSlider.Value / 4;
+
         }
+
+        //add by chen 0420
+        private void lvDirectoryMouseLeftDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+    }
+
+    private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        mediaPlayer.Volume = VolumeSlider.Value / 4;
     }
 
     public class ImageToHeaderConverter : IValueConverter
