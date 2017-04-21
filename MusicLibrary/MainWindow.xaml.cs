@@ -53,6 +53,7 @@ namespace MusicLibrary
         private void RefreshMusicLibrary()
         {
             lvLibrary.ItemsSource = MusicLibrary;
+            lvLibrary.Items.Refresh();
             //ResetAllFields();
         }
 
@@ -195,6 +196,12 @@ namespace MusicLibrary
 
         private void BtStop_Click(object sender, RoutedEventArgs e)
         {
+            BitmapImage img = new BitmapImage();
+            img.BeginInit();
+            img.UriSource = new Uri("pack://application:,,,/image/play.png");
+            img.EndInit();
+            ImagePlay.Source = img;
+            isPlaying = false;
             mediaPlayer.Stop();
         }
 
@@ -399,6 +406,11 @@ namespace MusicLibrary
             Play(currentFile);
         }
 
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            mediaPlayer.Volume = VolumeSlider.Value / 4;
+        }
+
         private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -409,12 +421,11 @@ namespace MusicLibrary
         {
             this.DragMove();
         }
+
+
     }
 
-    private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-    {
-        mediaPlayer.Volume = VolumeSlider.Value / 4;
-    }
+    
 
     public class ImageToHeaderConverter : IValueConverter
     {
