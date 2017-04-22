@@ -11,10 +11,15 @@ namespace MusicLibrary
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Song
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Song()
+        {
+            this.PlayLists = new HashSet<PlayList>();
+        }
+
         private string title;
         private string artistName;
         private int? albumId;
@@ -45,52 +50,20 @@ namespace MusicLibrary
             Rating = rating;
         }
 
-        [Key]
+
         public int Id { get; set; }
-        public string Title
-        {
-            get { return title; }
-            set { title = value; }
-        }
-        public string ArtistName
-        {
-            get { return artistName; }
-            set { artistName = value; }
-        }
-        public Nullable<int> AlbumId
-        {
-            get { return albumId; }
-            set { albumId = value; }
-        }
-        public Nullable<int> SequenceId
-        {
-            get { return sequenceId; }
-            set { sequenceId = value; }
-        }
-        public string Description
-        {
-            get { return description; }
-            set { description = value; }
-        }
-        public string PathToFile
-        {
-            get { return description; }
-            set { description = value; }
-        }
-        public System.DateTime Year
-        {
-            get { return year; }
-            set { year = value; }
-        }
-        public string Genre
-        {
-            get { return genre; }
-            set { genre = value; }
-        }
-        public Nullable<int> Rating
-        {
-            get { return rating; }
-            set { rating = value; }
-        }
+        public string Title { get; set; }
+        public string ArtistName { get; set; }
+        public Nullable<int> AlbumId { get; set; }
+        public Nullable<int> SequenceId { get; set; }
+        public string PathToFile { get; set; }
+        public System.DateTime Year { get; set; }
+        public string Genre { get; set; }
+        public Nullable<int> Rating { get; set; }
+        public string Description { get; set; }
+    
+        public virtual Album Album { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PlayList> PlayLists { get; set; }
     }
 }

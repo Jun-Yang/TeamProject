@@ -81,8 +81,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="20*" />
             </Grid.ColumnDefinitions>
-            <TreeView Name="lvDirectory" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" FontWeight="Normal"  MouseLeftButtonDown="lvDirectoryMouseLeftDown" >
-
+            <TreeView Name="tvDirectory" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" FontWeight="Normal" >
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem">
                         <Setter Property="HeaderTemplate">
@@ -97,9 +96,7 @@
                                                     <MenuItem Header="Import to MusicLibrary" Click="ctMenuImportToLibrary_Click" />
                                                     <MenuItem Header="Add to Playlist" />
                                                 </ContextMenu>
-
                                             </TextBlock.ContextMenu>
-
                                         </TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
@@ -109,7 +106,7 @@
                 </TreeView.Resources>
             </TreeView>
             <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-            <ListView Background="DarkGray" Foreground="LightGray" Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" >
+            <ListView Background="DarkGray" Foreground="Black" Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" SelectionChanged="lvLibrary_SelectionChanged">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Title" Width="100" DisplayMemberBinding="{Binding Path=Title}" />
@@ -133,9 +130,9 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="7*" />
                 </Grid.RowDefinitions>
-                <TreeView x:Name="tvPlayList" Background="DimGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="200" />
+                <TreeView x:Name="tvPlaylists" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" SelectedItemChanged="tvPlaylists_SelectedItemChanged"/>
                 <GridSplitter Grid.Row="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-                <ListView Background="DimGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="200">
+                <ListView Background="LightGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Title" Width="120" DisplayMemberBinding="{Binding Path=Title}" />
@@ -158,13 +155,13 @@
                 <Button  Name="BtBackward"  Click="BtBackward_Click" HorizontalAlignment="Stretch" Background="LightGray" BorderThickness="0" >
                     <Image Name="ImageBackward" Source="pack://application:,,,/image/backward.png" HorizontalAlignment="Stretch" />
                 </Button>
-                <Button  Name="BtPlay"  Click="BtPlay_Click" Background="LightGray">
+                <Button  Name="BtPlay"  Click="BtPlay_Click" Background="LightGray" BorderThickness="0">
                     <Image Name="ImagePlay" Source="pack://application:,,,/image/play.png" />
                 </Button>
-                <Button Name="BtStop" Click="BtStop_Click" Background="LightGray">
+                <Button Name="BtStop" Click="BtStop_Click" Background="LightGray" BorderThickness="0">
                     <Image Source="pack://application:,,,/image/stop.png" />
                 </Button>
-                <Button  Name="BtForward"  Click="BtForward_Click" Background="LightGray">
+                <Button  Name="BtForward"  Click="BtForward_Click" Background="LightGray" BorderThickness="0">
                     <Image Name="ImageForward" Source="pack://application:,,,/image/forward.png" />
                 </Button>
             </StackPanel>
@@ -181,7 +178,7 @@
             </StackPanel>
             <GridSplitter Grid.Column="3" ShowsPreview="True" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch"/>
             <StackPanel Orientation="Horizontal" Grid.Column="4" Background="LightGray">
-                <Button  Name="BtSpeaker"  Click="BtSpeaker_Click" Background="LightGray">
+                <Button  Name="BtSpeaker"  Click="BtSpeaker_Click" Background="LightGray" BorderThickness="0">
                     <Image Name="ImageSpeaker" Source="pack://application:,,,/image/Loud.png" />
                 </Button>
                 <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="4" Background="lightGray" 

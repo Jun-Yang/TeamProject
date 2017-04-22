@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e844c169a61849318313de5d34944ec1" Name="Diagram1">
+      <Diagram DiagramId="6fe7a529991d4c48b494ef1bf62c2553" Name="Diagram1">
         <EntityTypeShape EntityType="RemoteLibraryModel.Album" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="RemoteLibraryModel.PlayList" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="RemoteLibraryModel.Song" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />

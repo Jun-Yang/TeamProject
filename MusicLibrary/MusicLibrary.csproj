@@ -138,8 +138,18 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>RemoteLibrary.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="RemoteLibrary.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RemoteLibrary.edmx</DependentUpon>
+      <LastGenOutput>RemoteLibrary.Context.cs</LastGenOutput>
+    </None>
     <None Include="RemoteLibrary.edmx.diagram">
       <DependentUpon>RemoteLibrary.edmx</DependentUpon>
+    </None>
+    <None Include="RemoteLibrary.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RemoteLibrary.edmx</DependentUpon>
+      <LastGenOutput>RemoteLibrary.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -183,18 +193,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\search.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="RemoteLibrary.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>RemoteLibrary.edmx</DependentUpon>
-      <LastGenOutput>RemoteLibrary.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="RemoteLibrary.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>RemoteLibrary.edmx</DependentUpon>
-      <LastGenOutput>RemoteLibrary.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

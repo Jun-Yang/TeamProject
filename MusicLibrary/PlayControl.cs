@@ -17,7 +17,7 @@ namespace MusicLibrary
         internal static MediaPlayer mediaPlayer = new MediaPlayer();
         internal static double savedVolume = 0;
 
-        internal static void Play(String fileName,Image imgObj)
+        internal static void Play(Image imgObj)
         {
             if (imgObj != null)
             {

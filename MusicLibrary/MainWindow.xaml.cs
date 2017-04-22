@@ -24,11 +24,11 @@ namespace MusicLibrary
 
         private static string currentFile = "";
 
-        //private bool mediaPlayerIsPlaying = false;
         private bool userIsDraggingSlider = false;
         static List<Song> ListMusicLibrary = new List<Song>();
         static List<Song> PlayingList = new List<Song>();
         static List<PlayList> PList = new List<PlayList>();
+        private Database db;
 
         public MainWindow()
         {
@@ -37,6 +37,14 @@ namespace MusicLibrary
             lvLibrary.ItemsSource = ListMusicLibrary;
             RefreshMusicLibrary();
             InitTimer();
+            db = new Database();
+        }
+
+        private void RefreshMusicLibrary()
+        {
+            lvLibrary.ItemsSource = ListMusicLibrary;
+            lvLibrary.Items.Refresh();
+            //ResetAllFields();
         }
 
         void InitTimer()
@@ -71,18 +79,117 @@ namespace MusicLibrary
                 lblStatus.Content = "";
             }
         }
-
-        private void RefreshMusicLibrary()
+        
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            lvLibrary.ItemsSource = ListMusicLibrary;
-            lvLibrary.Items.Refresh();
-            //ResetAllFields();
+            foreach (DriveInfo driv in DriveInfo.GetDrives())
+            {
+                if (driv.IsReady)
+                    PopulateDirectory(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, tvDirectory, null, false);
+            }
+
+            PopulatePlaylists();
         }
 
-        private void InitPlayList()
+        private void PopulatePlaylists()
         {
-            //TreeNode treeNode = new TreeNode("PlayLists");
-            //tvPlayList.Nodes.Add(treeNode);
+            TreeViewItem rootItem,childItem;
+            int index = 1;
+
+            rootItem = new TreeViewItem();
+            rootItem.Tag = "Playlists";
+            rootItem.Header = "Playlists";
+            tvPlaylists.Items.Add(rootItem);
+            rootItem.Expanded += new RoutedEventHandler(PlaylistsExpanded);
+         
+            foreach (var n in db.GetPlaylistName())
+            {
+                childItem = new TreeViewItem();
+                childItem.Tag = "Playlist" + index;
+                index++;
+                childItem.Header = n;
+                rootItem.Items.Add(childItem);
+            }
+        }
+
+        void PlaylistsExpanded(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem item = (TreeViewItem)sender;
+            if (item.Items.Count == 1 && ((TreeViewItem)item.Items[0]).Header == null)
+            {
+                item.Items.Clear();
+                try
+                {
+                    foreach (string dir in Directory.GetDirectories(item.Tag.ToString()))
+                    {
+                        DirectoryInfo dirInfo = new DirectoryInfo(dir);
+                        PopulateDirectory(dirInfo.Name, dirInfo.FullName, null, item, false);
+                    }
+
+                    foreach (string file in Directory.GetFiles(item.Tag.ToString()))
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        PopulateDirectory(fileInfo.Name, fileInfo.FullName, null, item, true);
+                    }
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    MessageBox.Show("Cannot access this directory" + ex.StackTrace);
+                }
+            }
+        }
+
+        private void tvPlaylists_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            TreeViewItem item = (TreeViewItem)tvPlaylists.SelectedItem;
+            string plName = (string)item.Header;
+            lvPlay.ItemsSource = db.GetMusicByPlaylistName(plName);
+        }
+
+        private void PopulateDirectory(string header, string tag, TreeView root, TreeViewItem child, bool isfile)
+        {
+            TreeViewItem driItem = new TreeViewItem();
+            driItem.Tag = tag;
+            driItem.Header = header;
+            driItem.Expanded += new RoutedEventHandler(DriItemExpanded);
+            if (!isfile)
+                driItem.Items.Add(new TreeViewItem());
+
+            if (root != null)
+            {
+                root.Items.Add(driItem);
+            }
+            else
+            {
+                child.Items.Add(driItem);
+            }
+        }
+
+        void DriItemExpanded(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem item = (TreeViewItem)sender;
+            if (item.Items.Count == 1 && ((TreeViewItem)item.Items[0]).Header == null)
+            {
+                item.Items.Clear();
+                try
+                {
+                    foreach (string dir in Directory.GetDirectories(item.Tag.ToString()))
+                    {
+                        DirectoryInfo dirInfo = new DirectoryInfo(dir);
+                        PopulateDirectory(dirInfo.Name, dirInfo.FullName, null, item, false);
+                    }
+
+                    foreach (string file in Directory.GetFiles(item.Tag.ToString()))
+                    {
+                        FileInfo fileInfo = new FileInfo(file);
+                        PopulateDirectory(fileInfo.Name, fileInfo.FullName, null, item, true);
+                    }
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    MessageBox.Show("Cannot access this directory" + ex.StackTrace);
+                }
+            }
         }
 
         private void TbFilter_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -110,8 +217,10 @@ namespace MusicLibrary
             if (openFileDialog.ShowDialog() == true)
             {
                 currentFile = openFileDialog.FileName;
+                AddMusicToLibrary(currentFile);
+                BtStop_Click(null,null);
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
-                PlayControl.Play(currentFile, null);
+                BtPlay_Click(null, null);
             }
         }
 
@@ -130,8 +239,10 @@ namespace MusicLibrary
                     // Open document 
                     currentFile = ofdlg.FileName;
                     this.Title = "  File Open  ";
+                    AddMusicToLibrary(currentFile);
+                    BtStop_Click(null, null);
                     PlayControl.mediaPlayer.Open(new Uri(currentFile));
-                    PlayControl.Play(currentFile, null);
+                    BtPlay_Click(null, null);
                 }
             }
             catch (ArgumentException ep)
@@ -176,8 +287,7 @@ namespace MusicLibrary
                 {
                     if (lvLibrary.SelectedItem != null)
                     {
-                        currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-                        PlayControl.Play(currentFile, ImagePlay);
+                        PlayControl.Play(ImagePlay);
                     }
                     else
                     {
@@ -206,9 +316,9 @@ namespace MusicLibrary
             {
                 lvLibrary.SelectedIndex++;
             }
-            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            lvLibrary.Focus();
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(currentFile, ImagePlay);
+            PlayControl.Play(ImagePlay);
         }
 
         private void BtBackward_Click(object sender, RoutedEventArgs e)
@@ -217,9 +327,9 @@ namespace MusicLibrary
             {
                 lvLibrary.SelectedIndex--;
             }
-            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            lvLibrary.Focus();
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(currentFile, ImagePlay);
+            PlayControl.Play(ImagePlay);
         }
 
         private void BtSpeaker_Click(object sender, RoutedEventArgs e)
@@ -271,10 +381,9 @@ namespace MusicLibrary
             }
         }
 
-
         private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
         {
-            TreeViewItem item = (TreeViewItem)lvDirectory.SelectedItem;
+            TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
             try
             {
                 foreach (string file in Directory.GetFiles(item.Tag.ToString()))
@@ -283,42 +392,18 @@ namespace MusicLibrary
                     Console.WriteLine(fileInfo.Name, fileInfo.FullName);
                     if (IsMusicFile(fileInfo))
                     {
-                        var musicFile = TagLib.File.Create(fileInfo.FullName);
-
-                        string title = musicFile.Tag.Title;
-                        string[] artist = musicFile.Tag.AlbumArtists;
-                        string strArtist = null;
-                        if (artist == null || artist.Length == 0)
-                        {
-                            strArtist = "";
-                        }
-                        else
-                        {
-                            strArtist = string.Join(",", artist);
-                        }
-                        string album = musicFile.Tag.Album;
-                        int albumId = 1;
-                        uint sequenceId = musicFile.Tag.Track;
-                        string description = musicFile.Tag.Comment;
-                        string filePath = fileInfo.FullName;
-                        uint year = musicFile.Tag.Year;
-                        string[] genre = musicFile.Tag.Genres;
-                        string strGenre = null;
-                        if (strGenre == null || strGenre.Length == 0)
-                        {
-                            strGenre = "";
-                        }
-                        else
-                        {
-                            strGenre = string.Join(",", genre);
-                        }
-                        int rating = 0;
-                        Song song = new Song(title, strArtist, albumId, (int)sequenceId, description, filePath, year, strGenre, rating);
-                        ListMusicLibrary.Add(song);
+                        AddMusicToLibrary(fileInfo.FullName);
                     }
                 }
-                RefreshMusicLibrary();
-                currentFile = (String)ListMusicLibrary[0].PathToFile;
+                if (ListMusicLibrary.Count > 0)
+                {
+                    RefreshMusicLibrary();
+                    currentFile = (String)ListMusicLibrary[0].PathToFile;
+                }
+                else
+                {
+                    MessageBox.Show("No music file found in directory");
+                }
             }
             catch (IOException ex)
             {
@@ -328,6 +413,46 @@ namespace MusicLibrary
             {
                 MessageBox.Show("You must select a directory" + ex.StackTrace);
             }
+        }
+
+        private void AddMusicToLibrary(string filename)
+        {
+            var musicFile = TagLib.File.Create(filename);
+
+            string title = musicFile.Tag.Title;
+            string[] artist = musicFile.Tag.AlbumArtists;
+            string strArtist = null;
+            if (artist == null || artist.Length == 0)
+            {
+                strArtist = "";
+            }
+            else
+            {
+                strArtist = string.Join(",", artist);
+            }
+            string album = musicFile.Tag.Album;
+            int albumId = 1;
+            uint sequenceId = musicFile.Tag.Track;
+            string description = musicFile.Tag.Comment;
+            string filePath = filename;
+            uint year = musicFile.Tag.Year;
+            string[] genre = musicFile.Tag.Genres;
+            string strGenre = null;
+            if (strGenre == null || strGenre.Length == 0)
+            {
+                strGenre = "";
+            }
+            else
+            {
+                strGenre = string.Join(",", genre);
+            }
+            int rating = 0;
+            Song song = new Song(title, strArtist, albumId, (int)sequenceId, description, filePath, year, strGenre, rating);
+            ListMusicLibrary.Add(song);
+            lvLibrary.Focus();
+            lvLibrary.SelectedIndex = lvLibrary.Items.Count - 1; 
+            lvLibrary.Items.Refresh();
+            
         }
 
         private bool IsMusicFile(FileInfo info)
@@ -345,12 +470,12 @@ namespace MusicLibrary
         {
             currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(currentFile, ImagePlay);
+            PlayControl.Play(ImagePlay);
         }
 
         private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
         }
 
         private void lvDirectoryMouseLeftDown(object sender, MouseButtonEventArgs e)
@@ -379,62 +504,8 @@ namespace MusicLibrary
             PlayControl.mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
         }
 
-        private void Populate(string header, string tag, TreeView root, TreeViewItem child, bool isfile)
-        {
-            TreeViewItem driItem = new TreeViewItem();
-            driItem.Tag = tag;
-            driItem.Header = header;
-            driItem.Expanded += new RoutedEventHandler(DriItemExpanded);
-            if (!isfile)
-                driItem.Items.Add(new TreeViewItem());
-
-            if (root != null)
-            {
-                root.Items.Add(driItem);
-            }
-            else
-            {
-                child.Items.Add(driItem);
-            }
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            foreach (DriveInfo driv in DriveInfo.GetDrives())
-            {
-                if (driv.IsReady)
-                    Populate(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, lvDirectory, null, false);
-            }
-        }
-
-        void DriItemExpanded(object sender, RoutedEventArgs e)
-        {
-            TreeViewItem item = (TreeViewItem)sender;
-            if (item.Items.Count == 1 && ((TreeViewItem)item.Items[0]).Header == null)
-            {
-                item.Items.Clear();
-                try
-                {
-                    foreach (string dir in Directory.GetDirectories(item.Tag.ToString()))
-                    {
-                        DirectoryInfo dirInfo = new DirectoryInfo(dir);
-                        Populate(dirInfo.Name, dirInfo.FullName, null, item, false);
-                    }
-
-                    foreach (string file in Directory.GetFiles(item.Tag.ToString()))
-                    {
-                        FileInfo fileInfo = new FileInfo(file);
-                        Populate(fileInfo.Name, fileInfo.FullName, null, item, true);
-                    }
-                }
-                catch (UnauthorizedAccessException ex)
-                {
-                    MessageBox.Show("Cannot access this directory" + ex.StackTrace);
-                }
-            }
-        }
+        
     }
-
     public class ImageToHeaderConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
