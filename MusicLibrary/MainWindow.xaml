@@ -72,14 +72,7 @@
                 <MenuItem Header="Check Update"  />
                 <MenuItem Header="About"  />
             </MenuItem>
-            <Border BorderBrush="Black" BorderThickness="2" VerticalAlignment="Center" >
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Image Source="pack://application:,,,/image/search.png" Height="18"/>
-                    <TextBlock Text="" Width="200" />
-                </StackPanel>
-            </Border>
         </Menu>
-
         <Grid Grid.Row="1" x:Name="ListViews" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*" />
@@ -96,7 +89,7 @@
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
                                         <Image Width="25" Height="15" Source="{Binding Path=Tag,RelativeSource={RelativeSource AncestorLevel=1,AncestorType=TreeViewItem,Mode=FindAncestor},Converter={StaticResource img}}"></Image>
-                                        <TextBlock FontWeight="Heavy" Text="{Binding}"></TextBlock>
+                                        <TextBlock FontWeight="Medium" Text="{Binding}"></TextBlock>
                                     </StackPanel>
                                 </DataTemplate>
                             </Setter.Value>
@@ -123,13 +116,23 @@
                 </ListView.ContextMenu>
             </ListView>
             <GridSplitter Grid.Column="3" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-            <ListView Background="DimGray" Grid.Column="4" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,-0.4,0.2" Grid.ColumnSpan="3" MinWidth="200">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Grid Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="7*" />
+                </Grid.RowDefinitions>
+                <TreeView x:Name="tvPlayList" Background="DimGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="200" />
+                <GridSplitter Grid.Row="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
+                <ListView Background="DimGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="200">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Title" Width="120" DisplayMemberBinding="{Binding Path=Title}" />
+                            <GridViewColumn Header="Artist" Width="80" DisplayMemberBinding="{Binding Path=ArtistName}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>    
         </Grid>
 
         <Grid Grid.Row="2" x:Name="PlayControls" Background="LightGray">

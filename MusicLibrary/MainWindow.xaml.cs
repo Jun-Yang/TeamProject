@@ -79,6 +79,12 @@ namespace MusicLibrary
             //ResetAllFields();
         }
 
+        private void InitPlayList()
+        {
+            //TreeNode treeNode = new TreeNode("PlayLists");
+            //tvPlayList.Nodes.Add(treeNode);
+        }
+
         private void TbFilter_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             //string filter = tbFilter.Text.ToLower();
