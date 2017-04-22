@@ -242,9 +242,35 @@ namespace MusicLibrary
             else
             {
                 if (lvLibrary.SelectedIndex == -1) return;
-                lvLibrary.Items.RemoveAt(lvLibrary.SelectedIndex);
+                ListMusicLibrary.RemoveAt(lvLibrary.SelectedIndex);
+                RefreshMusicLibrary();
             }
         }
+
+        private void ctMenuPlayMedia_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Play Media?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                MiImportToLibrary_Click(sender, e);
+            }
+        }
+
+        private void ctMenuImportToLibrary_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Import to Library?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                MiImportToLibrary_Click(sender, e);
+            }
+        }
+
 
         private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
         {
