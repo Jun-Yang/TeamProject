@@ -21,7 +21,7 @@ namespace MusicLibrary
 
     public partial class MainWindow : Window
     {
-        
+
         private static string currentFile = "";
 
         //private bool mediaPlayerIsPlaying = false;
@@ -29,7 +29,6 @@ namespace MusicLibrary
         static List<Song> ListMusicLibrary = new List<Song>();
         static List<Song> PlayingList = new List<Song>();
         static List<PlayList> PList = new List<PlayList>();
-
 
         public MainWindow()
         {
@@ -106,7 +105,7 @@ namespace MusicLibrary
             {
                 currentFile = openFileDialog.FileName;
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
-                PlayControl.Play(currentFile,null);
+                PlayControl.Play(currentFile, null);
             }
         }
 
@@ -126,7 +125,7 @@ namespace MusicLibrary
                     currentFile = ofdlg.FileName;
                     this.Title = "  File Open  ";
                     PlayControl.mediaPlayer.Open(new Uri(currentFile));
-                    PlayControl.Play(currentFile,null);
+                    PlayControl.Play(currentFile, null);
                 }
             }
             catch (ArgumentException ep)
@@ -172,7 +171,7 @@ namespace MusicLibrary
                     if (lvLibrary.SelectedItem != null)
                     {
                         currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-                        PlayControl.Play(currentFile,ImagePlay);
+                        PlayControl.Play(currentFile, ImagePlay);
                     }
                     else
                     {
@@ -203,7 +202,7 @@ namespace MusicLibrary
             }
             currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(currentFile,ImagePlay);
+            PlayControl.Play(currentFile, ImagePlay);
         }
 
         private void BtBackward_Click(object sender, RoutedEventArgs e)
@@ -214,7 +213,7 @@ namespace MusicLibrary
             }
             currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(currentFile,ImagePlay);
+            PlayControl.Play(currentFile, ImagePlay);
         }
 
         private void BtSpeaker_Click(object sender, RoutedEventArgs e)
@@ -224,7 +223,7 @@ namespace MusicLibrary
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            PlayControl.mediaPlayer.Volume = VolumeSlider.Value / 4;
+            PlayControl.SetVolume(VolumeSlider.Value / 4);
         }
 
         //0420 adding by cc
@@ -237,7 +236,6 @@ namespace MusicLibrary
             else
             {
                 if (lvLibrary.SelectedIndex == -1) return;
-
                 lvLibrary.Items.RemoveAt(lvLibrary.SelectedIndex);
             }
         }
@@ -257,6 +255,15 @@ namespace MusicLibrary
 
                         string title = musicFile.Tag.Title;
                         string[] artist = musicFile.Tag.AlbumArtists;
+                        string strArtist = null;
+                        if (artist == null || artist.Length == 0)
+                        {
+                            strArtist = "";
+                        }
+                        else
+                        {
+                            strArtist = string.Join(",", artist);
+                        }
                         string album = musicFile.Tag.Album;
                         int albumId = 1;
                         uint sequenceId = musicFile.Tag.Track;
@@ -264,8 +271,17 @@ namespace MusicLibrary
                         string filePath = fileInfo.FullName;
                         uint year = musicFile.Tag.Year;
                         string[] genre = musicFile.Tag.Genres;
+                        string strGenre = null;
+                        if (strGenre == null || strGenre.Length == 0)
+                        {
+                            strGenre = "";
+                        }
+                        else
+                        {
+                            strGenre = string.Join(",", genre);
+                        }
                         int rating = 0;
-                        Song song = new Song(title, "", albumId, (int)sequenceId, description, filePath, 2000, "", rating);
+                        Song song = new Song(title, strArtist, albumId, (int)sequenceId, description, filePath, year, strGenre, rating);
                         ListMusicLibrary.Add(song);
                     }
                 }
@@ -297,7 +313,7 @@ namespace MusicLibrary
         {
             currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(currentFile,ImagePlay);
+            PlayControl.Play(currentFile, ImagePlay);
         }
 
         private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)

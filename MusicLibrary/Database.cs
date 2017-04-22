@@ -10,18 +10,29 @@ namespace MusicLibrary
     {
         void GetSongsFromLib()
         {
-            //using (RemoteLibrary ctx = new RemoteLibrary())
-            //{
-            //    ctx.ListMusicLibrary.Add(s);
-            //    ctx.SaveChanges();
+            using (RemoteLibrary ctx = new RemoteLibrary())
+            {
+                var lstMusic = (from r in ctx.ListMusicLibrary select r).ToList<Song>();
+                foreach (var s in lstMusic)
+                {
+                    ctx.ListMusicLibrary.Add(s);
+                    Console.WriteLine("S: {0}, {1}, {2}", s.Id, s.Title, s.ArtistName);
+                }
+            }
+        }
 
-            //    var lstMusic = (from r in ctx.ListMusicLibrary select r).ToList<Song>();
-            //    foreach (var s in lstMusic)
-            //    {
-            //        Console.WriteLine("P: {0}, {1}, {2}", s.Id, s.Title, s.);
-            //    }
-
-            //}
+        void SaveSongsToLib()
+        {
+            using (RemoteLibrary ctx = new RemoteLibrary())
+            {
+                var lstMusic = (from r in ctx.ListMusicLibrary select r).ToList<Song>();
+                foreach (var s in lstMusic)
+                {
+                    ctx.ListMusicLibrary.Add(s);
+                    ctx.SaveChanges();
+                    Console.WriteLine("S: {0}, {1}, {2}", s.Id, s.Title, s.ArtistName);
+                }
+            }
         }
     }
 }

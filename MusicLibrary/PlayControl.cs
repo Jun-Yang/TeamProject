@@ -100,5 +100,11 @@ namespace MusicLibrary
                 MessageBox.Show("Internal error");
             }
         }
+
+        internal static void SetVolume(double v)
+        {
+            mediaPlayer.Volume = v;
+            savedVolume = v;
+        }    
     }
 }

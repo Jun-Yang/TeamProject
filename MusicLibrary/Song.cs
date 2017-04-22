@@ -32,7 +32,15 @@ namespace MusicLibrary
             SequenceId = sequenceId;
             Description = description;
             PathToFile = filePath;
-            Year = DateTime.ParseExact(year.ToString(), "yyyy", null);
+            try
+            {
+                Year = DateTime.ParseExact(year.ToString(), "yyyy", null);
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine(ex);
+                Year = new DateTime(1900, 01, 01);
+            }
             Genre = genre;
             Rating = rating;
         }
