@@ -38,10 +38,14 @@ namespace MusicLibrary
 
             InitializeComponent();
             lvLibrary.ItemsSource = ListMusicLibrary;
+            //ListMusicLibrary.Add;
+            //AllSongsList = getListAllSongs();
             RefreshMusicLibrary();
             InitTimer();
             db = new Database();
             ResetAllFields();
+            loadAllSongs();
+            //RefreshMusicLibrary();
         }
 
         private void RefreshMusicLibrary()
@@ -409,7 +413,7 @@ namespace MusicLibrary
             if (lvLibrary.SelectedIndex != -1)
             {
                 EnablePlayControl();
-                currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                //currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
                 BtStop_Click(null, null);
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
                 BtPlay_Click(null, null);
@@ -576,7 +580,12 @@ namespace MusicLibrary
             
             if (lvLibrary.SelectedIndex != -1)
             {
-                currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                try
+                {
+                    currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                } catch (ArgumentOutOfRangeException ex) {
+                    Console.WriteLine("Music Library Selection Changed Error",ex.StackTrace);
+                }
             }
         }
 
@@ -661,12 +670,35 @@ namespace MusicLibrary
         }
 
         //add by chenchen 0423
+        private void loadAllSongs()
+        {
+            AllSongsList = db.GetAllSongs();
+            lvLibrary.ItemsSource = AllSongsList;
+            
+        }
+
+        private List<Song> getListAllSongs()
+        {
+            try
+            {
+
+                AllSongsList = db.GetAllSongs();
+                lvLibrary.ItemsSource = AllSongsList;
+                return AllSongsList;
+
+            }
+            catch (System.NullReferenceException ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                return AllSongsList;
+            }
+        }
         private void MiEditSort_Click(object sender, RoutedEventArgs e)
         {
             //read media information from database 
-            AllSongsList = db.GetAllSongs();
-            lvLibrary.ItemsSource = AllSongsList;
-            RefreshMusicLibrary();
+            loadAllSongs();
+
+
         }
 
         private void lvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
