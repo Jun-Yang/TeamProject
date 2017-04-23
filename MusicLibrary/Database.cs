@@ -81,13 +81,28 @@ namespace MusicLibrary
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                var lstMusic = (from pl in ctx.PlayLists
-                                from s in ctx.Songs
+                var lstMusic = (from s in ctx.Songs
+                                from pl in ctx.PlayLists
                                 where pl.PlayListName == plName
-                                select s ).ToList<Song>();
+                                select s).ToList<Song>();
                 foreach (var s in lstMusic)
                 {
                     Console.WriteLine("S: {0}, {1}", s.Title, s.ArtistName);
+                }
+                return lstMusic;
+            }
+        }
+
+        internal List<PlayList> GetPlaylistByName(string plName)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                var lstMusic = (from pl in ctx.PlayLists
+                                where pl.PlayListName == plName
+                                select pl).ToList<PlayList>();
+                foreach (var pl in lstMusic)
+                {
+                    Console.WriteLine("PlayList: {0}, {1} {2}", pl.Id, pl.SongId, pl.PlayListName);
                 }
                 return lstMusic;
             }

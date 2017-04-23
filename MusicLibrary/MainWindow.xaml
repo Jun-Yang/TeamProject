@@ -106,7 +106,7 @@
                 </TreeView.Resources>
             </TreeView>
             <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-            <ListView Background="DarkGray" Foreground="Black" Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" SelectionChanged="lvLibrary_SelectionChanged">
+            <ListView Background="DarkGray" Foreground="Black" Grid.Column="2" x:Name="lvLibrary"  HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" SelectionChanged="lvLibrary_SelectionChanged" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Title" Width="100" DisplayMemberBinding="{Binding Path=Title}" />
@@ -121,6 +121,7 @@
                         <MenuItem Header="Remove"
                             Command="{Binding RemoveItem}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
+                        <MenuItem Header="Property" Click="MenuItemProperty_Click" />
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -153,8 +154,8 @@
                 <ColumnDefinition Width="50*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="LightGray">
-                <Button  Name="BtBackward"  Click="BtBackward_Click" HorizontalAlignment="Stretch" Background="LightGray" BorderThickness="0" >
-                    <Image Name="ImageBackward" Source="pack://application:,,,/image/backward.png" HorizontalAlignment="Stretch" />
+                <Button  Name="BtPrevious"  Click="BtPrevious_Click" HorizontalAlignment="Stretch" Background="LightGray" BorderThickness="0" >
+                    <Image Name="ImagePrevious" Source="pack://application:,,,/image/previous.png" HorizontalAlignment="Stretch" />
                 </Button>
                 <Button  Name="BtPlay"  Click="BtPlay_Click" Background="LightGray" BorderThickness="0">
                     <Image Name="ImagePlay" Source="pack://application:,,,/image/play.png" />
@@ -162,8 +163,8 @@
                 <Button Name="BtStop" Click="BtStop_Click" Background="LightGray" BorderThickness="0">
                     <Image Source="pack://application:,,,/image/stop.png" />
                 </Button>
-                <Button  Name="BtForward"  Click="BtForward_Click" Background="LightGray" BorderThickness="0">
-                    <Image Name="ImageForward" Source="pack://application:,,,/image/forward.png" />
+                <Button  Name="BtNext"  Click="BtNext_Click" Background="LightGray" BorderThickness="0">
+                    <Image Name="ImageNext" Source="pack://application:,,,/image/next.png" />
                 </Button>
             </StackPanel>
             <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" />
@@ -182,7 +183,7 @@
                 <Button  Name="BtSpeaker"  Click="BtSpeaker_Click" Background="LightGray" BorderThickness="0">
                     <Image Name="ImageSpeaker" Source="pack://application:,,,/image/Loud.png" />
                 </Button>
-                <Slider Name="VolumeSlider" Value="1" Minimum="0" Maximum="4" Background="lightGray" 
+                <Slider Name="sliVolume" Value="1" Minimum="0" Maximum="4" Background="lightGray" 
                     TickPlacement="Both" IsSnapToTickEnabled="True" Height="30" Width="100" ValueChanged="VolumeSlider_ValueChanged">
                     <Slider.Ticks>
                         0, 0.25, 0.5, 1, 2, 4

@@ -166,7 +166,7 @@
     <Resource Include="Image\Play.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image\Forward.png" />
+    <Resource Include="Image\next.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\file.png" />
@@ -184,7 +184,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image\backward.png" />
+    <Resource Include="Image\previous.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\loud.png" />

@@ -21,6 +21,7 @@
         <EntityType Name="PlayLists">
           <Key>
             <PropertyRef Name="Id" />
+            <PropertyRef Name="SongId" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="PlayListName" Type="varchar" MaxLength="50" Nullable="false" />
@@ -101,6 +102,7 @@
         <EntityType Name="PlayList">
           <Key>
             <PropertyRef Name="Id" />
+            <PropertyRef Name="SongId" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="PlayListName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
