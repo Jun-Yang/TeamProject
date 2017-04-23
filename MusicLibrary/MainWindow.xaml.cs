@@ -53,7 +53,7 @@ namespace MusicLibrary
 
         private void ResetAllFields()
         {
-            sliVolume.Value = PlayControl.mediaPlayer.Volume * 4;
+            VolumeSlider.Value = PlayControl.mediaPlayer.Volume * 4;
             if (lvLibrary.Items.Count == 0)
             {
                 DisablePlayControl();
@@ -69,8 +69,8 @@ namespace MusicLibrary
             MiNext.IsEnabled = false;
             BtPlay.IsEnabled = false;
             BtStop.IsEnabled = false;
-            BtNext.IsEnabled = false;
-            BtPrevious.IsEnabled = false; 
+            BtForward.IsEnabled = false;
+            BtBackward.IsEnabled = false; 
             sliProgress.IsEnabled = false;
         }
 
@@ -83,8 +83,8 @@ namespace MusicLibrary
             MiNext.IsEnabled = true;
             BtPlay.IsEnabled = true;
             BtStop.IsEnabled = true;
-            BtNext.IsEnabled = true;
-            BtPrevious.IsEnabled = true;
+            BtForward.IsEnabled = true;
+            BtBackward.IsEnabled = true;
             sliProgress.IsEnabled = true;
         }
 
@@ -128,7 +128,8 @@ namespace MusicLibrary
                 if (driv.IsReady)
                     PopulateDirectory(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, tvDirectory, null, false);
             }
-            PopulatePlaylists();
+
+            //PopulatePlaylists();
         }
 
         private void PopulatePlaylists()
@@ -353,7 +354,7 @@ namespace MusicLibrary
             PlayControl.Stop(ImagePlay);
         }
 
-        private void BtNext_Click(object sender, RoutedEventArgs e)
+        private void BtForward_Click(object sender, RoutedEventArgs e)
         {
             if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1)
             {
@@ -364,7 +365,7 @@ namespace MusicLibrary
             PlayControl.Play(ImagePlay);
         }
 
-        private void BtPrevious_Click(object sender, RoutedEventArgs e)
+        private void BtBackward_Click(object sender, RoutedEventArgs e)
         {
             if (lvLibrary.SelectedIndex > 0)
             {
@@ -382,7 +383,7 @@ namespace MusicLibrary
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            PlayControl.SetVolume(sliVolume.Value / 4);
+            PlayControl.SetVolume(VolumeSlider.Value / 4);
         }
 
         //0420 adding by cc
@@ -655,7 +656,24 @@ namespace MusicLibrary
         {
             throw new NotImplementedException();
         }
-        
+
+        //add by chenchen 0423
+        private void MiEditSort_Click(object sender, RoutedEventArgs e)
+        {
+            //read media information from database 
+            //lvLibrary.ItemsSource = db.GetSongsFromLib();
+        }
+
+        private void lvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void lvLibrary_DragEnterEvent(object sender, DragEventArgs e)
+        {
+
+        }
+
     }
 
     public class ImageToHeaderConverter : IValueConverter
