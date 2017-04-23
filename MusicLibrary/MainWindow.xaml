@@ -117,6 +117,7 @@
                 </ListView.View>
                 <ListView.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Play" Click="MenuItemPlay_Click" />
                         <MenuItem Header="Remove"
                             Command="{Binding RemoveItem}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>

@@ -292,6 +292,7 @@ namespace MusicLibrary
                     {
                         lvLibrary.Focus();
                         PlayControl.Play(ImagePlay);
+                        
                     }
                     else
                     {
@@ -361,6 +362,19 @@ namespace MusicLibrary
             }
         }
 
+        
+        private void MenuItemPlay_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvLibrary.SelectedIndex != -1)
+            {
+                currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                PlayControl.Play(ImagePlay);
+            }
+
+        }
+
+        //treeview select one song right click -play song
         private void ctMenuPlayMedia_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Play Media?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
@@ -369,7 +383,21 @@ namespace MusicLibrary
             }
             else
             {
-                MiImportToLibrary_Click(sender, e);
+                TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
+                if (File.Exists(item.Tag.ToString()))
+                {
+                    FileInfo fileInfo = new FileInfo(item.Tag.ToString());
+                    AddMusicToLibrary(fileInfo.FullName);
+                    if (lvLibrary.SelectedIndex != -1)
+                    {
+                        currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                        PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                        PlayControl.Play(ImagePlay);
+                    }
+                }
+
+                //tvDirectory.SelectedItem.ToString();
+                
             }
         }
 
@@ -476,14 +504,22 @@ namespace MusicLibrary
 
         private void lvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-            PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(ImagePlay);
+            if (lvLibrary.SelectedIndex !=-1)
+            {
+                currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                PlayControl.Play(ImagePlay);
+            }
+
         }
 
         private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            
+            if (lvLibrary.SelectedIndex != -1)
+            {
+                currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            }
         }
 
         private void lvDirectoryMouseLeftDown(object sender, MouseButtonEventArgs e)
