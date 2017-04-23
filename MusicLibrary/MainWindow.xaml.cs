@@ -110,6 +110,7 @@ namespace MusicLibrary
                 childItem.Header = n;
                 rootItem.Items.Add(childItem);
             }
+            rootItem.ExpandSubtree();
         }
 
         void PlaylistsExpanded(object sender, RoutedEventArgs e)
