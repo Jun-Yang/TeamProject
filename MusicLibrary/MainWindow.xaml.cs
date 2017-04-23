@@ -547,6 +547,55 @@ namespace MusicLibrary
         {
             PlayControl.mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
         }
+
+        private void MiEditClear_Click(object sender, RoutedEventArgs e)
+        {
+            lvLibrary.ItemsSource = null;
+            lvLibrary.Items.Clear();
+        }
+
+        private void MiPlayBackPlay_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvLibrary.SelectedIndex != -1)
+            {
+                currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                PlayControl.Play(ImagePlay);
+            }
+        }
+
+        private void MiPlaybackPause_Click(object sender, RoutedEventArgs e)
+        {
+            PlayControl.Pause(ImagePlay);
+        }
+
+        private void MiPlaybackStop_Click(object sender, RoutedEventArgs e)
+        {
+            PlayControl.Stop(ImagePlay);
+        }
+
+        private void MiPlaybackPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1)
+            {
+                lvLibrary.SelectedIndex++;
+            }
+            lvLibrary.Focus();
+            PlayControl.mediaPlayer.Open(new Uri(currentFile));
+            PlayControl.Play(ImagePlay);
+        }
+
+        private void MiPlaybackBackWard_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvLibrary.SelectedIndex > 0)
+            {
+                lvLibrary.SelectedIndex--;
+            }
+            lvLibrary.Focus();
+            PlayControl.mediaPlayer.Open(new Uri(currentFile));
+            PlayControl.Play(ImagePlay);
+            
+        }
     }
 
     public class ImageToHeaderConverter : IValueConverter

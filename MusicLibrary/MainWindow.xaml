@@ -34,13 +34,13 @@
                 <MenuItem Name="MiUndo" Header="_Undo" />
                 <MenuItem Name="MiRedo" Header="_Redo" />
                 <Separator />
-                <MenuItem Name="MiClear" Header="_Clear" />
+                <MenuItem Name="MiClear" Header="_Clear" Click="MiEditClear_Click" />
                 <MenuItem Name="MiSelectAll" Header="_SelectAll" />
                 <MenuItem Name="MiSelection" Header="_Selection" />
                 <MenuItem Name="MiSort" Header="_Sort" />
                 <Separator />
                 <MenuItem Name="MiSearch" Header="_Search" />
-                <MenuItem Name="MiRemove" Header="_Remove" />
+                <MenuItem Name="MiRemove" Header="_Remove" Click="MenuItemRemove_Click"  />
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Name="MiVisualizations" Header="_Visualizations" />
@@ -49,11 +49,11 @@
                 <MenuItem Name="MiLayout" Header="_Layout" />
             </MenuItem>
             <MenuItem Header="Playback">
-                <MenuItem Name="MiStop" Header="_Stop" />
-                <MenuItem Name="MiPause" Header="_Pause" />
-                <MenuItem Name="MiPlay" Header="_Play" />
-                <MenuItem Name="MiPrevious" Header="_Previous" />
-                <MenuItem Name="MiNext" Header="_Next" />
+                <MenuItem Name="MiPlay" Header="_Play" Click="MiPlayBackPlay_Click" />
+                <MenuItem Name="MiStop" Header="_Stop" Click="MiPlaybackStop_Click" />
+                <MenuItem Name="MiPause" Header="_Pause" Click="MiPlaybackPause_Click" />
+                <MenuItem Name="MiPrevious" Header="_Previous" Click="MiPlaybackPrevious_Click" />
+                <MenuItem Name="MiNext" Header="_Next" Click="MiPlaybackBackWard_Click" />
                 <MenuItem Name="MiRandom" Header="_Random" />
                 <Separator />
                 <MenuItem Name="MiOrder" Header="_Order" />
