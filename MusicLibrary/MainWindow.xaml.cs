@@ -43,6 +43,8 @@ namespace MusicLibrary
         private void RefreshMusicLibrary()
         {
             lvLibrary.ItemsSource = ListMusicLibrary;
+            lvLibrary.Focus();
+            lvLibrary.SelectedIndex = lvLibrary.Items.Count - 1;
             lvLibrary.Items.Refresh();
             //ResetAllFields();
         }
@@ -288,6 +290,7 @@ namespace MusicLibrary
                 {
                     if (lvLibrary.SelectedItem != null)
                     {
+                        lvLibrary.Focus();
                         PlayControl.Play(ImagePlay);
                     }
                     else
@@ -387,19 +390,26 @@ namespace MusicLibrary
             TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
             try
             {
-                foreach (string file in Directory.GetFiles(item.Tag.ToString()))
+                if (File.Exists(item.Tag.ToString()))
                 {
-                    FileInfo fileInfo = new FileInfo(file);
-                    Console.WriteLine(fileInfo.Name, fileInfo.FullName);
-                    if (IsMusicFile(fileInfo))
+                    FileInfo fileInfo = new FileInfo(item.Tag.ToString());
+                    AddMusicToLibrary(fileInfo.FullName);
+                }
+                else
+                {
+                    foreach (string file in Directory.GetFiles(item.Tag.ToString()))
                     {
-                        AddMusicToLibrary(fileInfo.FullName);
+                        FileInfo fileInfo = new FileInfo(file);
+                        Console.WriteLine(fileInfo.Name, fileInfo.FullName);
+                        if (IsMusicFile(fileInfo))
+                        {
+                            AddMusicToLibrary(fileInfo.FullName);
+                        }
                     }
                 }
                 if (ListMusicLibrary.Count > 0)
                 {
-                    RefreshMusicLibrary();
-                    currentFile = (String)ListMusicLibrary[0].PathToFile;
+                    currentFile = (String)ListMusicLibrary[ListMusicLibrary.Count - 1].PathToFile;
                 }
                 else
                 {
@@ -450,13 +460,10 @@ namespace MusicLibrary
             int rating = 0;
             Song song = new Song(title, strArtist, albumId, (int)sequenceId, description, filePath, year, strGenre, rating);
             ListMusicLibrary.Add(song);
-            lvLibrary.Focus();
-            lvLibrary.SelectedIndex = lvLibrary.Items.Count - 1; 
-            lvLibrary.Items.Refresh();
-            
+            RefreshMusicLibrary();
         }
 
-        private bool IsMusicFile(FileInfo info)
+        internal static bool IsMusicFile(FileInfo info)
         {
             string type = info.Extension;
             switch (type.ToUpper())
@@ -504,9 +511,8 @@ namespace MusicLibrary
         {
             PlayControl.mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
         }
-
-        
     }
+
     public class ImageToHeaderConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -514,7 +520,15 @@ namespace MusicLibrary
             string tag = (string)value;
             if (File.Exists(tag))
             {
-                return "pack://application:,,,/image/file.png";
+                string fileExt = Path.GetExtension(tag).ToUpper();
+                if (fileExt == ".MP3" || fileExt == ".WMA")
+                {
+                    return "pack://application:,,,/image/music.png";
+                }
+                else
+                {
+                    return "pack://application:,,,/image/file.png";
+                }
             }
             if (tag.Length > 3)
             {
@@ -531,4 +545,5 @@ namespace MusicLibrary
             throw new NotImplementedException();
         }
     }
+
 }

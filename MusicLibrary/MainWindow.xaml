@@ -132,10 +132,10 @@
                 </Grid.RowDefinitions>
                 <TreeView x:Name="tvPlaylists" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" SelectedItemChanged="tvPlaylists_SelectedItemChanged"/>
                 <GridSplitter Grid.Row="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-                <ListView Background="LightGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200">
+                <ListView Background="LightGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" >
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Title" Width="120" DisplayMemberBinding="{Binding Path=Title}" />
+                            <GridViewColumn Header="Title"  Width="120" DisplayMemberBinding="{Binding Path=Title}" />
                             <GridViewColumn Header="Artist" Width="80" DisplayMemberBinding="{Binding Path=ArtistName}" />
                         </GridView>
                     </ListView.View>
