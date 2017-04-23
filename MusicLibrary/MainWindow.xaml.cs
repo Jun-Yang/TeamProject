@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Data.Entity;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -28,6 +29,7 @@ namespace MusicLibrary
         private bool userIsDraggingSlider = false;
         static List<Song> ListMusicLibrary = new List<Song>();
         static List<Song> PlayingList = new List<Song>();
+        static List<Song> AllSongsList = new List<Song>();
         static List<PlayList> PList = new List<PlayList>();
         private Database db;
 
@@ -47,6 +49,7 @@ namespace MusicLibrary
             lvLibrary.ItemsSource = ListMusicLibrary;
             lvLibrary.Focus();
             lvLibrary.SelectedIndex = indexbeforeAdd;
+            lvLibrary.SelectedIndex = lvLibrary.Items.Count - 1;
             lvLibrary.Items.Refresh();
             //ResetAllFields();
         }
@@ -129,7 +132,7 @@ namespace MusicLibrary
                     PopulateDirectory(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, tvDirectory, null, false);
             }
 
-            //PopulatePlaylists();
+            PopulatePlaylists();
         }
 
         private void PopulatePlaylists()
@@ -629,7 +632,7 @@ namespace MusicLibrary
             PlayControl.Stop(ImagePlay);
         }
 
-        private void MiPlaybackPrevious_Click(object sender, RoutedEventArgs e)
+        private void MiPlaybackNext_Click(object sender, RoutedEventArgs e)
         {
             if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1)
             {
@@ -661,7 +664,9 @@ namespace MusicLibrary
         private void MiEditSort_Click(object sender, RoutedEventArgs e)
         {
             //read media information from database 
-            //lvLibrary.ItemsSource = db.GetSongsFromLib();
+            AllSongsList = db.GetAllSongs();
+            lvLibrary.ItemsSource = AllSongsList;
+            RefreshMusicLibrary();
         }
 
         private void lvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)

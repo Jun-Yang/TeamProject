@@ -22,6 +22,22 @@ namespace MusicLibrary
             }
         }
 
+        internal List<Song> GetAllSongs()
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                var lstSongs = (from s in ctx.Songs select s).ToList<Song>();
+                foreach (var s in lstSongs)
+                {
+                    ctx.Songs.Add(s);
+                    Console.WriteLine("S: {0}, {1}, {2},{3}", s.Id, s.Title, s.ArtistName, s.PathToFile);
+                }
+                return lstSongs;
+            }
+            
+
+        }
+
         internal void SaveSongsToLib()
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())

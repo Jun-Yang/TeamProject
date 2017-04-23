@@ -53,8 +53,8 @@
                 <MenuItem Name="MiPlay" Header="_Play" Click="MiPlayBackPlay_Click" />
                 <MenuItem Name="MiStop" Header="_Stop" Click="MiPlaybackStop_Click" />
                 <MenuItem Name="MiPause" Header="_Pause" Click="MiPlaybackPause_Click" />
-                <MenuItem Name="MiPrevious" Header="_Previous" Click="MiPlaybackPrevious_Click" />
-                <MenuItem Name="MiNext" Header="_Next" Click="MiPlaybackBackWard_Click" />
+                <MenuItem Name="MiPrevious" Header="_Previous" Click="MiPlaybackBackWard_Click" />
+                <MenuItem Name="MiNext" Header="_Next"  Click="MiPlaybackNext_Click"/>
                 <MenuItem Name="MiRandom" Header="_Random" />
                 <Separator />
                 <MenuItem Name="MiOrder" Header="_Order" />
