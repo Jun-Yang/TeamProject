@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace MusicLibrary
@@ -25,19 +26,19 @@ namespace MusicLibrary
 
         private bool userIsDraggingSlider = false;
         static List<Song> ListMusicLibrary = new List<Song>();
-        static List<Song> PlayingList = new List<Song>();
-        static List<Song> AllSongsList = new List<Song>();
-        static List<PlayList> PList = new List<PlayList>();
+        static List<Song> ListPlaying = new List<Song>();
+        static List<PlayList> ListPl = new List<PlayList>();
         private Database db;
 
         public MainWindow()
         {
 
-            InitializeComponent();
-            lvLibrary.ItemsSource = ListMusicLibrary;
+            InitializeComponent();            
             InitTimer();
             db = new Database();
             ResetAllFields();
+            lvLibrary.ItemsSource = ListMusicLibrary;
+            lvPlay.ItemsSource = ListPlaying;
             LoadAllSongs();
             RefreshMusicLibrary();
         }
@@ -690,38 +691,129 @@ namespace MusicLibrary
             }
         }
 
-        private List<Song> getListAllSongs()
-        {
-            try
-            {
-                AllSongsList = db.GetAllSongs();
-                lvLibrary.ItemsSource = AllSongsList;
-                return AllSongsList;
-
-            }
-            catch (System.NullReferenceException ex)
-            {
-                Console.WriteLine(ex.StackTrace);
-                return AllSongsList;
-            }
-        }
-
         private void MiEditSort_Click(object sender, RoutedEventArgs e)
         {
             //read media information from database 
             LoadAllSongs();
+            RefreshMusicLibrary();
         }
 
-        private void lvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        // Drag and drop from directory to music library
+        private void TvDirectory_MouseMove(object sender, MouseEventArgs e)
         {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                // Get the dragged TreeViewItem
+                TreeView treeView = sender as TreeView;
+                TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
 
+                try
+                {
+                    string fileName = (string)item.Header;
+                    FileInfo fileInfo = new FileInfo(item.Tag.ToString());
+                    if (IsMusicFile(fileInfo))
+                    {
+                        Console.WriteLine("drag filename is " + fileName + " fileInfo.fileName is " + fileInfo.Name);
+                        DataObject dataObject = new DataObject("myFormat", item);
+                        DragDrop.DoDragDrop(item, dataObject, DragDropEffects.Move);
+                    }
+                    else {
+                        MessageBox.Show("Please choose a music file");
+                    }
+                }
+                catch (NullReferenceException ex)
+                {
+                    Console.WriteLine("Drag drop exception 770 " + ex.StackTrace);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    Console.WriteLine("TvDirectory_MouseMove ArgumentNullException 801" + ex.StackTrace);
+                }
+            }
         }
-
-        private void lvLibrary_DragEnterEvent(object sender, DragEventArgs e)
+        
+        private void lvLibrary_DragEnter(object sender, DragEventArgs e)
         {
-
+            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
         }
 
+        private void lvLibrary_Drop(object sender, DragEventArgs e)
+        {
+            TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
+
+            if (e.Data.GetDataPresent("myFormat"))
+            {
+                if (File.Exists(item.Tag.ToString()))
+                {
+                    FileInfo fileInfo = new FileInfo(item.Tag.ToString());
+                    Console.WriteLine(fileInfo.Name, fileInfo.FullName);
+                    AddMusicToLibrary(fileInfo.FullName);
+
+                    if (lvLibrary.SelectedIndex != -1)
+                    {
+                        currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                        RefreshMusicLibrary();
+                    }
+                }
+            }
+        }
+
+        // Drag and drop from music library to playlist
+
+        private void lvLibrary_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)                
+            {
+                // Get the dragged ListViewItem
+                ListView listView = sender as ListView;
+                ListViewItem listViewItem = FindAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
+
+                // Find the data behind the ListViewItem
+                Song song = (Song)listView.ItemContainerGenerator.
+                    ItemFromContainer(listViewItem);
+
+                // Initialize the drag & drop operation
+                DataObject dragData = new DataObject("myFormat", song);
+                DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+            }
+        }
+
+        private static T FindAnchestor<T>(DependencyObject current) where T : DependencyObject
+        {
+            do
+            {
+                if (current is T)
+                {
+                    return (T)current;
+                }
+                current = VisualTreeHelper.GetParent(current);
+            }
+            while (current != null);
+            return null;
+        }
+
+        private void lvPlay_DragEnter(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        private void lvPlay_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent("myFormat"))
+            {
+                Song song = e.Data.GetData("myFormat") as Song;
+                ListPlaying.Add(song);
+                lvPlay.Items.Refresh();
+            }
+        }
+        
     }
 
     public class ImageToHeaderConverter : IValueConverter

@@ -82,7 +82,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="20*" />
             </Grid.ColumnDefinitions>
-            <TreeView Name="tvDirectory" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" FontWeight="Normal" PreviewMouseLeftButtonDown="TvDirectory_PreviewMouseLeftButtonDown" PreviewMouseMove="TvDirectory_MouseMove" SelectedItemChanged="tvDirectory_SelectedItemChanged"  >
+            <TreeView Name="tvDirectory" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" FontWeight="Normal" MouseMove="TvDirectory_MouseMove" >
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem" >
                         <Setter Property="HeaderTemplate" >
@@ -96,9 +96,9 @@
                                                     <MenuItem Header="Play Media" Click="ctMenuPlayMedia_Click"/>
                                                     <MenuItem Header="Import to MusicLibrary" Click="ctMenuImportToLibrary_Click" />
                                                     <MenuItem Header="Add to Playlist" />
-                                                    
-                                                        
-                                                    
+
+
+
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>
                                         </TextBlock>
@@ -110,7 +110,9 @@
                 </TreeView.Resources>
             </TreeView>
             <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-            <ListView x:Name="lvLibrary" Background="DarkGray" Foreground="Black" Grid.Column="2"   HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" SelectionChanged="lvLibrary_SelectionChanged" Drop="lvLibrary_Drop" DragEnter="lvLibrary_DragEnter" AllowDrop="True">
+            <ListView x:Name="lvLibrary" Background="DarkGray" Foreground="Black" Grid.Column="2" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" 
+                      MouseDoubleClick="lvLibrary_MouseDoubleClick" SelectionChanged="lvLibrary_SelectionChanged" 
+                      Drop="lvLibrary_Drop" DragEnter="lvLibrary_DragEnter" AllowDrop="True" MouseMove="lvLibrary_MouseMove">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Title" Width="100" DisplayMemberBinding="{Binding Path=Title}" />
@@ -122,7 +124,7 @@
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Play" Click="MenuItemPlay_Click" />
-                        <MenuItem Header="Remove"
+                        <MenuItem Header="Delete"
                             Command="{Binding RemoveItem}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
                         <MenuItem Header="Property" Click="MenuItemProperty_Click" />
@@ -136,15 +138,34 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="7*" />
                 </Grid.RowDefinitions>
-                <TreeView x:Name="tvPlaylists" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" SelectedItemChanged="tvPlaylists_SelectedItemChanged"/>
+                <TreeView x:Name="tvPlaylists" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" SelectedItemChanged="tvPlaylists_SelectedItemChanged">
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" Click="MenuItemPlay_Click" />
+                            <MenuItem Header="Delete"
+                            Command="{Binding RemoveItem}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
+                            <MenuItem Header="Property" Click="MenuItemProperty_Click" />
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
                 <GridSplitter Grid.Row="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-                <ListView Background="LightGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" SelectionChanged="lvPlay_SelectionChanged" >
+                <ListView Background="LightGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" Drop="lvPlay_Drop" DragEnter="lvPlay_DragEnter" AllowDrop="True">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Title"  Width="120" DisplayMemberBinding="{Binding Path=Title}" />
                             <GridViewColumn Header="Artist" Width="80" DisplayMemberBinding="{Binding Path=ArtistName}" />
                         </GridView>
                     </ListView.View>
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Play" Click="MenuItemPlay_Click" />
+                            <MenuItem Header="Delete"
+                            Command="{Binding RemoveItem}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
+                            <MenuItem Header="Property" Click="MenuItemProperty_Click" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                 </ListView>
             </Grid>
         </Grid>
