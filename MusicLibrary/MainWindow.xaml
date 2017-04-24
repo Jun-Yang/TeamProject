@@ -82,10 +82,10 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="20*" />
             </Grid.ColumnDefinitions>
-            <TreeView Name="tvDirectory" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" FontWeight="Normal" >
+            <TreeView Name="tvDirectory" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" FontWeight="Normal" PreviewMouseLeftButtonDown="TvDirectory_PreviewMouseLeftButtonDown" PreviewMouseMove="TvDirectory_MouseMove" SelectedItemChanged="tvDirectory_SelectedItemChanged"  >
                 <TreeView.Resources>
-                    <Style TargetType="TreeViewItem">
-                        <Setter Property="HeaderTemplate">
+                    <Style TargetType="TreeViewItem" >
+                        <Setter Property="HeaderTemplate" >
                             <Setter.Value>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -96,6 +96,9 @@
                                                     <MenuItem Header="Play Media" Click="ctMenuPlayMedia_Click"/>
                                                     <MenuItem Header="Import to MusicLibrary" Click="ctMenuImportToLibrary_Click" />
                                                     <MenuItem Header="Add to Playlist" />
+                                                    
+                                                        
+                                                    
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>
                                         </TextBlock>
@@ -107,7 +110,7 @@
                 </TreeView.Resources>
             </TreeView>
             <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-            <ListView x:Name="lvLibrary" Background="DarkGray" Foreground="Black" Grid.Column="2"   HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" SelectionChanged="lvLibrary_SelectionChanged" DragEnter="lvLibrary_DragEnterEvent">
+            <ListView x:Name="lvLibrary" Background="DarkGray" Foreground="Black" Grid.Column="2"   HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" MouseDoubleClick="lvLibrary_MouseDoubleClick" SelectionChanged="lvLibrary_SelectionChanged" Drop="lvLibrary_Drop" DragEnter="lvLibrary_DragEnter" AllowDrop="True">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Title" Width="100" DisplayMemberBinding="{Binding Path=Title}" />
