@@ -8,20 +8,6 @@ namespace MusicLibrary
 {
     class Database
     {
-        internal List<Song> GetSongsFromLib()
-        {
-            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
-            {
-                var lstSongs = (from s in ctx.Songs select s).ToList<Song>();
-                foreach (var s in lstSongs)
-                {
-                    ctx.Songs.Add(s);
-                    Console.WriteLine("S: {0}, {1}, {2}", s.Id, s.Title, s.ArtistName);
-                }
-                return lstSongs;
-            }
-        }
-
         internal List<Song> GetAllSongs()
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -29,13 +15,10 @@ namespace MusicLibrary
                 var lstSongs = (from s in ctx.Songs select s).ToList<Song>();
                 foreach (var s in lstSongs)
                 {
-                    ctx.Songs.Add(s);
                     Console.WriteLine("S: {0}, {1}, {2},{3}", s.Id, s.Title, s.ArtistName, s.PathToFile);
                 }
                 return lstSongs;
             }
-            
-
         }
 
         internal void SaveSongsToLib()
@@ -97,9 +80,10 @@ namespace MusicLibrary
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                var lstMusic = (from s in ctx.Songs
-                                from pl in ctx.PlayLists
+                var lstMusic = (from pl in ctx.PlayLists
                                 where pl.PlayListName == plName
+                                from s in ctx.Songs
+                                where s.Id == pl.SongId
                                 select s).ToList<Song>();
                 foreach (var s in lstMusic)
                 {

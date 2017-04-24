@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Data.Entity;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace MusicLibrary
@@ -38,33 +35,33 @@ namespace MusicLibrary
 
             InitializeComponent();
             lvLibrary.ItemsSource = ListMusicLibrary;
-            //ListMusicLibrary.Add;
-            //AllSongsList = getListAllSongs();
-            RefreshMusicLibrary();
             InitTimer();
             db = new Database();
             ResetAllFields();
-            loadAllSongs();
-            //RefreshMusicLibrary();
+            LoadAllSongs();
+            RefreshMusicLibrary();
         }
 
         private void RefreshMusicLibrary()
         {
             lvLibrary.ItemsSource = ListMusicLibrary;
-            lvLibrary.Focus();
-            lvLibrary.SelectedIndex = indexbeforeAdd;
-            lvLibrary.SelectedIndex = lvLibrary.Items.Count - 1;
-            lvLibrary.Items.Refresh();
-            //ResetAllFields();
-        }
-
-        private void ResetAllFields()
-        {
-            VolumeSlider.Value = PlayControl.mediaPlayer.Volume * 4;
             if (lvLibrary.Items.Count == 0)
             {
                 DisablePlayControl();
             }
+            else
+            {
+                lvLibrary.Focus();
+                lvLibrary.SelectedIndex = indexbeforeAdd;
+                lvLibrary.Items.Refresh();
+                EnablePlayControl();
+            }
+            lvLibrary.Items.Refresh();
+        }
+
+        private void ResetAllFields()
+        {
+            sliVolume.Value = PlayControl.mediaPlayer.Volume * 4;
         }
 
         private void DisablePlayControl()
@@ -76,8 +73,8 @@ namespace MusicLibrary
             MiNext.IsEnabled = false;
             BtPlay.IsEnabled = false;
             BtStop.IsEnabled = false;
-            BtForward.IsEnabled = false;
-            BtBackward.IsEnabled = false;
+            BtNext.IsEnabled = false;
+            BtPrevious.IsEnabled = false;
             sliProgress.IsEnabled = false;
         }
 
@@ -90,16 +87,17 @@ namespace MusicLibrary
             MiNext.IsEnabled = true;
             BtPlay.IsEnabled = true;
             BtStop.IsEnabled = true;
-            BtForward.IsEnabled = true;
-            BtBackward.IsEnabled = true;
+            BtNext.IsEnabled = true;
+            BtPrevious.IsEnabled = true;
             sliProgress.IsEnabled = true;
         }
 
         void InitTimer()
         {
-            DispatcherTimer timer = new DispatcherTimer();
-
-            timer.Interval = TimeSpan.FromSeconds(1);
+            DispatcherTimer timer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
             timer.Tick += timer_Tick;
             timer.Start();
         }
@@ -125,6 +123,7 @@ namespace MusicLibrary
             else
             {
                 lblStatus.Content = "";
+                return;
             }
         }
 
@@ -144,16 +143,20 @@ namespace MusicLibrary
             TreeViewItem rootItem, childItem;
             int index = 1;
 
-            rootItem = new TreeViewItem();
-            rootItem.Tag = "Playlists";
-            rootItem.Header = "Playlists";
+            rootItem = new TreeViewItem()
+            {
+                Tag = "Playlists",
+                Header = "Playlists"
+            };
             tvPlaylists.Items.Add(rootItem);
             rootItem.Expanded += new RoutedEventHandler(PlaylistsExpanded);
 
             foreach (var n in db.GetPlaylistName())
             {
-                childItem = new TreeViewItem();
-                childItem.Tag = "Playlist" + index;
+                childItem = new TreeViewItem()
+                {
+                    Tag = "Playlist" + index
+                };
                 index++;
                 childItem.Header = n;
                 rootItem.Items.Add(childItem);
@@ -198,9 +201,11 @@ namespace MusicLibrary
 
         private void PopulateDirectory(string header, string tag, TreeView root, TreeViewItem child, bool isfile)
         {
-            TreeViewItem driItem = new TreeViewItem();
-            driItem.Tag = tag;
-            driItem.Header = header;
+            TreeViewItem driItem = new TreeViewItem()
+            {
+                Tag = tag,
+                Header = header
+            };
             driItem.Expanded += new RoutedEventHandler(DriItemExpanded);
             if (!isfile)
                 driItem.Items.Add(new TreeViewItem());
@@ -262,8 +267,10 @@ namespace MusicLibrary
 
         private void MiOpenAudioFile_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
-            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+            OpenFileDialog openFileDialog = new OpenFileDialog()
+            {
+                Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*"
+            };
             if (openFileDialog.ShowDialog() == true)
             {
                 currentFile = openFileDialog.FileName;
@@ -278,10 +285,11 @@ namespace MusicLibrary
         {
             try
             {
-                Microsoft.Win32.OpenFileDialog ofdlg = new Microsoft.Win32.OpenFileDialog();
-
-                ofdlg.DefaultExt = ".mp3";
-                ofdlg.Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*";
+                OpenFileDialog ofdlg = new OpenFileDialog()
+                {
+                    DefaultExt = ".mp3",
+                    Filter = "MP3 files (*.mp3)|*.mp3|All files (*.*)|*.*"
+                };
                 Nullable<bool> result = ofdlg.ShowDialog();
 
                 if (result == true)
@@ -361,7 +369,7 @@ namespace MusicLibrary
             PlayControl.Stop(ImagePlay);
         }
 
-        private void BtForward_Click(object sender, RoutedEventArgs e)
+        private void BtNext_Click(object sender, RoutedEventArgs e)
         {
             if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1)
             {
@@ -372,7 +380,7 @@ namespace MusicLibrary
             PlayControl.Play(ImagePlay);
         }
 
-        private void BtBackward_Click(object sender, RoutedEventArgs e)
+        private void BtPrevious_Click(object sender, RoutedEventArgs e)
         {
             if (lvLibrary.SelectedIndex > 0)
             {
@@ -390,7 +398,7 @@ namespace MusicLibrary
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            PlayControl.SetVolume(VolumeSlider.Value / 4);
+            PlayControl.SetVolume(sliVolume.Value / 4);
         }
 
         //0420 adding by cc
@@ -403,8 +411,10 @@ namespace MusicLibrary
             else
             {
                 if (lvLibrary.SelectedIndex == -1) return;
-                ListMusicLibrary.RemoveAt(lvLibrary.SelectedIndex);
-                RefreshMusicLibrary();
+                else { 
+                    ListMusicLibrary.RemoveAt(lvLibrary.SelectedIndex);
+                    RefreshMusicLibrary();
+                }
             }
         }
 
@@ -459,8 +469,6 @@ namespace MusicLibrary
             }
         }
 
-        //dray and drop 
-
         private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
         {
             TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
@@ -485,7 +493,7 @@ namespace MusicLibrary
                     foreach (string file in Directory.GetFiles(item.Tag.ToString()))
                     {
                         FileInfo fileInfo = new FileInfo(file);
-                        //Console.WriteLine(fileInfo.Name, fileInfo.FullName);
+                        Console.WriteLine(fileInfo.Name, fileInfo.FullName);
                         if (IsMusicFile(fileInfo))
                         {
                             AddMusicToLibrary(fileInfo.FullName);
@@ -656,7 +664,7 @@ namespace MusicLibrary
             PlayControl.Play(ImagePlay);
         }
 
-        private void MiPlaybackBackWard_Click(object sender, RoutedEventArgs e)
+        private void MiPlaybackPrevious_Click(object sender, RoutedEventArgs e)
         {
             if (lvLibrary.SelectedIndex > 0)
             {
@@ -674,16 +682,11 @@ namespace MusicLibrary
         }
 
         //add by chenchen 0423
-        private void loadAllSongs()
+        private void LoadAllSongs()
         {
-            try
+            foreach (Song s in db.GetAllSongs())
             {
-                AllSongsList = db.GetAllSongs();
-                lvLibrary.ItemsSource = AllSongsList;
-            }
-            catch (InvalidOperationException ex)
-            {
-                Console.WriteLine("Load All Songs invalid Operation exception" + ex.StackTrace);
+                ListMusicLibrary.Add(s);
             }
         }
 
@@ -691,7 +694,6 @@ namespace MusicLibrary
         {
             try
             {
-
                 AllSongsList = db.GetAllSongs();
                 lvLibrary.ItemsSource = AllSongsList;
                 return AllSongsList;
@@ -703,10 +705,11 @@ namespace MusicLibrary
                 return AllSongsList;
             }
         }
+
         private void MiEditSort_Click(object sender, RoutedEventArgs e)
         {
             //read media information from database 
-            loadAllSongs();
+            LoadAllSongs();
         }
 
         private void lvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -718,139 +721,8 @@ namespace MusicLibrary
         {
 
         }
-        
 
-        private void TvDirectory_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //startPoint = e.GetPosition(null);
-            if (e.LeftButton == MouseButtonState.Pressed ||
-        e.RightButton == MouseButtonState.Pressed && !_IsDragging)
-            {
-                
-                startPoint = e.GetPosition(null);
-
-
-            }
-        }
-
-
-
-        private object GetObjectDataFromPoint(ItemsControl source, Point point)
-        {
-            //translate screen point to be relative to ItemsControl    
-            point = source.TranslatePoint(point, source);
-
-            //find the item at that point    
-            var item = source.InputHitTest(point) as FrameworkElement;
-            return item.DataContext;
-        }
-
-        // Helper to search up the VisualTree
-        private static T FindAnchestor<T>(DependencyObject current)
-            where T : DependencyObject
-        {
-            do
-            {
-                if (current is T)
-                {
-                    return (T)current;
-                }
-                current = VisualTreeHelper.GetParent(current);
-            }
-            while (current != null);
-            return null;
-        }
-
-        Point startPoint;
-        bool _IsDragging = false;
-        private void TvDirectory_MouseMove(object sender, MouseEventArgs e)
-        {
-            // Get the current mouse position
-            startPoint = default(Point);
-            Point mousePos = e.GetPosition(null);
-            Vector diff = startPoint - mousePos;
-
-            if (e.LeftButton == MouseButtonState.Pressed &&
-                Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
-                Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
-            {
-                // Get the dragged ListViewItem
-                TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
-                //TreeViewItem item =FindAnchestor<TreeViewItem>((DependencyObject)e.OriginalSource);
-                
-                try
-                {
-                    string fileName = (string)item.Header;
-                    FileInfo fileInfo = new FileInfo(item.Tag.ToString());
-                    Console.WriteLine("drag filename is " + fileName + " fileInfo.fileName is " + fileInfo.Name);
-                    DataObject dataObject = new DataObject("myFormat", item);
-                    DragDrop.DoDragDrop(item, dataObject, DragDropEffects.Copy);
-                    
-                }
-                catch (NullReferenceException ex)
-                {
-                    Console.WriteLine("Drag drop exception 770 " + ex.StackTrace);
-                }
-                catch (ArgumentNullException ex)
-                {
-                    Console.WriteLine("TvDirectory_MouseMove ArgumentNullException 801" + ex.StackTrace);
-                }
-            }
-        }
-
-        private void lvLibrary_Drop(object sender, DragEventArgs e)
-        {
-            TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
-            if (File.Exists(item.Tag.ToString()))
-            {
-                FileInfo fileInfo = new FileInfo(item.Tag.ToString());
-                Console.WriteLine(fileInfo.Name, fileInfo.FullName);
-                AddMusicToLibrary(fileInfo.FullName);
-                _IsDragging = false;
-
-                if (lvLibrary.SelectedIndex != -1)
-                {
-                    currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
-                    RefreshMusicLibrary();
-                }
-                
-
-                /*if many file
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            List<string> fileList = new List<string>(files);
-
-            foreach (string file in fileList)
-            {
-                FileInfo fi = new FileInfo(file);
-                Console.WriteLine(fi.Name);
-                //string stringSize = BytesToString(byteSize);
-                string name = fi.Name;
-                lvLibrary.Items.Add(new { itemName = name, itemSize = stringSize });
-            }
-            fileList.Clear();
-            */
-            }
-        }
-
-        private void lvLibrary_DragEnter(object sender, DragEventArgs e)
-        {
-            if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
-            {
-                e.Effects = DragDropEffects.None;
-            }
-        }
-
-        private void tvDirectory_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
-            string fileName = (string)item.Header;
-            //tvDirectory.LayoutUpdated += eventHandler;
-            tvDirectory.Focus();
-            
-        }
     }
-
-    //0424
 
     public class ImageToHeaderConverter : IValueConverter
     {
