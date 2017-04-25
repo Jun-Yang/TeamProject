@@ -678,7 +678,8 @@ namespace MusicLibrary
 
         private void MenuItemProperty_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            WindowProperty WinProperty = new WindowProperty();
+            WinProperty.ShowDialog();
         }
 
         //add by chenchen 0423
@@ -743,7 +744,7 @@ namespace MusicLibrary
         private void lvLibrary_Drop(object sender, DragEventArgs e)
         {
             TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
-
+            
             if (e.Data.GetDataPresent("myFormat"))
             {
                 if (File.Exists(item.Tag.ToString()))

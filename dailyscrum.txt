@@ -1,3 +1,9 @@
+1. I implemented Alpha, Beta and even Gamma
+2. I will implent Theta, Zeta, Yota today
+3. I desperately need help from the teacher to learn
+how to use Micro-Gamma expressions to solve ...
+
+
 --- April 10 Jun Yang
 DID SINCE LAST SCRUM:
 1. design database
@@ -68,4 +74,56 @@ Chen Chen
 1. fix the problems in buttons
 2. start do listview's right click function
 
+--- April 21  YangJun
 
+will design Entity Framework
+will getPlaylists
+will getPlaylistsByFileName
+start to fix bug
+
+
+CHENCHEN
+Finished button problem fix 
+Finished listview's right click function
+will do other menu's function
+start to test function
+
+----April 22 ---YangJun
+1 finished Entity Framework yesterday
+2 do Expand Playlist
+3 will Redesign database
+
+
+CHENCHEN
+1 fixed bug , Fixed right click remove problem 
+2 do drag and drop 
+3 will load data into database
+
+--- April 23  YangJun
+
+1 Finished Entity Framework
+Finished getPlaylists
+Finished getPlaylistsByFileName
+Finished Create Playlist listview
+2 fix bug
+3 will help team member fix drag and drop bug
+
+CHENCHEN
+1 Finished Add Load All Songs from database display in listview MusicLibrary
+Finished MiSort_Click
+Finished MiClear_Click
+Finished Right-Click in treeview import to library
+2 edit issue document problems in github
+3 continue fix start drag and drop 
+
+--- April 24  YangJun
+
+1 finished Entities Framework:
+2 do update Query PlayList
+3 will Do: drag and drop
+
+CHENCHEN
+1 finished part of insert right filepath
+2 will finish drag and drop 
+and fix clear all list bugs
+will do secound windows to display more information of songs
