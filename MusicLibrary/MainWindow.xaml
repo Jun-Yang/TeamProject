@@ -71,7 +71,7 @@
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="Check Update"  />
-                <MenuItem Header="About"  />
+                <MenuItem Header="About"  Click="MenuItemAbout_Click"/>
             </MenuItem>
         </Menu>
         <Grid Grid.Row="1" x:Name="ListViews" >

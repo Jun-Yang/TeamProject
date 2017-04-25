@@ -23,12 +23,11 @@ namespace MusicLibrary
 
         private static string currentFile = "";
         private static int indexbeforeAdd = 0;
-
         private bool userIsDraggingSlider = false;
-        static List<Song> ListMusicLibrary = new List<Song>();
-        static List<Song> ListPlaying = new List<Song>();
-        static List<PlayList> ListPl = new List<PlayList>();
         private Database db;
+        internal static List<Song> ListMusicLibrary = new List<Song>();
+        internal static List<Song> ListPlaying = new List<Song>();
+        internal static List<PlayList> ListPl = new List<PlayList>();
 
         public MainWindow()
         {
@@ -685,7 +684,7 @@ namespace MusicLibrary
         //add by chenchen 0423
         private void LoadAllSongs()
         {
-            foreach (Song s in db.GetAllSongs())
+            foreach (Song s in db.GetAllSongsFromLib())
             {
                 ListMusicLibrary.Add(s);
             }
@@ -811,6 +810,14 @@ namespace MusicLibrary
                 Song song = e.Data.GetData("myFormat") as Song;
                 ListPlaying.Add(song);
                 lvPlay.Items.Refresh();
+            }
+        }
+
+        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
+        {
+            using (AboutBox box = new AboutBox())
+            {
+                box.ShowDialog();
             }
         }
         

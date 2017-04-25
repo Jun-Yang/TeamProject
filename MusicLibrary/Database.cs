@@ -8,7 +8,7 @@ namespace MusicLibrary
 {
     class Database
     {
-        internal List<Song> GetAllSongs()
+        internal List<Song> GetAllSongsFromLib()
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
@@ -21,14 +21,26 @@ namespace MusicLibrary
             }
         }
 
-        internal void SaveSongsToLib()
+        internal void SaveSongsToLib(List<Song> lstMusic)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                var lstMusic = (from r in ctx.Songs select r).ToList<Song>();
                 foreach (var s in lstMusic)
                 {
                     ctx.Songs.Add(s);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Song: {0}, {1}, {2}", s.Id, s.Title, s.ArtistName);
+                }
+            }
+        }
+
+        internal void DeleteSongsFromLib(List<Song> lstMusic)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                foreach (var s in lstMusic)
+                {
+                    ctx.Songs.Remove(s);
                     ctx.SaveChanges();
                     Console.WriteLine("Song: {0}, {1}, {2}", s.Id, s.Title, s.ArtistName);
                 }
@@ -56,10 +68,27 @@ namespace MusicLibrary
                 var lstPlName = (from pl in ctx.PlayLists select pl.PlayListName).ToList<String>();
                 foreach (var pl in lstPlName)
                 {
-                    //ctx.PlayLists.Add(pl);
                     Console.WriteLine("Playlist Name: " + pl);
                 }
                 return lstPlName;
+            }
+        }
+
+        internal void UpdataPlaylistbyName(String oldName,string newName,string desc)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                var lstPlaylist = (from pl in ctx.PlayLists
+                                   where pl.PlayListName == oldName
+                                   select pl 
+                                   ).ToList<PlayList>();
+                foreach (var pl in lstPlaylist)
+                {
+                    pl.PlayListName = newName;
+                    pl.Description = desc;
+                    Console.WriteLine("Playlist Name: {0}, {1}, {2}", pl.Id, pl.PlayListName, pl.Description);
+                }
+                ctx.SaveChanges();
             }
         }
 
