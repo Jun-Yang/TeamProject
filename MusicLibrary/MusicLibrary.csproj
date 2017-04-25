@@ -84,6 +84,9 @@
     <Compile Include="Album.cs">
       <DependentUpon>RemoteLibrary.tt</DependentUpon>
     </Compile>
+    <Compile Include="MediaProperty.xaml.cs">
+      <DependentUpon>MediaProperty.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MessageBoxEx.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="PlayControl.cs" />
@@ -123,6 +126,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MediaProperty.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="WindowProperty.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

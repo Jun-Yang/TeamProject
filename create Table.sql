@@ -24,6 +24,7 @@ CREATE TABLE [dbo].[Albums]
 	[Description] TEXT NULL
 )
 
+('English Songs',2001,'Artist',,,'CoverPatch','Albums Description')
 CREATE TABLE [dbo].[PlayLists]
 (
 	[Id] INT NOT NULL IDENTITY,
@@ -50,7 +51,7 @@ INSERT INTO Songs
 VALUES ('How Lucky', 'HanAnXU',1,1,'C:\MusicLibrary\how lucky.mp3','2003-01-01','Classic','2','This is not a good songs');
 
 INSERT INTO Songs 
-VALUES ('Singing for your loneliness', 'HanAnXU',1,1,'C:\MusicLibrary\Singing for your loneliness.mp3','1999-01-01','Classic','2','This is a good songs');
+VALUES ('Singing for your loneliness', 'HanAnXU',1,1,'C:\MusicLibrary\Singing for your loneliness.mp3','1999-01-01','Classic','5','This is a good songs');
 
 
 
@@ -148,16 +149,46 @@ SELECT
     FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS 
     WHERE CONSTRAINT_NAME ='PlayLists_Songs_FK'
 	
-	0424
+	--0424
 	
-	INSERT INTO Songs 
-VALUES ('Singing for your loneliness', 'ASong',1,1,'C:\MusicLibrary\','1999-01-01','Classic','2','This is a good songs');
+
+
 
 INSERT INTO Songs 
 VALUES ('How Lucky', 'HanAnXU',1,1,'C:\MusicLibrary\how lucky.mp3','2003-01-01','Classic','2','This is not a good songs');
 
 INSERT INTO Songs 
 VALUES ('Singing for your loneliness', 'HanAnXU',1,1,'C:\MusicLibrary\Singing for your loneliness.mp3','1999-01-01','Classic','2','This is a good songs');
+
+===
+INSERT INTO Songs 
+VALUES ('wind comes', 'HanAnXU',1,1,'C:\MusicLibrary\wind comes.mp3','1999-01-01','Classic','2','This is a good songs');
+
+INSERT INTO Songs 
+VALUES ('Rollinginthedeep', 'HuGe',1,1,'C:\MusicLibrary\Rollinginthedeep.mp3','1999-01-01','Classic','2','This is a good songs');
+
+
+INSERT INTO Songs 
+VALUES ('Mo', 'NaYing',1,1,'C:\MusicLibrary\Mo.mp3','1999-01-01','Classic','2','This is a not good songs');
+
+INSERT INTO Songs 
+VALUES ('HotelCalifornia', 'Midi',3,1,'C:\MusicLibrary\HotelCalifornia.mp3','2003-01-01','Classic','2','This is a not good songs');
+
+INSERT INTO Songs 
+VALUES ('forgive me', 'Midi',4,2,'C:\MusicLibrary\forgive me.mp3','2003-01-01','Classic','2','This is a good songs');
+
+INSERT INTO Songs 
+VALUES ('fly', 'SuYunYing',4,2,'C:\MusicLibrary\fly.mp3','2003-01-01','Classic','2','This is a good songs');
+
+INSERT INTO Songs 
+VALUES ('Fade to Black', 'Metallica',4,2,'C:\MusicLibrary\fly.mp3','2003-01-01','Classic','2','This is a good songs');
+
+
+INSERT INTO Songs 
+VALUES ('Blood and City', 'WangKai',4,3,'C:\MusicLibrary\Blood and City.mp3','2003-01-01','Classic','2','This is a good songs');
+
+INSERT INTO SONGS
+VALUES ('Actor', 'xueZhiQian',4,3,'C:\MusicLibrary\Actor.mp3','2014-10-01','Classic','4','This is a good songs');
 
 
 SELECT Col.Column_Name from 
@@ -168,7 +199,9 @@ WHERE
     AND Col.Table_Name = Tab.Table_Name
     AND Constraint_Type = 'PRIMARY KEY'
     AND Col.Table_Name = 'songs'
-	
+INSERT 
+INTO Songs 
+VALUES ()
 	
 CREATE TABLE [dbo].[PlayLists]
 (
@@ -189,3 +222,95 @@ VALUES (3,'English POP','This is English pop playlist');
 
 INSERT INTO Albums 
 VALUES (4,'R&R','This is R&R');
+
+INSERT INTO ALBUMS
+('English Songs',2001,'Artist',,,'CoverPatch','Albums Description');
+
+INSERT INTO PlayLists 
+VALUES (3,5,'Chinese','This is chinese playlist');
+
+INSERT INTO PlayLists 
+VALUES (3,14,'Chinese','This is chinese playlist');
+
+INSERT INTO PlayLists 
+VALUES (3,5,'Chinese','This is chinese playlist');
+
+INSERT INTO Albums VALUES ('Good','1999','Chinese super star','','','','');
+
+-----
+
+INSERT INTO Albums VALUES ('English PoP 2005','2005','English pop songs','','','','');
+
+
+INSERT INTO Albums VALUES ('New 2017','2017','Mix songs','','','','');
+
+update playlists set songid=12 where id=6 
+
+update songs set artistname='HuGe' where id = 5
+
+
+INSERT INTO PlayLists 
+VALUES (3,4,'Chinese','This is chinese playlist');
+
+update songs set artistname='ASang' where id=4;
+
+
+update  playlists set playlistname = 'Rock & Roll' where id = 6;
+
+INSERT INTO PlayLists 
+VALUES (3,5,'Chinese','This is chinese playlist');
+
+select * from playlists where id = 4
+
+update playlists set id =4 , playlistname = 'Classic' where id = 4;
+
+select * from songs;
+INSERT INTO PlayLists 
+VALUES (4,9,'Classic','This is Classic playlist');
+
+INSERT INTO PlayLists 
+VALUES (4,9,'Classic','This is Classic playlist');
+
+====0425=====
+
+
+BULK INSERT SchoolsTemp
+FROM 'C:\CSVData\Schools.csv'
+WITH
+(
+    FIRSTROW = 2,
+    FIELDTERMINATOR = ',',  --CSV field delimiter
+    ROWTERMINATOR = '\n',   --Use to shift the control to next row
+    TABLOCK 
+)
+
+BULK INSERT SchoolsTemp
+    FROM 'C:\CSVData\Schools.csv'
+    WITH
+    (
+    FIRSTROW = 2,
+    FIELDTERMINATOR = ',',  --CSV field delimiter
+    ROWTERMINATOR = '\n',   --Use to shift the control to next row
+    ERRORFILE = 'C:\CSVDATA\SchoolsErrorRows.csv',
+    TABLOCK
+    )
+	
+	bcp remotelibrary out C:\Temp\DimDate2_export.txt -S <Server Name> -d <Database Name> -U <Username> -P <password> -q -c -t ','
+	
+	
+	bcp DimDate2 out C:\Temp\DimDate2.txt -S <Server Name> -d <Database Name> -U <Username> -P <password> -q -c -t  ','
+	bcp remotelibrary out c:\LibraryData.txt -S chenyangproject.database.windows.net -d RemoteLibrary -U dbadmin -P Johnisgreat2000 -q -c -t ','
+chenyangproject.database.windows.net
+
+
+
+bcp [database_name.] schema.{table_name | view_name | "query" {in data_file | out data_file | queryout data_file | format nul}                                                         
+
+bcp remotelibrary schema.songs in data_file 
+
+bcp remotelibrary out c:\LibraryData.txt -S chenyangproject.database.windows.net -d RemoteLibrary -U dbadmin -P Johnisgreat2000 -q -c -t ','
+
+
+bcp remotelibrary.dbo.songs out c:\LibraryData.txt -S chenyangproject.database.windows.net -T -c
+
+sqlcmd -S chenyangproject.database.windows.net -U dbamin -P Johnisgreat2000 -d remotelibrary -Q "select * from songs" -o output.csv

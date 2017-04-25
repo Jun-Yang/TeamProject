@@ -6,9 +6,24 @@
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
         Title="WindowProperty" Height="300" Width="300" Icon="@..\..\Image\player.png" Closing="windowPreperty_Closing">
-    <Grid Margin="0,0,-8,-4" Background="LightGray" Initialized="Grid_Initialized">
-        <Label Content="Title" HorizontalAlignment="Left" Margin="20,48,0,0" VerticalAlignment="Top" Height="25" Width="39"/>
-        <TextBox Name="TbWinPropertyTitle" HorizontalAlignment="Left" Height="23" Margin="102,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="173"/>
+    <Grid Initialized="Grid_Initialized" HorizontalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="3"
+                Grid.ColumnSpan="1"
+                Orientation="Horizontal">
+            <Button>OK</Button>
+            <Button>Cancel</Button>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Label Content="Title" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25" Width="39"/>
+            <TextBox Name="TbWinPropertyTitle" HorizontalAlignment="Left" Height="23" Margin="102,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="173"/>
         <Label Content="Artist Name" HorizontalAlignment="Left" Margin="20,78,0,0" VerticalAlignment="Top"/>
         <TextBox Name="TbWinPropertyArtName" HorizontalAlignment="Left" Height="23" Margin="102,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="173"/>
         <TextBox Name="TbWinPropertyYear" HorizontalAlignment="Left" Height="23" Margin="102,106,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="173"/>
@@ -16,9 +31,9 @@
         <TextBox Name="TbWinPropertyComment" HorizontalAlignment="Left" Height="23" Margin="118,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157"/>
         <Label Content="Year" HorizontalAlignment="Left" Margin="20,106,0,0" VerticalAlignment="Top"/>
         <Label Content="Albumn Name" HorizontalAlignment="Left" Margin="20,134,0,0" VerticalAlignment="Top" Height="23" Width="93"/>
-        <Label Content="Comment" HorizontalAlignment="Left" Margin="20,162,0,0" VerticalAlignment="Top" Height="23"/>
+        <Label Content="Comment" HorizontalAlignment="Left" Margin="20,162,0,0" VerticalAlignment="Top" Height="23" Width="61"/>
         <Button Content="Edit Media" HorizontalAlignment="Left" Margin="65,235,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="162,235,0,0" VerticalAlignment="Top" Width="75"/>
-
+        </Grid>
     </Grid>
 </Window>

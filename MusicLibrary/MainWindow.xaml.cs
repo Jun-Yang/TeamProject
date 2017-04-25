@@ -675,8 +675,11 @@ namespace MusicLibrary
 
         private void MenuItemProperty_Click(object sender, RoutedEventArgs e)
         {
-            WindowProperty WinProperty = new WindowProperty();
-            WinProperty.ShowDialog();
+            //WindowProperty WinProperty = new WindowProperty();
+            //WinProperty.ShowDialog();
+
+            MediaProperty mediaProperty = new MediaProperty();
+            mediaProperty.ShowDialog();
         }
 
         //add by chenchen 0423
