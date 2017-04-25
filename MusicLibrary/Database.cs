@@ -21,6 +21,21 @@ namespace MusicLibrary
             }
         }
 
+        internal List<Song> GetSongsByTitleArtist(string filter)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                var lstSongs = (from s in ctx.Songs
+                                where s.Title.Contains(filter) || s.ArtistName.Contains(filter)
+                                select s).ToList<Song>();
+                foreach (var s in lstSongs)
+                {
+                    Console.WriteLine("S: {0}, {1}, {2},{3}", s.Id, s.Title, s.ArtistName, s.PathToFile);
+                }
+                return lstSongs;
+            }
+        }
+
         internal void SaveSongsToLib(List<Song> lstMusic)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -65,7 +80,7 @@ namespace MusicLibrary
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                var lstPlName = (from pl in ctx.PlayLists select pl.PlayListName).ToList<String>();
+                var lstPlName = (from pl in ctx.PlayLists select pl.PlayListName).Distinct().ToList<String>();
                 foreach (var pl in lstPlName)
                 {
                     Console.WriteLine("Playlist Name: " + pl);

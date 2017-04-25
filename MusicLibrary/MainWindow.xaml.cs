@@ -13,10 +13,6 @@ using System.Windows.Threading;
 
 namespace MusicLibrary
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
 
     public partial class MainWindow : Window
     {
@@ -25,13 +21,13 @@ namespace MusicLibrary
         private static int indexbeforeAdd = 0;
         private bool userIsDraggingSlider = false;
         private Database db;
+
         internal static List<Song> ListMusicLibrary = new List<Song>();
         internal static List<Song> ListPlaying = new List<Song>();
         internal static List<PlayList> ListPl = new List<PlayList>();
 
         public MainWindow()
         {
-
             InitializeComponent();            
             InitTimer();
             db = new Database();
@@ -186,7 +182,7 @@ namespace MusicLibrary
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    MessageBox.Show("Cannot access this directory" + ex.StackTrace);
+                    MessageBoxEx.Show("Cannot access this directory" + ex.StackTrace);
                 }
             }
         }
@@ -242,27 +238,29 @@ namespace MusicLibrary
                 }
                 catch (UnauthorizedAccessException ex)
                 {
-                    MessageBox.Show("Cannot access this directory" + ex.StackTrace);
+                    MessageBoxEx.Show("Cannot access this directory" + ex.StackTrace);
                 }
             }
         }
 
         private void TbFilter_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            //string filter = tbFilter.Text.ToLower();
-            //if (filter == "")
-            //{
-            //    lvLibrary.ItemsSource = GetAllSongs();
-            //}
-            //else
-            //{
-            //    List<Song> list = GetAllSongs();
-            //    /* var filteredList = list.Where(b => b.Title.ToLower().Contains(filter)
-            //                                       || b.Author.ToLower().Contains(filter)); */
-            //    var filteredList = from b in list where b.Description.ToLower().Contains(filter) select b;
+            string filter = TbFilter.Text.ToLower();
+            if (filter == "")
+            {
+                lvLibrary.ItemsSource = db.GetAllSongsFromLib();
+            }
+            else
+            {
+                List<Song> list = db.GetSongsByTitleArtist(filter);
+                ///* var filteredList = list.Where(b => b.Title.ToLower().Contains(filter)
+                //                                   || b.Author.ToLower().Contains(filter)); */
+                //var filteredList = from s in db.GetAllSongsFromLib()
+                //                   where (s.title.ToLower().Contains(filter) || s.name.ToLower().Contains(filter))
+                //                   select s;
 
-            //    lvLibrary.ItemsSource = filteredList;
-            //}
+                lvLibrary.ItemsSource = db.GetSongsByTitleArtist(filter); ;
+            }
         }
 
         private void MiOpenAudioFile_Click(object sender, RoutedEventArgs e)
@@ -306,7 +304,7 @@ namespace MusicLibrary
             catch (ArgumentException ep)
             {
                 Console.WriteLine(ep.StackTrace);
-                MessageBox.Show("File open error" + ep.StackTrace);
+                MessageBoxEx.Show("File open error" + ep.StackTrace);
             }
         }
 
@@ -323,7 +321,7 @@ namespace MusicLibrary
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             //if (!_fileChanged) return;
-            var result = MessageBox.Show("Do you want to save changes to PlayList?", "MusicPlayer", MessageBoxButton.YesNoCancel);
+            var result = MessageBoxEx.Show("Do you want to save changes to PlayList?", "MusicPlayer", MessageBoxButton.YesNoCancel);
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -350,7 +348,7 @@ namespace MusicLibrary
                     }
                     else
                     {
-                        MessageBox.Show("You should select a music");
+                        MessageBoxEx.Show("You should select a music");
                     }
                 }
                 else
@@ -360,7 +358,7 @@ namespace MusicLibrary
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show("You should select a music" + ex.StackTrace);
+                MessageBoxEx.Show("You should select a music" + ex.StackTrace);
             }
         }
 
@@ -404,7 +402,7 @@ namespace MusicLibrary
         //0420 adding by cc
         private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBoxEx.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
@@ -673,7 +671,6 @@ namespace MusicLibrary
             lvLibrary.Focus();
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
             PlayControl.Play(ImagePlay);
-
         }
 
         private void MenuItemProperty_Click(object sender, RoutedEventArgs e)
@@ -773,12 +770,14 @@ namespace MusicLibrary
                 ListViewItem listViewItem = FindAnchestor<ListViewItem>((DependencyObject)e.OriginalSource);
 
                 // Find the data behind the ListViewItem
-                Song song = (Song)listView.ItemContainerGenerator.
-                    ItemFromContainer(listViewItem);
+                if (listViewItem != null)
+                {
+                    Song song = (Song)listView.ItemContainerGenerator.ItemFromContainer(listViewItem);
 
-                // Initialize the drag & drop operation
-                DataObject dragData = new DataObject("myFormat", song);
-                DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+                    // Initialize the drag & drop operation
+                    DataObject dragData = new DataObject("myFormat", song);
+                    DragDrop.DoDragDrop(listViewItem, dragData, DragDropEffects.Move);
+                }
             }
         }
 

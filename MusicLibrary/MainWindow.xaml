@@ -74,6 +74,13 @@
                 <MenuItem Header="About"  Click="MenuItemAbout_Click"/>
             </MenuItem>
         </Menu>
+        <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" CornerRadius="2">
+            <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Height="20">
+                <Image Name="ImageSearch" Source="pack://application:,,,/image/search.png" />
+                <TextBox Name="TbFilter" TextAlignment="Center" Width="200"  Height="20" TextChanged="TbFilter_OnTextChanged" />
+            </StackPanel>
+        </Border>
+        
         <Grid Grid.Row="1" x:Name="ListViews" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*" />
@@ -89,8 +96,8 @@
                             <Setter.Value>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Width="25" Height="15" Source="{Binding Path=Tag,RelativeSource={RelativeSource AncestorLevel=1,AncestorType=TreeViewItem,Mode=FindAncestor},Converter={StaticResource img}}"></Image>
-                                        <TextBlock FontWeight="Medium" Text="{Binding}">
+                                        <Image Width="20" Height="12" Source="{Binding Path=Tag,RelativeSource={RelativeSource AncestorLevel=1,AncestorType=TreeViewItem,Mode=FindAncestor},Converter={StaticResource img}}"></Image>
+                                        <TextBlock FontWeight="Normal" Text="{Binding}">
                                             <TextBlock.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Header="Play Media" Click="ctMenuPlayMedia_Click"/>
@@ -115,8 +122,8 @@
                       Drop="lvLibrary_Drop" DragEnter="lvLibrary_DragEnter" AllowDrop="True" MouseMove="lvLibrary_MouseMove">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Title" Width="100" DisplayMemberBinding="{Binding Path=Title}" />
-                        <GridViewColumn Header="Artist" Width="50" DisplayMemberBinding="{Binding Path=ArtistName}" />
+                        <GridViewColumn Header="Title" Width="150" DisplayMemberBinding="{Binding Path=Title}" />
+                        <GridViewColumn Header="Artist" Width="100" DisplayMemberBinding="{Binding Path=ArtistName}" />
                         <GridViewColumn Header="Path" Width="250" DisplayMemberBinding="{Binding Path=PathToFile}" />
                         <GridViewColumn Header="Album" Width="50" DisplayMemberBinding="{Binding Path=AlbumId}" />
                     </GridView>
@@ -178,9 +185,9 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="50*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="LightGray">
-                <Button  Name="BtPrevious"  Click="BtPrevious_Click" HorizontalAlignment="Stretch" Background="LightGray" BorderThickness="0" >
-                    <Image Name="ImagePrevious" Source="pack://application:,,,/image/previous.png" HorizontalAlignment="Stretch" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="LightGray">
+                <Button  Name="BtPrevious"  Click="BtPrevious_Click" Background="LightGray" BorderThickness="0" >
+                    <Image Name="ImagePrevious" Source="pack://application:,,,/image/previous.png" />
                 </Button>
                 <Button  Name="BtPlay"  Click="BtPlay_Click" Background="LightGray" BorderThickness="0">
                     <Image Name="ImagePlay" Source="pack://application:,,,/image/play.png" />
