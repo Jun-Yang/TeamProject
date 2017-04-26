@@ -106,9 +106,9 @@
                 </TreeView.Resources>
             </TreeView>
             <GridSplitter Grid.Column="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-            <ListView x:Name="lvLibrary" Background="DarkGray" Foreground="Black" Grid.Column="2" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" 
-                      MouseDoubleClick="lvLibrary_MouseDoubleClick" SelectionChanged="lvLibrary_SelectionChanged" 
-                      Drop="lvLibrary_Drop" DragEnter="lvLibrary_DragEnter" AllowDrop="True" MouseMove="lvLibrary_MouseMove">
+            <ListView x:Name="LvLibrary" Background="DarkGray" Foreground="Black" Grid.Column="2" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0.6,0,0.4,0.2" Grid.ColumnSpan="2" MinWidth="200" 
+                      MouseDoubleClick="LvLibrary_MouseDoubleClick" SelectionChanged="LvLibrary_SelectionChanged" 
+                      Drop="LvLibrary_Drop" DragEnter="LvLibrary_DragEnter" AllowDrop="True" MouseMove="LvLibrary_MouseMove">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Title" Width="150" DisplayMemberBinding="{Binding Path=Title}" />
@@ -134,7 +134,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="7*" />
                 </Grid.RowDefinitions>
-                <TreeView x:Name="tvPlaylists" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" SelectedItemChanged="tvPlaylists_SelectedItemChanged">
+                <TreeView x:Name="TvPlaylists" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" 
+                          SelectedItemChanged="TvPlaylists_SelectedItemChanged">
                     <TreeView.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Add" Click="MenuItemPlay_Click" />
@@ -146,8 +147,8 @@
                     </TreeView.ContextMenu>
                 </TreeView>
                 <GridSplitter Grid.Row="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-                <ListView Background="LightGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" 
-                          Drop="lvPlay_Drop" DragEnter="lvPlay_DragEnter" AllowDrop="True" MouseDoubleClick="lvPlay_MouseDoubleClick" SelectionChanged="lvPlay_SelectionChanged">
+                <ListView Background="LightGray" Grid.Row ="2" Name="LvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" 
+                          Drop="LvPlay_Drop" DragEnter="LvPlay_DragEnter" AllowDrop="True" MouseDoubleClick="LvPlay_MouseDoubleClick" SelectionChanged="LvPlay_SelectionChanged">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Title"  Width="120" DisplayMemberBinding="{Binding Path=Title}" />
@@ -193,10 +194,10 @@
             <StackPanel Grid.Column="2" Orientation="Horizontal" x:Name="ProgressDisplay" Height="40" HorizontalAlignment="Stretch" Background="LightGray">
                 <StatusBar HorizontalAlignment="Stretch" Background="LightGray">
                     <StatusBarItem>
-                        <Slider Name="sliProgress" Background="LightGray" Thumb.DragStarted="sliProgress_DragStarted" Thumb.DragCompleted="sliProgress_DragCompleted" ValueChanged="sliProgress_ValueChanged"  Width="580"/>
+                        <Slider Name="SliProgress" Background="LightGray" Thumb.DragStarted="SliProgress_DragStarted" Thumb.DragCompleted="SliProgress_DragCompleted" ValueChanged="SliProgress_ValueChanged"  Width="580"/>
                     </StatusBarItem>
                     <StatusBarItem>
-                        <Label Name="lblStatus" HorizontalAlignment="Stretch"/>
+                        <Label Name="LblStatus" HorizontalAlignment="Stretch"/>
                     </StatusBarItem>
                 </StatusBar>
             </StackPanel>
@@ -205,7 +206,7 @@
                 <Button  Name="BtSpeaker"  Click="BtSpeaker_Click" Background="LightGray" BorderThickness="0">
                     <Image Name="ImageSpeaker" Source="pack://application:,,,/image/Loud.png" />
                 </Button>
-                <Slider Name="sliVolume" Value="1" Minimum="0" Maximum="4" Background="lightGray" 
+                <Slider Name="SliVolume" Value="1" Minimum="0" Maximum="4" Background="lightGray" 
                     TickPlacement="Both" IsSnapToTickEnabled="True" Height="30" Width="100" ValueChanged="VolumeSlider_ValueChanged">
                     <Slider.Ticks>
                         0, 0.25, 0.5, 1, 2, 4

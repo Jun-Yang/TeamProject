@@ -34,32 +34,31 @@ namespace MusicLibrary
             InitTimer();
             db = new Database();
             ResetAllFields();
-            lvLibrary.ItemsSource = ListMusicLibrary;
-            lvPlay.ItemsSource = ListPlaying;
+            LvLibrary.ItemsSource = ListMusicLibrary;
+            LvPlay.ItemsSource = ListPlaying;
             LoadAllSongs();
             RefreshMusicLibrary();
         }
 
         private void RefreshMusicLibrary()
         {
-            lvLibrary.ItemsSource = ListMusicLibrary;
-            if (lvLibrary.Items.Count == 0)
+            LvLibrary.ItemsSource = ListMusicLibrary;
+            if (LvLibrary.Items.Count == 0)
             {
                 DisablePlayControl();
             }
             else
             {
-                lvLibrary.Focus();
-                lvLibrary.SelectedIndex = indexbeforeAdd;
-                lvLibrary.Items.Refresh();
+                LvLibrary.Focus();
+                LvLibrary.SelectedIndex = indexbeforeAdd;
+                LvLibrary.Items.Refresh();
                 EnablePlayControl();
             }
-            lvLibrary.Items.Refresh();
         }
 
         private void ResetAllFields()
         {
-            sliVolume.Value = PlayControl.mediaPlayer.Volume * 4;
+            SliVolume.Value = PlayControl.mediaPlayer.Volume * 4;
         }
 
         private void DisablePlayControl()
@@ -73,7 +72,7 @@ namespace MusicLibrary
             BtStop.IsEnabled = false;
             BtNext.IsEnabled = false;
             BtPrevious.IsEnabled = false;
-            sliProgress.IsEnabled = false;
+            SliProgress.IsEnabled = false;
         }
 
         private void EnablePlayControl()
@@ -87,7 +86,7 @@ namespace MusicLibrary
             BtStop.IsEnabled = true;
             BtNext.IsEnabled = true;
             BtPrevious.IsEnabled = true;
-            sliProgress.IsEnabled = true;
+            SliProgress.IsEnabled = true;
         }
 
         void InitTimer()
@@ -104,15 +103,15 @@ namespace MusicLibrary
         {
             if ((PlayControl.mediaPlayer.Source != null) && (PlayControl.mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
             {
-                sliProgress.Minimum = 0;
-                sliProgress.Maximum = PlayControl.mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-                sliProgress.Value = PlayControl.mediaPlayer.Position.TotalSeconds;
+                SliProgress.Minimum = 0;
+                SliProgress.Maximum = PlayControl.mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                SliProgress.Value = PlayControl.mediaPlayer.Position.TotalSeconds;
             }
 
             if (PlayControl.mediaPlayer.Source != null)
                 try
                 {
-                    lblStatus.Content = String.Format("{0} / {1}", PlayControl.mediaPlayer.Position.ToString(@"mm\:ss"), PlayControl.mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+                    LblStatus.Content = String.Format("{0} / {1}", PlayControl.mediaPlayer.Position.ToString(@"mm\:ss"), PlayControl.mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
                 }
                 catch (System.InvalidOperationException ex)
                 {
@@ -120,7 +119,7 @@ namespace MusicLibrary
                 }
             else
             {
-                lblStatus.Content = "";
+                LblStatus.Content = "";
                 return;
             }
         }
@@ -146,7 +145,7 @@ namespace MusicLibrary
                 Tag = "Playlists",
                 Header = "Playlists"
             };
-            tvPlaylists.Items.Add(rootItem);
+            TvPlaylists.Items.Add(rootItem);
             rootItem.Expanded += new RoutedEventHandler(PlaylistsExpanded);
 
             foreach (var n in db.GetPlaylistName())
@@ -189,12 +188,12 @@ namespace MusicLibrary
             }
         }
 
-        private void tvPlaylists_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void TvPlaylists_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            TreeViewItem item = (TreeViewItem)tvPlaylists.SelectedItem;
+            TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
             string plName = (string)item.Header;
             db.GetPlaylistByName(plName);
-            lvPlay.ItemsSource = db.GetMusicByPlaylistName(plName);
+            LvPlay.ItemsSource = db.GetMusicByPlaylistName(plName);
         }
 
         private void PopulateDirectory(string header, string tag, TreeView root, TreeViewItem child, bool isfile)
@@ -250,7 +249,7 @@ namespace MusicLibrary
             string filter = TbFilter.Text.ToLower();
             if (filter == "")
             {
-                lvLibrary.ItemsSource = db.GetAllSongsFromLib();
+                LvLibrary.ItemsSource = db.GetAllSongsFromLib();
             }
             else
             {
@@ -261,7 +260,7 @@ namespace MusicLibrary
                 //                   where (s.title.ToLower().Contains(filter) || s.name.ToLower().Contains(filter))
                 //                   select s;
 
-                lvLibrary.ItemsSource = db.GetSongsByTitleArtist(filter); ;
+                LvLibrary.ItemsSource = db.GetSongsByTitleArtist(filter); ;
             }
         }
 
@@ -317,9 +316,9 @@ namespace MusicLibrary
                 {
                     if (isLibrary)
                     {
-                        if (lvLibrary.SelectedItem != null)
+                        if (LvLibrary.SelectedItem != null)
                         {
-                            lvLibrary.Focus();
+                            LvLibrary.Focus();
                             PlayControl.Play(ImagePlay);
                         }
                         else
@@ -329,9 +328,9 @@ namespace MusicLibrary
                     }
                     else if (isPlaylist)
                     {
-                        if (lvPlay.SelectedItem != null)
+                        if (LvPlay.SelectedItem != null)
                         {
-                            lvPlay.Focus();
+                            LvPlay.Focus();
                             PlayControl.Play(ImagePlay);
                         }
                         else
@@ -360,19 +359,19 @@ namespace MusicLibrary
         {
             if (isLibrary)
             {
-                if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1)
+                if (LvLibrary.SelectedIndex < LvLibrary.Items.Count - 1)
                 {
-                    lvLibrary.SelectedIndex++;
+                    LvLibrary.SelectedIndex++;
                 }
-                lvLibrary.Focus();
+                LvLibrary.Focus();
             }
             else if (isPlaylist)
             {
-                if (lvPlay.SelectedIndex < lvPlay.Items.Count - 1)
+                if (LvPlay.SelectedIndex < LvPlay.Items.Count - 1)
                 {
-                    lvPlay.SelectedIndex++;
+                    LvPlay.SelectedIndex++;
                 }
-                lvPlay.Focus();
+                LvPlay.Focus();
             }
             else
             {
@@ -388,19 +387,19 @@ namespace MusicLibrary
         {
             if (isLibrary)
             {
-                if (lvLibrary.SelectedIndex > 0)
+                if (LvLibrary.SelectedIndex > 0)
                 {
-                    lvLibrary.SelectedIndex--;
+                    LvLibrary.SelectedIndex--;
                 }
-                lvLibrary.Focus();
+                LvLibrary.Focus();
             }
             else if (isPlaylist)
             {
-                if (lvPlay.SelectedIndex > 0)
+                if (LvPlay.SelectedIndex > 0)
                 {
-                    lvPlay.SelectedIndex--;
+                    LvPlay.SelectedIndex--;
                 }
-                lvPlay.Focus();
+                LvPlay.Focus();
             }
             else
             {
@@ -418,7 +417,7 @@ namespace MusicLibrary
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            PlayControl.SetVolume(sliVolume.Value / 4);
+            PlayControl.SetVolume(SliVolume.Value / 4);
         }
 
         //0420 adding by cc
@@ -430,9 +429,9 @@ namespace MusicLibrary
             }
             else
             {
-                if (lvLibrary.SelectedIndex == -1) return;
+                if (LvLibrary.SelectedIndex == -1) return;
                 else { 
-                    ListMusicLibrary.RemoveAt(lvLibrary.SelectedIndex);
+                    ListMusicLibrary.RemoveAt(LvLibrary.SelectedIndex);
                     RefreshMusicLibrary();
                 }
             }
@@ -440,10 +439,10 @@ namespace MusicLibrary
 
         private void MenuItemPlay_Click(object sender, RoutedEventArgs e)
         {
-            if (lvLibrary.SelectedIndex != -1)
+            if (LvLibrary.SelectedIndex != -1)
             {
                 EnablePlayControl();
-                //currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                //currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
                 BtStop_Click(null, null);
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
                 BtPlay_Click(null, null);
@@ -464,9 +463,9 @@ namespace MusicLibrary
                 {
                     FileInfo fileInfo = new FileInfo(item.Tag.ToString());
                     AddMusicToLibrary(fileInfo.FullName);
-                    if (lvLibrary.SelectedIndex != -1)
+                    if (LvLibrary.SelectedIndex != -1)
                     {
-                        currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                        currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
                         EnablePlayControl();
                         BtStop_Click(null, null);
                         PlayControl.mediaPlayer.Open(new Uri(currentFile));
@@ -592,7 +591,7 @@ namespace MusicLibrary
                 strGenre = string.Join(",", genre);
             }
             int rating = 0;
-            indexbeforeAdd = lvLibrary.Items.Count;
+            indexbeforeAdd = LvLibrary.Items.Count;
             Song song = new Song(title, strArtist, albumId, (int)sequenceId, description, filePath, year, strGenre, rating);
             ListMusicLibrary.Add(song);
             RefreshMusicLibrary();
@@ -609,11 +608,11 @@ namespace MusicLibrary
             }
         }
 
-        private void lvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void LvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (lvLibrary.SelectedIndex != -1)
+            if (LvLibrary.SelectedIndex != -1)
             {
-                currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
                 isLibrary = true;
                 isPlaylist = false;
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
@@ -621,14 +620,14 @@ namespace MusicLibrary
             }
         }
 
-        private void lvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LvLibrary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            if (lvLibrary.SelectedIndex != -1)
+            if (LvLibrary.SelectedIndex != -1)
             {
                 try
                 {
-                    currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                    currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
                     isLibrary = true;
                     isPlaylist = false;
                 }
@@ -639,23 +638,23 @@ namespace MusicLibrary
             }
         }
 
-        private void lvDirectoryMouseLeftDown(object sender, MouseButtonEventArgs e)
+        private void LvDirectoryMouseLeftDown(object sender, MouseButtonEventArgs e)
         {
             this.DragMove();
         }
 
-        private void sliProgress_DragStarted(object sender, DragStartedEventArgs e)
+        private void SliProgress_DragStarted(object sender, DragStartedEventArgs e)
         {
             userIsDraggingSlider = true;
         }
 
-        private void sliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
+        private void SliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             userIsDraggingSlider = false;
-            PlayControl.mediaPlayer.Position = TimeSpan.FromSeconds(sliProgress.Value);
+            PlayControl.mediaPlayer.Position = TimeSpan.FromSeconds(SliProgress.Value);
         }
 
-        private void sliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void SliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             //lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
         }
@@ -667,16 +666,16 @@ namespace MusicLibrary
 
         private void MiEditClear_Click(object sender, RoutedEventArgs e)
         {
-            lvLibrary.ItemsSource = null;
-            lvLibrary.Items.Clear();
+            LvLibrary.ItemsSource = null;
+            LvLibrary.Items.Clear();
         }
 
         private void MiPlayBackPlay_Click(object sender, RoutedEventArgs e)
         {
             BtPlay_Click(sender, e);
-            //if (lvLibrary.SelectedIndex != -1)
+            //if (LvLibrary.SelectedIndex != -1)
             //{
-            //    currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+            //    currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
             //    PlayControl.mediaPlayer.Open(new Uri(currentFile));
             //    PlayControl.Play(ImagePlay);
             //}
@@ -706,10 +705,10 @@ namespace MusicLibrary
         //Adding by Chen 0426
         private void MenuItemProperty_Click(object sender, RoutedEventArgs e)
         {
-            if (lvLibrary.SelectedIndex != -1)
+            if (LvLibrary.SelectedIndex != -1)
             {
 
-                Song song = (Song)ListMusicLibrary[lvLibrary.SelectedIndex];
+                Song song = (Song)ListMusicLibrary[LvLibrary.SelectedIndex];
                 MediaProperty mediaProperty = new MediaProperty(song);
 
                 mediaProperty.Top = (this.Top + (this.Height / 2)) - mediaProperty.Height / 2;
@@ -769,7 +768,7 @@ namespace MusicLibrary
             }
         }
         
-        private void lvLibrary_DragEnter(object sender, DragEventArgs e)
+        private void LvLibrary_DragEnter(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
             {
@@ -777,7 +776,7 @@ namespace MusicLibrary
             }
         }
 
-        private void lvLibrary_Drop(object sender, DragEventArgs e)
+        private void LvLibrary_Drop(object sender, DragEventArgs e)
         {
             TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
             
@@ -791,16 +790,16 @@ namespace MusicLibrary
                         Console.WriteLine(fileInfo.Name, fileInfo.FullName);
                         AddMusicToLibrary(fileInfo.FullName);
 
-                        if (lvLibrary.SelectedIndex != -1)
+                        if (LvLibrary.SelectedIndex != -1)
                         {
-                            currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                            currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
                             RefreshMusicLibrary();
                         }
                     }
                 }
                 catch (System.NullReferenceException ex)
                 {
-                    Console.WriteLine();
+                    Console.WriteLine(ex.StackTrace);
                 }
                 
             }
@@ -808,7 +807,7 @@ namespace MusicLibrary
 
         // Drag and drop from music library to playlist
 
-        private void lvLibrary_MouseMove(object sender, MouseEventArgs e)
+        private void LvLibrary_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)                
             {
@@ -842,7 +841,7 @@ namespace MusicLibrary
             return null;
         }
 
-        private void lvPlay_DragEnter(object sender, DragEventArgs e)
+        private void LvPlay_DragEnter(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
             {
@@ -850,13 +849,13 @@ namespace MusicLibrary
             }
         }
 
-        private void lvPlay_Drop(object sender, DragEventArgs e)
+        private void LvPlay_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent("myFormat"))
             {
                 Song song = e.Data.GetData("myFormat") as Song;
                 ListPlaying.Add(song);
-                lvPlay.Items.Refresh();
+                LvPlay.Items.Refresh();
             }
         }
 
@@ -868,11 +867,11 @@ namespace MusicLibrary
             }
         }
 
-        private void lvPlay_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void LvPlay_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (lvPlay.SelectedIndex != -1)
+            if (LvPlay.SelectedIndex != -1)
             {
-                currentFile = (String)ListPlaying[lvPlay.SelectedIndex].PathToFile;
+                currentFile = (String)ListPlaying[LvPlay.SelectedIndex].PathToFile;
                 isPlaylist = true;
                 isLibrary = false;
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
@@ -880,13 +879,13 @@ namespace MusicLibrary
             }
         }
 
-        private void lvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (lvPlay.SelectedIndex != -1)
+            if (LvPlay.SelectedIndex != -1)
             {
                 try
                 {
-                    currentFile = (String)ListPlaying[lvPlay.SelectedIndex].PathToFile;
+                    currentFile = (String)ListPlaying[LvPlay.SelectedIndex].PathToFile;
                     isPlaylist = true;
                     isLibrary = false;
                 }
