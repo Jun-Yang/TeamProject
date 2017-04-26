@@ -25,7 +25,7 @@ namespace MusicLibrary
         private Database db;
 
         internal static List<Song> ListMusicLibrary = new List<Song>();
-        //internal static List<Song> ListPlaying = new List<Song>();
+        internal static List<Song> ListPlaying = new List<Song>();
         internal static List<PlayList> ListPl = new List<PlayList>();
 
         public MainWindow()
@@ -34,8 +34,8 @@ namespace MusicLibrary
             InitTimer();
             db = new Database();
             ResetAllFields();
+            ListMusicLibrary = db.GetAllSongsFromLib();
             LvLibrary.ItemsSource = ListMusicLibrary;
-            LoadAllSongs();
             RefreshMusicLibrary();
         }
 
@@ -192,7 +192,8 @@ namespace MusicLibrary
             TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
             string plName = (string)item.Header;
             db.GetPlaylistByName(plName);
-            LvPlay.ItemsSource = db.GetMusicByPlaylistName(plName);
+            ListPlaying = db.GetSongByPlaylistName(plName);
+            LvPlay.ItemsSource = ListPlaying;
         }
 
         private void PopulateDirectory(string header, string tag, TreeView root, TreeViewItem child, bool isfile)
@@ -263,6 +264,8 @@ namespace MusicLibrary
             }
         }
 
+
+        /* Begin of Menu Item Operation */
         private void MiOpenFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
@@ -307,117 +310,14 @@ namespace MusicLibrary
             }
         }
 
-        private void BtPlay_Click(object sender, RoutedEventArgs e)
+        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
-            try
+            using (AboutBox box = new AboutBox())
             {
-                if (!PlayControl.isPlaying)
-                {
-                    if (isLibrary)
-                    {
-                        if (LvLibrary.SelectedItem != null)
-                        {
-                            LvLibrary.Focus();
-                            PlayControl.Play(ImagePlay);
-                        }
-                        else
-                        {
-                            MessageBoxEx.Show("You should select a music");
-                        }
-                    }
-                    else if (isPlaylist)
-                    {
-                        if (LvPlay.SelectedItem != null)
-                        {
-                            LvPlay.Focus();
-                            PlayControl.Play(ImagePlay);
-                        }
-                        else
-                        {
-                            MessageBoxEx.Show("You should select a music");
-                        }
-                    }
-                    else
-                    {
-                        PlayControl.Pause(ImagePlay);
-                    }
-                }
-            }
-            catch (ArgumentNullException ex)
-            {
-                MessageBoxEx.Show("You should select a music" + ex.StackTrace);
+                box.ShowDialog();
             }
         }
 
-        private void BtStop_Click(object sender, RoutedEventArgs e)
-        {
-            PlayControl.Stop(ImagePlay);
-        }
-
-        private void BtNext_Click(object sender, RoutedEventArgs e)
-        {
-            if (isLibrary)
-            {
-                if (LvLibrary.SelectedIndex < LvLibrary.Items.Count - 1)
-                {
-                    LvLibrary.SelectedIndex++;
-                }
-                LvLibrary.Focus();
-            }
-            else if (isPlaylist)
-            {
-                if (LvPlay.SelectedIndex < LvPlay.Items.Count - 1)
-                {
-                    LvPlay.SelectedIndex++;
-                }
-                LvPlay.Focus();
-            }
-            else
-            {
-                MessageBox.Show("Internal Error");
-                return;
-            }
-            
-            PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(ImagePlay);
-        }
-
-        private void BtPrevious_Click(object sender, RoutedEventArgs e)
-        {
-            if (isLibrary)
-            {
-                if (LvLibrary.SelectedIndex > 0)
-                {
-                    LvLibrary.SelectedIndex--;
-                }
-                LvLibrary.Focus();
-            }
-            else if (isPlaylist)
-            {
-                if (LvPlay.SelectedIndex > 0)
-                {
-                    LvPlay.SelectedIndex--;
-                }
-                LvPlay.Focus();
-            }
-            else
-            {
-                MessageBox.Show("Internal Error");
-                return;
-            }
-            PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(ImagePlay);
-        }
-
-        private void BtSpeaker_Click(object sender, RoutedEventArgs e)
-        {
-            PlayControl.Speaker(ImageSpeaker);
-        }
-
-        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            PlayControl.SetVolume(SliVolume.Value / 4);
-        }
 
         //0420 adding by cc
         private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
@@ -429,7 +329,8 @@ namespace MusicLibrary
             else
             {
                 if (LvLibrary.SelectedIndex == -1) return;
-                else { 
+                else
+                {
                     ListMusicLibrary.RemoveAt(LvLibrary.SelectedIndex);
                     RefreshMusicLibrary();
                 }
@@ -596,6 +497,194 @@ namespace MusicLibrary
             RefreshMusicLibrary();
         }
 
+        private void MiEditClear_Click(object sender, RoutedEventArgs e)
+        {
+            LvLibrary.ItemsSource = null;
+            LvLibrary.Items.Clear();
+        }
+
+        private void MiPlayBackPlay_Click(object sender, RoutedEventArgs e)
+        {
+            BtPlay_Click(sender, e);
+        }
+
+        private void MiPlaybackPause_Click(object sender, RoutedEventArgs e)
+        {
+            PlayControl.Pause(ImagePlay);
+        }
+
+        private void MiPlaybackStop_Click(object sender, RoutedEventArgs e)
+        {
+            PlayControl.Stop(ImagePlay);
+        }
+
+        private void MiPlaybackNext_Click(object sender, RoutedEventArgs e)
+        {
+            BtNext_Click(sender, e);
+        }
+
+        private void MiPlaybackPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            BtPrevious_Click(sender, e);
+
+        }
+
+        //Adding by Chen 0426
+        private void MenuItemProperty_Click(object sender, RoutedEventArgs e)
+        {
+            if (LvLibrary.SelectedIndex != -1)
+            {
+
+                Song song = (Song)ListMusicLibrary[LvLibrary.SelectedIndex];
+                MediaProperty mediaProperty = new MediaProperty(song);
+
+                mediaProperty.Top = (this.Top + (this.Height / 2)) - mediaProperty.Height / 2;
+                mediaProperty.Left = (this.Left + (this.Width / 2)) - mediaProperty.Width / 2;
+                mediaProperty.Show();
+            }
+
+        }
+
+
+        /* End of Menu Item Operation */
+
+
+        /* Begin of Play Control Operation */
+        private void BtPlay_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!PlayControl.isPlaying)
+                {
+                    if (isLibrary)
+                    {
+                        if (LvLibrary.SelectedItem != null)
+                        {
+                            LvLibrary.Focus();
+                            PlayControl.Play(ImagePlay);
+                        }
+                        else
+                        {
+                            MessageBoxEx.Show("You should select a music");
+                        }
+                    }
+                    else if (isPlaylist)
+                    {
+                        if (LvPlay.SelectedItem != null)
+                        {
+                            LvPlay.Focus();
+                            PlayControl.Play(ImagePlay);
+                        }
+                        else
+                        {
+                            MessageBoxEx.Show("You should select a music");
+                        }
+                    }
+                    else
+                    {
+                        PlayControl.Pause(ImagePlay);
+                    }
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBoxEx.Show("You should select a music" + ex.StackTrace);
+            }
+        }
+
+        private void BtStop_Click(object sender, RoutedEventArgs e)
+        {
+            PlayControl.Stop(ImagePlay);
+        }
+
+        private void BtNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (isLibrary)
+            {
+                if (LvLibrary.SelectedIndex < LvLibrary.Items.Count - 1)
+                {
+                    LvLibrary.SelectedIndex++;
+                }
+                LvLibrary.Focus();
+            }
+            else if (isPlaylist)
+            {
+                if (LvPlay.SelectedIndex < LvPlay.Items.Count - 1)
+                {
+                    LvPlay.SelectedIndex++;
+                }
+                LvPlay.Focus();
+            }
+            else
+            {
+                MessageBox.Show("Internal Error");
+                return;
+            }
+            
+            PlayControl.mediaPlayer.Open(new Uri(currentFile));
+            PlayControl.Play(ImagePlay);
+        }
+
+        private void BtPrevious_Click(object sender, RoutedEventArgs e)
+        {
+            if (isLibrary)
+            {
+                if (LvLibrary.SelectedIndex > 0)
+                {
+                    LvLibrary.SelectedIndex--;
+                }
+                LvLibrary.Focus();
+            }
+            else if (isPlaylist)
+            {
+                if (LvPlay.SelectedIndex > 0)
+                {
+                    LvPlay.SelectedIndex--;
+                }
+                LvPlay.Focus();
+            }
+            else
+            {
+                MessageBox.Show("Internal Error");
+                return;
+            }
+            PlayControl.mediaPlayer.Open(new Uri(currentFile));
+            PlayControl.Play(ImagePlay);
+        }
+
+        private void BtSpeaker_Click(object sender, RoutedEventArgs e)
+        {
+            PlayControl.Speaker(ImageSpeaker);
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            PlayControl.SetVolume(SliVolume.Value / 4);
+        }
+
+        private void SliProgress_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            userIsDraggingSlider = true;
+        }
+
+        private void SliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            userIsDraggingSlider = false;
+            PlayControl.mediaPlayer.Position = TimeSpan.FromSeconds(SliProgress.Value);
+        }
+
+        private void SliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            //lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
+        }
+
+        private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            PlayControl.mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
+        }
+
+        /* End of Play Control Operation */
+
         internal static bool IsMusicFile(FileInfo info)
         {
             string type = info.Extension;
@@ -607,6 +696,7 @@ namespace MusicLibrary
             }
         }
 
+        /* Begin of Music library listview Operation */
         private void LvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (LvLibrary.SelectedIndex != -1)
@@ -636,94 +726,12 @@ namespace MusicLibrary
                 }
             }
         }
-
-        private void LvDirectoryMouseLeftDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
-
-        private void SliProgress_DragStarted(object sender, DragStartedEventArgs e)
-        {
-            userIsDraggingSlider = true;
-        }
-
-        private void SliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            userIsDraggingSlider = false;
-            PlayControl.mediaPlayer.Position = TimeSpan.FromSeconds(SliProgress.Value);
-        }
-
-        private void SliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            //lblProgressStatus.Text = TimeSpan.FromSeconds(sliProgress.Value).ToString(@"hh\:mm\:ss");
-        }
-
-        private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            PlayControl.mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
-        }
-
-        private void MiEditClear_Click(object sender, RoutedEventArgs e)
-        {
-            LvLibrary.ItemsSource = null;
-            LvLibrary.Items.Clear();
-        }
-
-        private void MiPlayBackPlay_Click(object sender, RoutedEventArgs e)
-        {
-            BtPlay_Click(sender, e);
-        }
-
-        private void MiPlaybackPause_Click(object sender, RoutedEventArgs e)
-        {
-            PlayControl.Pause(ImagePlay);
-        }
-
-        private void MiPlaybackStop_Click(object sender, RoutedEventArgs e)
-        {
-            PlayControl.Stop(ImagePlay);
-        }
-
-        private void MiPlaybackNext_Click(object sender, RoutedEventArgs e)
-        {
-            BtNext_Click(sender,e);
-        }
-
-        private void MiPlaybackPrevious_Click(object sender, RoutedEventArgs e)
-        {
-            BtPrevious_Click(sender,e);
-           
-        }
-
-        //Adding by Chen 0426
-        private void MenuItemProperty_Click(object sender, RoutedEventArgs e)
-        {
-            if (LvLibrary.SelectedIndex != -1)
-            {
-
-                Song song = (Song)ListMusicLibrary[LvLibrary.SelectedIndex];
-                MediaProperty mediaProperty = new MediaProperty(song);
-
-                mediaProperty.Top = (this.Top + (this.Height / 2)) - mediaProperty.Height / 2;
-                mediaProperty.Left = (this.Left + (this.Width / 2)) - mediaProperty.Width / 2;
-                mediaProperty.Show();
-            }
-
-        }
-
-        //add by chenchen 0423
-        private void LoadAllSongs()
-        {
-            foreach (Song s in db.GetAllSongsFromLib())
-            {
-                ListMusicLibrary.Add(s);
-            }
-        }
+        /* End of Music library listview Operation */
 
         private void MiEditSort_Click(object sender, RoutedEventArgs e)
         {
             //read media information from database 
-            LoadAllSongs();
+            ListMusicLibrary = db.GetAllSongsFromLib();
             RefreshMusicLibrary();
         }
 
@@ -799,7 +807,6 @@ namespace MusicLibrary
         }
 
         // Drag and drop from music library to playlist
-
         private void LvLibrary_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)                
@@ -844,55 +851,37 @@ namespace MusicLibrary
 
         private void LvPlay_Drop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent("myFormat"))
+            if (TvPlaylists.SelectedItem != null)
             {
-                Song song = e.Data.GetData("myFormat") as Song;
-                AddSongToPlaylist(song);
-                TvPlaylists_SelectedItemChanged(sender,null);
-                LvPlay.Items.Refresh();
+                if (e.Data.GetDataPresent("myFormat"))
+                {
+                    Song song = e.Data.GetData("myFormat") as Song;
+                    AddSongToPlaylist(song);
+                    TvPlaylists_SelectedItemChanged(sender, null);
+                    LvPlay.Items.Refresh();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a playlist to add songs");
             }
         }
 
         private void AddSongToPlaylist(Song song)
         {
-            PlayList pl = new PlayList();
             TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
-            pl.PlayListName = (string)item.Header;
-            foreach(var p in db.GetPlaylistByName(pl.PlayListName))
-            {
-                pl.Id = p.Id;
-                pl.SongId = song.Id;
-                pl.Description = p.Description;
-            }
-            db.InsertSongToPlaylist(pl);
+            db.InsertSongToPlaylist(new PlayList(db.GetPlaylistByName((string)item.Header).Id,
+                                    song.Id,
+                                    (string)item.Header,
+                                    db.GetPlaylistByName((string)item.Header).Description));
         }
 
-        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
-        {
-            using (AboutBox box = new AboutBox())
-            {
-                box.ShowDialog();
-            }
-        }
-
+        /*Begin of Playlist listview operation*/
         private void LvPlay_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            PlayList pl = new PlayList();
-            int songId = 0;
-
             if (LvPlay.SelectedIndex != -1)
             {
-                TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
-                pl.PlayListName = (string)item.Header;
-                foreach (var p in db.GetPlaylistByName(pl.PlayListName))
-                {
-                    songId = pl.SongId;
-                }
-                var lstSong = db.GetSongsById(songId);
-                foreach (var s in db.GetSongsById(songId))
-                {
-                    currentFile = s.PathToFile;
-                }
+                currentFile = ListPlaying[LvPlay.SelectedIndex].PathToFile;
                 isPlaylist = true;
                 isLibrary = false;
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
@@ -902,21 +891,22 @@ namespace MusicLibrary
 
         private void LvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (LvPlay.SelectedIndex != -1)
-            //{
-            //    try
-            //    {
-            //        currentFile = (String)ListPlaying[LvPlay.SelectedIndex].PathToFile;
-            //        isPlaylist = true;
-            //        isLibrary = false;
-            //    }
-            //    catch (ArgumentOutOfRangeException ex)
-            //    {
-            //        Console.WriteLine("Music Library Selection Changed Error", ex.StackTrace);
-            //    }
-            //}
+            if (LvPlay.SelectedIndex != -1)
+            {
+                try
+                {
+                    currentFile = (String)ListPlaying[LvPlay.SelectedIndex].PathToFile;
+                    isPlaylist = true;
+                    isLibrary = false;
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    Console.WriteLine("Music Library Selection Changed Error", ex.StackTrace);
+                }
+            }
         }
     }
+    /*end of Playlist listview operation*/
 
     public class ImageToHeaderConverter : IValueConverter
     {

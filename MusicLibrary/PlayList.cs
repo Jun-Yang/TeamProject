@@ -14,11 +14,30 @@ namespace MusicLibrary
     
     public partial class PlayList
     {
+        private int id;
+        private int songId;
+        private string playListName;
+        private string description;
+
+        public PlayList()
+        {
+
+        }
+
+        public PlayList(int id, int songId, string playlistName, string description)
+        {
+            this.id = id;
+            this.SongId = songId;
+            this.playListName = playlistName;
+            Description = description;
+        }
+
         public int Id { get; set; }
         public int SongId { get; set; }
         public string PlayListName { get; set; }
         public string Description { get; set; }
     
         public virtual Song Song { get; set; }
+        
     }
 }

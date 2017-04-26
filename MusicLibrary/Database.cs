@@ -51,6 +51,14 @@ namespace MusicLibrary
             }
         }
 
+        internal string GetPathBySongId(int id)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                return (from s in ctx.Songs where s.Id == id select s.PathToFile).ToString();
+            }
+        }
+
         internal void SaveSongsToLib(List<Song> lstMusic)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -204,7 +212,7 @@ namespace MusicLibrary
             }
         }
 
-        internal List<Song> GetMusicByPlaylistName(string plName)
+        internal List<Song> GetSongByPlaylistName(string plName)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
@@ -221,18 +229,12 @@ namespace MusicLibrary
             }
         }
 
-        internal List<PlayList> GetPlaylistByName(string plName)
+        internal PlayList GetPlaylistByName(string plName)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                var lstPlaylist = (from pl in ctx.PlayLists
-                                where pl.PlayListName == plName
-                                select pl).ToList<PlayList>();
-                foreach (var pl in lstPlaylist)
-                {
-                    Console.WriteLine("PlayList: {0}, {1} {2}", pl.Id, pl.SongId, pl.PlayListName);
-                }
-                return lstPlaylist;
+                return  (from pl in ctx.PlayLists where pl.PlayListName == plName
+                                select pl).FirstOrDefault <PlayList>();
             }
         }
     }
