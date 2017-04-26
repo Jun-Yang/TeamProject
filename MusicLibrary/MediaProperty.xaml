@@ -39,15 +39,15 @@
         <TextBox x:Name ="tbSongTitle" Grid.Column="1" Margin="6,0,6,0" Grid.Row="1" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbArtistName" Grid.Column="1" Margin="6,0,6,0" Grid.Row="2" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbAlbumName" Grid.Column="1" Margin="6,0,6,0" Grid.Row="3" HorizontalAlignment="Stretch"/>
-        <TextBox x:Name ="tbAlbumId" Grid.Column="1" Margin="6,0,6,0" Grid.Row="4" HorizontalAlignment="Stretch" IsReadOnly = "True"/>
+        <TextBox x:Name ="tbAlbumId" Grid.Column="1" Margin="6,0,6,0" Grid.Row="4" HorizontalAlignment="Stretch" IsReadOnly = "True" Background="#edeff2"/>
         <TextBox x:Name ="tbSequenceId"  Grid.Column="1" Margin="6,0,6,0" Grid.Row="5" HorizontalAlignment="Stretch"/>
-        <TextBox x:Name ="tbPath" Grid.Column="1" Margin="6,0,6,0" Grid.Row="6" HorizontalAlignment="Stretch" IsReadOnly = "True"/>
+        <TextBox x:Name ="tbPath" Grid.Column="1" Margin="6,0,6,0" Grid.Row="6" HorizontalAlignment="Stretch" IsReadOnly = "True" Background="#edeff2" />
         <TextBox  x:Name ="tbYear" Grid.Column="1" Margin="6,0,6,0" Grid.Row="7" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbGenre"  Grid.Column="1" Margin="6,0,6,0" Grid.Row="8" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbRating"  Grid.Column="1" Margin="6,0,6,0" Grid.Row="9" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbDescription" Grid.Column="1" Margin="6,0,6,0" Grid.Row="10" HorizontalAlignment="Stretch"/>
-        <Button Content="Save" HorizontalAlignment="Left" Margin="6,10,0,0" Grid.Row="11" VerticalAlignment="Top" Width="60" Grid.Column="1" Height="20" RenderTransformOrigin="0.461,1.283" />
-        <Button Content="Cancel" Grid.Column="1"  Grid.Row="11" Click="btCancel_Click" VerticalAlignment="Top" Margin="158,10,42,0" Height="20"/>
+        <Button Content="Save" Click="btSave_Click" HorizontalAlignment="Left" Margin="6,10,0,0" Grid.Row="11" VerticalAlignment="Top" Width="60" Grid.Column="1" Height="20" RenderTransformOrigin="0.461,1.283" />
+        <Button Content="Cancel"  Grid.Column="1"  Grid.Row="11" Click="btCancel_Click" VerticalAlignment="Top" Margin="158,10,42,0" Height="20"/>
         <Label Grid.Column="0"  Grid.Row="0" Background="#DCDCDC" />
     </Grid>
 </Window>

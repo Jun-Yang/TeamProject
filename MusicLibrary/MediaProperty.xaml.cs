@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace MusicLibrary
 {
@@ -8,10 +10,16 @@ namespace MusicLibrary
     /// </summary>
     public partial class MediaProperty : Window
     {
+        private List<FileProperty> propertyList = new List<FileProperty>();
+
         Song song;
         public MediaProperty(Song s)
         {
             InitializeComponent();
+            propertyList.Add(new FileProperty { name = "Title", value = s.Title });
+
+
+
             song = s;
         }
 
@@ -59,6 +67,17 @@ namespace MusicLibrary
                 tbDescription.Text = song.Description;
             }
 
+        }
+
+        private void checkAllTextBoxChanged()
+        {
+           //don't need to do it  
+
+
+        }
+        private void btSave_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

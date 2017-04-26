@@ -95,6 +95,7 @@
     <Compile Include="Album.cs">
       <DependentUpon>RemoteLibraryModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="FileProperty.cs" />
     <Compile Include="MediaProperty.xaml.cs">
       <DependentUpon>MediaProperty.xaml</DependentUpon>
     </Compile>
