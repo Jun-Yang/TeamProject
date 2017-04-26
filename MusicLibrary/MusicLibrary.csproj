@@ -93,7 +93,7 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Album.cs">
-      <DependentUpon>RemoteLibrary.tt</DependentUpon>
+      <DependentUpon>RemoteLibraryModel.tt</DependentUpon>
     </Compile>
     <Compile Include="FileProperty.cs" />
     <Compile Include="MediaProperty.xaml.cs">
@@ -103,25 +103,25 @@
     <Compile Include="Database.cs" />
     <Compile Include="PlayControl.cs" />
     <Compile Include="PlayList.cs">
-      <DependentUpon>RemoteLibrary.tt</DependentUpon>
+      <DependentUpon>RemoteLibraryModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="RemoteLibrary.Context.cs">
+    <Compile Include="RemoteLibraryModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RemoteLibrary.Context.tt</DependentUpon>
+      <DependentUpon>RemoteLibraryModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="RemoteLibrary.cs">
+    <Compile Include="RemoteLibraryModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RemoteLibrary.tt</DependentUpon>
+      <DependentUpon>RemoteLibraryModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="RemoteLibrary.Designer.cs">
+    <Compile Include="RemoteLibraryModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>RemoteLibrary.edmx</DependentUpon>
+      <DependentUpon>RemoteLibraryModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Song.cs">
-      <DependentUpon>RemoteLibrary.tt</DependentUpon>
+      <DependentUpon>RemoteLibraryModel.tt</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -166,22 +166,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <EntityDeploy Include="RemoteLibrary.edmx">
+    <EntityDeploy Include="RemoteLibraryModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>RemoteLibrary.Designer.cs</LastGenOutput>
+      <LastGenOutput>RemoteLibraryModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="RemoteLibrary.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>RemoteLibrary.edmx</DependentUpon>
-      <LastGenOutput>RemoteLibrary.Context.cs</LastGenOutput>
-    </None>
-    <None Include="RemoteLibrary.edmx.diagram">
-      <DependentUpon>RemoteLibrary.edmx</DependentUpon>
-    </None>
-    <None Include="RemoteLibrary.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>RemoteLibrary.edmx</DependentUpon>
-      <LastGenOutput>RemoteLibrary.cs</LastGenOutput>
+    <None Include="RemoteLibraryModel.edmx.diagram">
+      <DependentUpon>RemoteLibraryModel.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +218,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\music.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RemoteLibraryModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RemoteLibraryModel.edmx</DependentUpon>
+      <LastGenOutput>RemoteLibraryModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="RemoteLibraryModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>RemoteLibraryModel.edmx</DependentUpon>
+      <LastGenOutput>RemoteLibraryModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.2.3.4.224\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

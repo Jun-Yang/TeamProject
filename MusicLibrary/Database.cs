@@ -36,6 +36,21 @@ namespace MusicLibrary
             }
         }
 
+        internal List<Song> GetSongsById(int id)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                var lstSongs = (from s in ctx.Songs
+                                where s.Id == id
+                                select s).ToList<Song>();
+                foreach (var s in lstSongs)
+                {
+                    Console.WriteLine("S: {0}, {1}, {2},{3}", s.Id, s.Title, s.ArtistName, s.PathToFile);
+                }
+                return lstSongs;
+            }
+        }
+
         internal void SaveSongsToLib(List<Song> lstMusic)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -48,8 +63,6 @@ namespace MusicLibrary
                 }
             }
         }
-
-        
 
         internal void SavePlaylistsToLib(List<PlayList> lstPlaylist)
         {
@@ -156,41 +169,13 @@ namespace MusicLibrary
             }
         }
 
-        //adding by chen 0426
-        internal void UpdataSongByPath(Song song)
+        internal void InsertSongToPlaylist(PlayList pl)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                var lstSong = (from s in ctx.Songs
-                                   where s.PathToFile == song.PathToFile
-                               select s
-                                   ).ToList<Song>();
-                foreach (var s in lstSong)
-                {
-                    s.Title  = song.Title;
-                    s.ArtistName = song.ArtistName;
-                    s.Album = song.Album;
-                    s.Description = song.Description;
-                    s.Rating = song.Rating;
-                    s.Year = song.Year;
-                    s.Genre = song.Genre;
-                    
-                    Console.WriteLine("Song : {0}, {1}, {2}", s.Id, s.ArtistName, s.Description);
-                }
+                ctx.PlayLists.Add(pl);
                 ctx.SaveChanges();
-            }
-        }
-
-        internal void SavePlaylists()
-        {
-            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
-            {
-                var lstMusic = (from pl in ctx.PlayLists select pl).ToList<PlayList>();
-                foreach (var pl in lstMusic)
-                {
-                    ctx.PlayLists.Add(pl);
-                    Console.WriteLine("Playlist: {0}, {1}, {2}", pl.Id, pl.PlayListName, pl.SongId);
-                }
+                Console.WriteLine("Playlist: {0}, {1}, {2}, {3}", pl.Id, pl.SongId, pl.PlayListName, pl.Description);
             }
         }
 
@@ -215,14 +200,14 @@ namespace MusicLibrary
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                var lstMusic = (from pl in ctx.PlayLists
+                var lstPlaylist = (from pl in ctx.PlayLists
                                 where pl.PlayListName == plName
                                 select pl).ToList<PlayList>();
-                foreach (var pl in lstMusic)
+                foreach (var pl in lstPlaylist)
                 {
                     Console.WriteLine("PlayList: {0}, {1} {2}", pl.Id, pl.SongId, pl.PlayListName);
                 }
-                return lstMusic;
+                return lstPlaylist;
             }
         }
     }
