@@ -703,15 +703,20 @@ namespace MusicLibrary
            
         }
 
+        //Adding by Chen 0426
         private void MenuItemProperty_Click(object sender, RoutedEventArgs e)
         {
-            //WindowProperty WinProperty = new WindowProperty();
-            //WinProperty.ShowDialog();
-            
-            MediaProperty mediaProperty = new MediaProperty();
-            mediaProperty.Top = (this.Top + (this.Height / 2)) - mediaProperty.Height / 2;
-            mediaProperty.Left = (this.Left + (this.Width / 2)) - mediaProperty.Width / 2;
-            mediaProperty.ShowDialog();
+            if (lvLibrary.SelectedIndex != -1)
+            {
+
+                Song song = (Song)ListMusicLibrary[lvLibrary.SelectedIndex];
+                MediaProperty mediaProperty = new MediaProperty(song);
+
+                mediaProperty.Top = (this.Top + (this.Height / 2)) - mediaProperty.Height / 2;
+                mediaProperty.Left = (this.Left + (this.Width / 2)) - mediaProperty.Width / 2;
+                mediaProperty.Show();
+            }
+
         }
 
         //add by chenchen 0423

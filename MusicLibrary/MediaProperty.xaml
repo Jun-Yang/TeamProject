@@ -1,36 +1,53 @@
-﻿<Window x:Class="MusicLibrary.MediaProperty"
+﻿<Window x:Name="load" x:Class="MusicLibrary.MediaProperty"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
-        Title="MediaProperty" Height="300" Width="350" Icon="@..\..\Image\player.png" Closing="MediaProperty_Closing" WindowStartupLocation="Manual">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition />
+        Title="MediaProperty" Height="446" Width="405" MinWidth="300" MinHeight="350" Icon="@..\..\Image\player.png" Closing="MediaProperty_Closing" WindowStartupLocation="Manual" Loaded="PropertyWindow_Loaded">
+    <Grid Background="#DCDCDC" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions >
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="90" />
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="3"
-                Grid.ColumnSpan="1"
-                Orientation="Horizontal">
-            <Button>OK</Button>  
-            <Button>Cancel</Button>
-        </StackPanel>
-        <ListView HorizontalAlignment="Left" Height="180" Margin="24,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="280">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Title" Width="100" DisplayMemberBinding="{Binding Title}" />
-                    <GridViewColumn Header="Singer" Width="100" DisplayMemberBinding="{Binding SingerName}" />
-                    <GridViewColumn Header="Album" Width="80" DisplayMemberBinding="{Binding Ablum}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Label Content="Media Infomation" HorizontalAlignment="Left" Margin="62,3,0,0" VerticalAlignment="Top"/>
-
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition />
+            <ColumnDefinition Width="279" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="1" Grid.Column="0" Content="Title" Grid.ColumnSpan="2" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Artist Name" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="3" Grid.Column="0" Content="Albumn Name" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="4" Grid.Column="0" Content="Albumn Id" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="SequenceId" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="Path" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="7" Grid.Column="0" Content="Year" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="8" Grid.Column="0" Content="Genre" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="9" Grid.Column="0" Content="Rating" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="10" Grid.Column="0" Content="Description:" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="0" Grid.Column="1" Content="Media   Details" Grid.ColumnSpan="1" Background="#DCDCDC" HorizontalAlignment="Left" Width="240"/>
+        <TextBox x:Name ="tbSongTitle" Grid.Column="1" Margin="6,0,6,0" Grid.Row="1" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name ="tbArtistName" Grid.Column="1" Margin="6,0,6,0" Grid.Row="2" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name ="tbAlbumName" Grid.Column="1" Margin="6,0,6,0" Grid.Row="3" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name ="tbAlbumId" Grid.Column="1" Margin="6,0,6,0" Grid.Row="4" HorizontalAlignment="Stretch" IsReadOnly = "True"/>
+        <TextBox x:Name ="tbSequenceId"  Grid.Column="1" Margin="6,0,6,0" Grid.Row="5" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name ="tbPath" Grid.Column="1" Margin="6,0,6,0" Grid.Row="6" HorizontalAlignment="Stretch" IsReadOnly = "True"/>
+        <TextBox  x:Name ="tbYear" Grid.Column="1" Margin="6,0,6,0" Grid.Row="7" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name ="tbGenre"  Grid.Column="1" Margin="6,0,6,0" Grid.Row="8" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name ="tbRating"  Grid.Column="1" Margin="6,0,6,0" Grid.Row="9" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name ="tbDescription" Grid.Column="1" Margin="6,0,6,0" Grid.Row="10" HorizontalAlignment="Stretch"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="6,10,0,0" Grid.Row="11" VerticalAlignment="Top" Width="60" Grid.Column="1" Height="20" RenderTransformOrigin="0.461,1.283" />
+        <Button Content="Cancel" Grid.Column="1"  Grid.Row="11" Click="btCancel_Click" VerticalAlignment="Top" Margin="158,10,42,0" Height="20"/>
+        <Label Grid.Column="0"  Grid.Row="0" Background="#DCDCDC" />
     </Grid>
 </Window>
