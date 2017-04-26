@@ -24,6 +24,8 @@ namespace MusicLibrary
         private static string currentFile = "";
         private static int indexbeforeAdd = 0;
         private bool userIsDraggingSlider = false;
+        private static bool isLibrary = false;
+        private static bool isPlaylist = false;
         private Database db;
 
         internal static List<Song> ListMusicLibrary = new List<Song>();
@@ -582,6 +584,7 @@ namespace MusicLibrary
             if (lvLibrary.SelectedIndex != -1)
             {
                 currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                isLibrary = true;
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
                 PlayControl.Play(ImagePlay);
             }
@@ -596,6 +599,7 @@ namespace MusicLibrary
                 try
                 {
                     currentFile = (String)ListMusicLibrary[lvLibrary.SelectedIndex].PathToFile;
+                    isLibrary = true;
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
@@ -658,22 +662,60 @@ namespace MusicLibrary
 
         private void MiPlaybackNext_Click(object sender, RoutedEventArgs e)
         {
+            if (isLibrary)
+            {
+                if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1)
+                {
+                    lvLibrary.SelectedIndex++;
+                }
+                lvLibrary.Focus();
+            }
+            else if (isPlaylist)
+            {
+                if (lvPlay.SelectedIndex < lvPlay.Items.Count - 1)
+                {
+                    lvPlay.SelectedIndex++;
+                }
+                lvPlay.Focus();
+            }
+            else
+            {
+                MessageBox.Show("Internal Error");
+                return;
+            }
+
             if (lvLibrary.SelectedIndex < lvLibrary.Items.Count - 1)
             {
                 lvLibrary.SelectedIndex++;
             }
-            lvLibrary.Focus();
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
             PlayControl.Play(ImagePlay);
         }
 
         private void MiPlaybackPrevious_Click(object sender, RoutedEventArgs e)
         {
-            if (lvLibrary.SelectedIndex > 0)
+            
+            if (isLibrary)
             {
-                lvLibrary.SelectedIndex--;
+                if (lvLibrary.SelectedIndex > 0)
+                {
+                    lvLibrary.SelectedIndex--;
+                }
+                lvLibrary.Focus();
             }
-            lvLibrary.Focus();
+            else if (isPlaylist)
+            {
+                if (lvPlay.SelectedIndex > 0)
+                {
+                    lvPlay.SelectedIndex--;
+                }
+                lvPlay.Focus();
+            }
+            else
+            {
+                MessageBox.Show("Internal Error");
+                return;
+            }
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
             PlayControl.Play(ImagePlay);
         }
@@ -682,7 +724,6 @@ namespace MusicLibrary
         {
             //WindowProperty WinProperty = new WindowProperty();
             //WinProperty.ShowDialog();
-
             
             MediaProperty mediaProperty = new MediaProperty();
             mediaProperty.Top = (this.Top + (this.Height / 2)) - mediaProperty.Height / 2;
