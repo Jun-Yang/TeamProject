@@ -18,22 +18,17 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" VerticalAlignment="Center">
             <MenuItem Header="_File">
-                <MenuItem Name="MiOpen" Header="_Open..." Click="MiOpen_Click"/>
-                <MenuItem Name="MiOpenAudio" Header="_Open Audio File" Click="MiOpenAudioFile_Click"/>
+                <MenuItem Name="MiOpen" Header="_Open File" Click="MiOpenFile_Click"/>
                 <MenuItem Name="MiImportToLibrary" Header="_Import To Library" Click="MiImportToLibrary_Click"/>
                 <MenuItem Name="MiAddToPlayList" Header="_Add to PlayList" Click="MiAddToPlayList_Click"/>
                 <Separator />
                 <MenuItem Name="MiNewPlayList" Header="_New PlayList" />
-                <MenuItem Name="MiLoadPlayList" Header="_Load PlayList" />
+                <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" />
                 <MenuItem Name="MiSavePlayList" Header="_Save PlayList" />
-                <MenuItem Name="MiPreferences" Header="_Preferences" />
                 <Separator />
                 <MenuItem Name="MiExit" Header="E_xit" Click="MiExit_Click"/>
             </MenuItem>
             <MenuItem Header="Edit">
-                <MenuItem Name="MiUndo" Header="_Undo" />
-                <MenuItem Name="MiRedo" Header="_Redo" />
-                <Separator />
                 <MenuItem Name="MiClear" Header="_Clear" Click="MiEditClear_Click" />
                 <MenuItem Name="MiSelectAll" Header="_SelectAll" />
                 <MenuItem Name="MiSelection" Header="_Selection" />
@@ -45,8 +40,6 @@
             <MenuItem Header="View">
                 <MenuItem Name="MiVisualizations" Header="_Visualizations" />
                 <MenuItem Name="MiPlaylistManager" Header="_PlaylistManager" />
-                <Separator />
-                <MenuItem Name="MiLayout" Header="_Layout" />
             </MenuItem>
             <MenuItem Header="Playback">
                 <MenuItem Name="MiPlay" Header="_Play" Click="MiPlayBackPlay_Click" />
@@ -54,8 +47,8 @@
                 <MenuItem Name="MiPause" Header="_Pause" Click="MiPlaybackPause_Click" />
                 <MenuItem Name="MiPrevious" Header="_Previous" Click="MiPlaybackPrevious_Click" />
                 <MenuItem Name="MiNext" Header="_Next"  Click="MiPlaybackNext_Click"/>
-                <MenuItem Name="MiRandom" Header="_Random" />
                 <Separator />
+                <MenuItem Name="MiRandom" Header="_Random" />
                 <MenuItem Name="MiOrder" Header="_Order" />
             </MenuItem>
             <MenuItem Header="Sound">
@@ -63,13 +56,13 @@
                 <MenuItem x:Name="EnableSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
             </MenuItem>
             <MenuItem Header="Library">
-                <MenuItem Header="AlbumList"  />
-                <MenuItem Header="Search"  />
+                <MenuItem Header="AlbumList" />
+                <MenuItem Header="Search" />
                 <Separator />
-                <MenuItem Header="Configure"  />
+                <MenuItem Header="Configure" />
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="Check Update"  />
+                <MenuItem Header="Context" />
                 <MenuItem Header="About"  Click="MenuItemAbout_Click"/>
             </MenuItem>
         </Menu>
@@ -99,8 +92,8 @@
                                         <TextBlock FontWeight="Normal" Text="{Binding}">
                                             <TextBlock.ContextMenu>
                                                 <ContextMenu>
-                                                    <MenuItem Header="Play Media" Click="ctMenuPlayMedia_Click"/>
-                                                    <MenuItem Header="Import to MusicLibrary" Click="ctMenuImportToLibrary_Click" />
+                                                    <MenuItem Header="Play Media" Click="TvMenuPlayMedia_Click"/>
+                                                    <MenuItem Header="Import to MusicLibrary" Click="TvMenuImportToLibrary_Click" />
                                                     <MenuItem Header="Add to Playlist" />
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>
@@ -153,7 +146,8 @@
                     </TreeView.ContextMenu>
                 </TreeView>
                 <GridSplitter Grid.Row="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-                <ListView Background="LightGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" Drop="lvPlay_Drop" DragEnter="lvPlay_DragEnter" AllowDrop="True">
+                <ListView Background="LightGray" Grid.Row ="2" x:Name="lvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" 
+                          Drop="lvPlay_Drop" DragEnter="lvPlay_DragEnter" AllowDrop="True" MouseDoubleClick="lvPlay_MouseDoubleClick" SelectionChanged="lvPlay_SelectionChanged">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Title"  Width="120" DisplayMemberBinding="{Binding Path=Title}" />
