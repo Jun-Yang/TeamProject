@@ -127,3 +127,21 @@ CHENCHEN
 2 will finish drag and drop 
 and fix clear all list bugs
 will do secound windows to display more information of songs
+
+
+--- April 25 YangJun
+
+1 finish delelte Playlist, delete song SQL operation
+2 finish update Playlist, delete update SQL operation
+3 Center dialog in the parent windows
+4 will Do: Unit test, UI test
+5 Bug fix
+
+CHENCHEN
+1 finished part of insert right filepath
+2 will finish drag and drop 
+and fix clear all list bugs
+will do secound windows to display more information of songs
+
+
+

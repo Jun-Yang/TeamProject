@@ -730,7 +730,6 @@ namespace MusicLibrary
             RefreshMusicLibrary();
         }
 
-
         // Drag and drop from directory to music library
         private void TvDirectory_MouseMove(object sender, MouseEventArgs e)
         {
