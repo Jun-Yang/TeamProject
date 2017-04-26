@@ -11,13 +11,14 @@ namespace MusicLibrary
     public partial class MediaProperty : Window
     {
         private List<FileProperty> propertyList = new List<FileProperty>();
+        private Database db;
 
         Song song;
         public MediaProperty(Song s)
         {
             InitializeComponent();
             propertyList.Add(new FileProperty { name = "Title", value = s.Title });
-
+            db = new Database();
 
 
             song = s;
@@ -77,7 +78,27 @@ namespace MusicLibrary
         }
         private void btSave_Click(object sender, RoutedEventArgs e)
         {
-            
+            String title = tbSongTitle.Text;
+            String artistName = tbArtistName.Text ;
+            String albumName = tbAlbumName.Text;
+            int sequenceId = Convert.ToInt32(tbSequenceId.Text);
+            int AlbumId = Convert.ToInt32(tbAlbumId.Text);
+            String pathToFile = tbPath.Text;
+            //DateTime dt = Convert.ToDateTime(tbYear.Text);
+            int yearInt = Convert.ToInt32(tbYear.Text);
+
+            //To Do Format date and validation
+
+            uint yearUint = (uint)(yearInt);
+            String genre = tbGenre.Text;
+            //string date = song.Year.ToString("yyyy-MM-dd");
+            int rating = Convert.ToInt32(tbRating.Text);
+            String description = tbDescription.Text;
+
+            Song new_song = new Song(title, artistName, sequenceId, (int)sequenceId, description, pathToFile, yearUint, genre, rating);
+            db.UpdataSongByPath(new_song);
+            MessageBox.Show("Song is " + new_song.ArtistName+"being saved");
+            //ListMusicLibrary.Add(song);
         }
     }
 }

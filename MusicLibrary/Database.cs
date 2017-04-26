@@ -49,6 +49,8 @@ namespace MusicLibrary
             }
         }
 
+        
+
         internal void SavePlaylistsToLib(List<PlayList> lstPlaylist)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -149,6 +151,31 @@ namespace MusicLibrary
                     pl.PlayListName = newName;
                     pl.Description = desc;
                     Console.WriteLine("Playlist Name: {0}, {1}, {2}", pl.Id, pl.PlayListName, pl.Description);
+                }
+                ctx.SaveChanges();
+            }
+        }
+
+        //adding by chen 0426
+        internal void UpdataSongByPath(Song song)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                var lstSong = (from s in ctx.Songs
+                                   where s.PathToFile == song.PathToFile
+                               select s
+                                   ).ToList<Song>();
+                foreach (var s in lstSong)
+                {
+                    s.Title  = song.Title;
+                    s.ArtistName = song.ArtistName;
+                    s.Album = song.Album;
+                    s.Description = song.Description;
+                    s.Rating = song.Rating;
+                    s.Year = song.Year;
+                    s.Genre = song.Genre;
+                    
+                    Console.WriteLine("Song : {0}, {1}, {2}", s.Id, s.ArtistName, s.Description);
                 }
                 ctx.SaveChanges();
             }
