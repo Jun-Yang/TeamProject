@@ -2,7 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -321,6 +325,7 @@ namespace MusicLibrary
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             //if (!_fileChanged) return;
+
             var result = MessageBoxEx.Show("Do you want to save changes to PlayList?", "MusicPlayer", MessageBoxButton.YesNoCancel);
             switch (result)
             {
@@ -678,7 +683,10 @@ namespace MusicLibrary
             //WindowProperty WinProperty = new WindowProperty();
             //WinProperty.ShowDialog();
 
+            
             MediaProperty mediaProperty = new MediaProperty();
+            mediaProperty.Top = (this.Top + (this.Height / 2)) - mediaProperty.Height / 2;
+            mediaProperty.Left = (this.Left + (this.Width / 2)) - mediaProperty.Width / 2;
             mediaProperty.ShowDialog();
         }
 
@@ -823,7 +831,7 @@ namespace MusicLibrary
                 box.ShowDialog();
             }
         }
-        
+
     }
 
     public class ImageToHeaderConverter : IValueConverter
@@ -858,5 +866,5 @@ namespace MusicLibrary
             throw new NotImplementedException();
         }
     }
-
+    
 }

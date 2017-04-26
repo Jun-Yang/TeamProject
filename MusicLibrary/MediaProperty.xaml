@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
-        Title="MediaProperty" Height="300" Width="350" Icon="@..\..\Image\player.png" Closing="MediaProperty_Closing">
+        Title="MediaProperty" Height="300" Width="350" Icon="@..\..\Image\player.png" Closing="MediaProperty_Closing" WindowStartupLocation="Manual">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*" />

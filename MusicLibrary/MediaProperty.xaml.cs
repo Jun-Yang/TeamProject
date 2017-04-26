@@ -23,12 +23,10 @@ namespace MusicLibrary
         {
             InitializeComponent();
         }
-
         
-
         private void MediaProperty_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            var result = MessageBox.Show("Do you want to save change?", "MusicPlayer", MessageBoxButton.YesNoCancel);
+            var result = MessageBoxEx.Show("Do you want to save change?", "MusicPlayer", MessageBoxButton.YesNoCancel);
             switch (result)
             {
                 case MessageBoxResult.Yes:

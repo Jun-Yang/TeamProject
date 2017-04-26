@@ -9,7 +9,6 @@
         Title="MusicPlayer" Height="768" Width="1024" MinWidth="1010" MinHeight="750" Loaded="Window_Loaded" Icon="@..\..\Image\player.png">
     <Window.Resources>
         <local:ImageToHeaderConverter x:Key="img"/>
-
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -77,7 +76,7 @@
         <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" CornerRadius="2">
             <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Height="20">
                 <Image Name="ImageSearch" Source="pack://application:,,,/image/search.png" />
-                <TextBox Name="TbFilter" TextAlignment="Center" Width="200"  Height="20" TextChanged="TbFilter_OnTextChanged" />
+                <TextBox Name="TbFilter" Width="200"  Height="20" TextChanged="TbFilter_OnTextChanged" />
             </StackPanel>
         </Border>
         
@@ -103,9 +102,6 @@
                                                     <MenuItem Header="Play Media" Click="ctMenuPlayMedia_Click"/>
                                                     <MenuItem Header="Import to MusicLibrary" Click="ctMenuImportToLibrary_Click" />
                                                     <MenuItem Header="Add to Playlist" />
-
-
-
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>
                                         </TextBlock>

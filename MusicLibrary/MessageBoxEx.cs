@@ -17,8 +17,7 @@ namespace MusicLibrary
         {
             try
             {
-                // create cached 
-                //createHwndSource_(System.Object.MainWindowInstance);
+                createHwndSource_(System.Windows.Application.Current.MainWindow);
 
                 hook_ = new HwndSourceHook(HwndSourceHook);
             }
@@ -38,7 +37,7 @@ namespace MusicLibrary
             source_ = (HwndSource)PresentationSource.FromVisual(owner);
         }
 
-        public static void Initialize_(Window owner = null)
+        public static void Initialize_(Window owner = null )
         {
             try
             {
@@ -192,17 +191,10 @@ namespace MusicLibrary
             ptStart.X = (ptCenter.X - (width / 2));
             ptStart.Y = (ptCenter.Y - (height / 2));
 
-            // I have commented this code because of I have 2 monitors
-            // so If application located at 1st monitor
-            // message box can appear at second one.
-
-            /*
             ptStart.X = (ptStart.X < 0) ? 0 : ptStart.X;
             ptStart.Y = (ptStart.Y < 0) ? 0 : ptStart.Y;
-            */
 
             int result = MoveWindow(hChildWnd, ptStart.X, ptStart.Y, width, height, false);
-
         }
     }
 }
