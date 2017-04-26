@@ -143,5 +143,10 @@ CHENCHEN
 and fix clear all list bugs
 will do secound windows to display more information of songs
 
+--- April 26 YangJun
+
+Chen Chen
+1 Finished property_click second window
+2 do save button click in second window
 
 
