@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using System.Windows;
+using System.Linq;
 
 namespace MusicLibrary
 {
@@ -17,8 +18,8 @@ namespace MusicLibrary
         {
             try
             {
-                createHwndSource_(System.Windows.Application.Current.MainWindow);
-
+                createHwndSource_(GetCurrent().MainWindow);
+                //createHwndSource_(System.Windows.Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.IsActive));
                 hook_ = new HwndSourceHook(HwndSourceHook);
             }
             finally
@@ -30,6 +31,11 @@ namespace MusicLibrary
                     hook_ = null;
                 }
             }
+        }
+
+        private static System.Windows.Application GetCurrent()
+        {
+            return System.Windows.Application.Current;
         }
 
         private static void createHwndSource_(Window owner)

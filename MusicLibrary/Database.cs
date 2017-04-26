@@ -49,6 +49,19 @@ namespace MusicLibrary
             }
         }
 
+        internal void SavePlaylistsToLib(List<PlayList> lstPlaylist)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                foreach (var pl in lstPlaylist)
+                {
+                    ctx.PlayLists.Add(pl);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Playlist: {0}, {1}, {2}, {3}", pl.Id, pl.SongId, pl.PlayListName, pl.Description);
+                }
+            }
+        }
+
         internal void DeleteSongsFromLib(List<Song> lstMusic)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -61,6 +74,40 @@ namespace MusicLibrary
                 }
             }
         }
+
+        internal void DeletePlaylistFromLib(string plName)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                var lstPlaylist = (from pl in ctx.PlayLists
+                                   where pl.PlayListName == plName
+                                   select pl
+                                   ).ToList<PlayList>();
+                foreach (var pl in lstPlaylist)
+                {
+                    ctx.PlayLists.Remove(pl);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Playlist: {0}, {1}, {2}, {3}", pl.Id, pl.SongId, pl.PlayListName, pl.Description);
+                }
+            }
+        }
+
+        internal void TruncatePlaylistsFromLib(string plName)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                ctx.Database.ExecuteSqlCommand("TRUNCATE TABLE [PlayLists]");
+            }
+        }
+
+        internal void TruncateSongsFromLib(string plName)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                ctx.Database.ExecuteSqlCommand("TRUNCATE TABLE [Songs]");
+            }
+        }
+
 
         internal List<PlayList> GetPlaylists()
         {
