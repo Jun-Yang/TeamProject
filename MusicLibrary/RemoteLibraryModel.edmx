@@ -23,16 +23,16 @@
             <PropertyRef Name="Id" />
             <PropertyRef Name="SongId" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PlayListName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="SongId" Type="int" Nullable="false" />
+          <Property Name="PlayListName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="text" />
         </EntityType>
         <EntityType Name="Songs">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="ArtistName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AlbumId" Type="int" />
@@ -43,7 +43,7 @@
           <Property Name="Rating" Type="int" />
           <Property Name="Description" Type="text" />
         </EntityType>
-        <Association Name="PlayLists_Songs_FK">
+        <Association Name="PlayLists_Songs_FK1">
           <End Role="Songs" Type="Self.Songs" Multiplicity="1" />
           <End Role="PlayLists" Type="Self.PlayLists" Multiplicity="*" />
           <ReferentialConstraint>
@@ -71,7 +71,7 @@
           <EntitySet Name="Albums" EntityType="Self.Albums" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlayLists" EntityType="Self.PlayLists" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Songs" EntityType="Self.Songs" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="PlayLists_Songs_FK" Association="Self.PlayLists_Songs_FK">
+          <AssociationSet Name="PlayLists_Songs_FK1" Association="Self.PlayLists_Songs_FK1">
             <End Role="Songs" EntitySet="Songs" />
             <End Role="PlayLists" EntitySet="PlayLists" />
           </AssociationSet>
@@ -104,17 +104,17 @@
             <PropertyRef Name="Id" />
             <PropertyRef Name="SongId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PlayListName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="SongId" Type="Int32" Nullable="false" />
+          <Property Name="PlayListName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Song" Relationship="Self.PlayLists_Songs_FK" FromRole="PlayLists" ToRole="Songs" />
+          <NavigationProperty Name="Song" Relationship="Self.PlayLists_Songs_FK1" FromRole="PlayLists" ToRole="Songs" />
         </EntityType>
         <EntityType Name="Song">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ArtistName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="AlbumId" Type="Int32" />
@@ -125,7 +125,7 @@
           <Property Name="Rating" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Album" Relationship="Self.Songs_Albums_FK" FromRole="Songs" ToRole="Albums" />
-          <NavigationProperty Name="PlayLists" Relationship="Self.PlayLists_Songs_FK" FromRole="Songs" ToRole="PlayLists" />
+          <NavigationProperty Name="PlayLists" Relationship="Self.PlayLists_Songs_FK1" FromRole="Songs" ToRole="PlayLists" />
         </EntityType>
         <Association Name="Songs_Albums_FK">
           <End Role="Albums" Type="Self.Album" Multiplicity="0..1" />
@@ -139,7 +139,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="PlayLists_Songs_FK">
+        <Association Name="PlayLists_Songs_FK1">
           <End Role="Songs" Type="Self.Song" Multiplicity="1" />
           <End Role="PlayLists" Type="Self.PlayList" Multiplicity="*" />
           <ReferentialConstraint>
@@ -159,7 +159,7 @@
             <End Role="Albums" EntitySet="Albums" />
             <End Role="Songs" EntitySet="Songs" />
           </AssociationSet>
-          <AssociationSet Name="PlayLists_Songs_FK" Association="Self.PlayLists_Songs_FK">
+          <AssociationSet Name="PlayLists_Songs_FK1" Association="Self.PlayLists_Songs_FK1">
             <End Role="Songs" EntitySet="Songs" />
             <End Role="PlayLists" EntitySet="PlayLists" />
           </AssociationSet>
@@ -188,8 +188,8 @@
             <EntityTypeMapping TypeName="RemoteLibraryModel.PlayList">
               <MappingFragment StoreEntitySet="PlayLists">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="PlayListName" ColumnName="PlayListName" />
                 <ScalarProperty Name="SongId" ColumnName="SongId" />
+                <ScalarProperty Name="PlayListName" ColumnName="PlayListName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>

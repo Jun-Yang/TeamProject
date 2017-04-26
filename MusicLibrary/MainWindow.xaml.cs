@@ -25,7 +25,7 @@ namespace MusicLibrary
         private Database db;
 
         internal static List<Song> ListMusicLibrary = new List<Song>();
-        internal static List<Song> ListPlaying = new List<Song>();
+        //internal static List<Song> ListPlaying = new List<Song>();
         internal static List<PlayList> ListPl = new List<PlayList>();
 
         public MainWindow()
@@ -35,7 +35,6 @@ namespace MusicLibrary
             db = new Database();
             ResetAllFields();
             LvLibrary.ItemsSource = ListMusicLibrary;
-            LvPlay.ItemsSource = ListPlaying;
             LoadAllSongs();
             RefreshMusicLibrary();
         }
@@ -673,12 +672,6 @@ namespace MusicLibrary
         private void MiPlayBackPlay_Click(object sender, RoutedEventArgs e)
         {
             BtPlay_Click(sender, e);
-            //if (LvLibrary.SelectedIndex != -1)
-            //{
-            //    currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
-            //    PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            //    PlayControl.Play(ImagePlay);
-            //}
         }
 
         private void MiPlaybackPause_Click(object sender, RoutedEventArgs e)
@@ -854,9 +847,24 @@ namespace MusicLibrary
             if (e.Data.GetDataPresent("myFormat"))
             {
                 Song song = e.Data.GetData("myFormat") as Song;
-                ListPlaying.Add(song);
+                AddSongToPlaylist(song);
+                TvPlaylists_SelectedItemChanged(sender,null);
                 LvPlay.Items.Refresh();
             }
+        }
+
+        private void AddSongToPlaylist(Song song)
+        {
+            PlayList pl = new PlayList();
+            TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
+            pl.PlayListName = (string)item.Header;
+            foreach(var p in db.GetPlaylistByName(pl.PlayListName))
+            {
+                pl.Id = p.Id;
+                pl.SongId = song.Id;
+                pl.Description = p.Description;
+            }
+            db.InsertSongToPlaylist(pl);
         }
 
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
@@ -869,9 +877,22 @@ namespace MusicLibrary
 
         private void LvPlay_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            PlayList pl = new PlayList();
+            int songId = 0;
+
             if (LvPlay.SelectedIndex != -1)
             {
-                currentFile = (String)ListPlaying[LvPlay.SelectedIndex].PathToFile;
+                TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
+                pl.PlayListName = (string)item.Header;
+                foreach (var p in db.GetPlaylistByName(pl.PlayListName))
+                {
+                    songId = pl.SongId;
+                }
+                var lstSong = db.GetSongsById(songId);
+                foreach (var s in db.GetSongsById(songId))
+                {
+                    currentFile = s.PathToFile;
+                }
                 isPlaylist = true;
                 isLibrary = false;
                 PlayControl.mediaPlayer.Open(new Uri(currentFile));
@@ -881,19 +902,19 @@ namespace MusicLibrary
 
         private void LvPlay_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (LvPlay.SelectedIndex != -1)
-            {
-                try
-                {
-                    currentFile = (String)ListPlaying[LvPlay.SelectedIndex].PathToFile;
-                    isPlaylist = true;
-                    isLibrary = false;
-                }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    Console.WriteLine("Music Library Selection Changed Error", ex.StackTrace);
-                }
-            }
+            //if (LvPlay.SelectedIndex != -1)
+            //{
+            //    try
+            //    {
+            //        currentFile = (String)ListPlaying[LvPlay.SelectedIndex].PathToFile;
+            //        isPlaylist = true;
+            //        isLibrary = false;
+            //    }
+            //    catch (ArgumentOutOfRangeException ex)
+            //    {
+            //        Console.WriteLine("Music Library Selection Changed Error", ex.StackTrace);
+            //    }
+            //}
         }
     }
 

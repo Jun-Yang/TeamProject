@@ -81,7 +81,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="20*" />
             </Grid.ColumnDefinitions>
-            <TreeView Name="tvDirectory" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" FontWeight="Normal" MouseMove="TvDirectory_MouseMove" >
+            <TreeView Name="tvDirectory" Background="LightGray" HorizontalContentAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0.2" Grid.ColumnSpan="2" MinWidth="200" FontWeight="Normal" 
+                      MouseMove="TvDirectory_MouseMove"  >
                 <TreeView.Resources>
                     <Style TargetType="TreeViewItem" >
                         <Setter Property="HeaderTemplate" >
