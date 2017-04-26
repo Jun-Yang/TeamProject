@@ -96,7 +96,7 @@ namespace MusicLibrary
             String description = tbDescription.Text;
 
             Song new_song = new Song(title, artistName, sequenceId, (int)sequenceId, description, pathToFile, yearUint, genre, rating);
-            db.UpdataSongByPath(new_song);
+            db.UpdateSongByPath(new_song);
             MessageBox.Show("Song is " + new_song.ArtistName+"being saved");
             //ListMusicLibrary.Add(song);
         }
