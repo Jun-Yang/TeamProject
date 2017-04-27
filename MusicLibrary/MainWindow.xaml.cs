@@ -10,6 +10,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using NAudio;
+using NAudio.CoreAudioApi;
 
 namespace MusicLibrary
 {
@@ -34,6 +36,15 @@ namespace MusicLibrary
             InitTimer();
             db = new Database();
             ResetAllFields();
+            NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
+            var devices = enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.All, NAudio.CoreAudioApi.DeviceState.Active);
+
+            //MMDeviceEnumerator devEnum = new MMDeviceEnumerator();
+            
+
+            // Call this line as often as you need.
+            //defaultDevice.AudioMeterInformation.MasterPeakValue;
+
             ListMusicLibrary = db.GetAllSongsFromLib();
             LvLibrary.ItemsSource = ListMusicLibrary;
             RefreshMusicLibrary();
@@ -98,7 +109,7 @@ namespace MusicLibrary
             timer.Start();
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        internal void timer_Tick(object sender, EventArgs e)
         {
             if ((PlayControl.mediaPlayer.Source != null) && (PlayControl.mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
             {
@@ -111,6 +122,18 @@ namespace MusicLibrary
                 try
                 {
                     LblStatus.Content = String.Format("{0} / {1}", PlayControl.mediaPlayer.Position.ToString(@"mm\:ss"), PlayControl.mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+
+                    //if (CbDevices.SelectedItem != null)
+                    //{
+                    //var device = (NAudio.CoreAudioApi.MMDevice)CbDevices.SelectedItem;
+                    //PbVisual.Value = (int)(Math.Round(device.AudioMeterInformation.MasterPeakValue * 100 + 0.5));
+                    NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
+
+                    NAudio.CoreAudioApi.MMDevice defaultDevice =
+              enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+
+                    PbVisual.Value = (int)(Math.Round(defaultDevice.AudioMeterInformation.MasterPeakValue*100+0.5);
+                    //}
                 }
                 catch (System.InvalidOperationException ex)
                 {
@@ -894,6 +917,16 @@ namespace MusicLibrary
                     Console.WriteLine("Music Library Selection Changed Error", ex.StackTrace);
                 }
             }
+        }
+
+        private void MiVisual_Click(object sender, RoutedEventArgs e)
+        {
+
+            Visual visual = new Visual();
+
+            visual.Top = (this.Top + (this.Height / 2)) - visual.Height / 2;
+            visual.Left = (this.Left + (this.Width / 2)) - visual.Width / 2;
+            visual.Show();
         }
     }
     /*end of Playlist listview operation*/
