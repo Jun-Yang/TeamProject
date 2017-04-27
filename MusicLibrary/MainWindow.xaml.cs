@@ -40,9 +40,6 @@ namespace MusicLibrary
             var devices = enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.All, NAudio.CoreAudioApi.DeviceState.Active);
 
             //MMDeviceEnumerator devEnum = new MMDeviceEnumerator();
-            
-
-            // Call this line as often as you need.
             //defaultDevice.AudioMeterInformation.MasterPeakValue;
 
             ListMusicLibrary = db.GetAllSongsFromLib();
@@ -130,9 +127,9 @@ namespace MusicLibrary
                     NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
 
                     NAudio.CoreAudioApi.MMDevice defaultDevice =
-              enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-
-                    PbVisual.Value = (int)(Math.Round(defaultDevice.AudioMeterInformation.MasterPeakValue*100+0.5);
+                    enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+                    Visual v = new Visual();
+                    v.PbVisual.Value = (int)(Math.Round(defaultDevice.AudioMeterInformation.MasterPeakValue*100+0.5));
                     //}
                 }
                 catch (System.InvalidOperationException ex)

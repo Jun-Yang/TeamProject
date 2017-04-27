@@ -32,7 +32,7 @@
             <MenuItem Header="Library">
                 <MenuItem Name="MiClear" Header="_Clear" Click="MiEditClear_Click" />
                 <MenuItem Name="MiSelectAll" Header="_SelectAll" />
-                <MenuItem Name="MiVisualization" Header="_Visualization" Click="MiVisual_Click" />
+                <MenuItem Name="MiSelection" Header="_Selection" Click="MiVisual_Click"/>
                 <MenuItem Name="MiSort" Header="_Sort" Click="MiEditSort_Click" />
                 <Separator />
                 <MenuItem Name="MiSearch" Header="_Search" />
@@ -52,12 +52,18 @@
             <MenuItem Header="Sound">
                 <MenuItem x:Name="EnableBase" Header="Base" IsCheckable="True" IsChecked="True"  />
                 <MenuItem x:Name="EnableSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
-            </MenuItem>    
+            </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="Context" />
                 <MenuItem Header="About"  Click="MenuItemAbout_Click"/>
             </MenuItem>
         </Menu>
+        <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" CornerRadius="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Height="20">
+                <Image Name="ImageSearch" Source="pack://application:,,,/image/search.png" />
+                <TextBox Name="TbFilter" Width="200"  Height="20" TextChanged="TbFilter_OnTextChanged" />
+            </StackPanel>
+        </Border>
 
         <Grid Grid.Row="1" x:Name="ListViews" >
             <Grid.ColumnDefinitions>

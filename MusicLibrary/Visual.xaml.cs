@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using NAudio;
+using NAudio.CoreAudioApi;
+using System.Windows.Threading;
+using System.Runtime.InteropServices;
 
 namespace MusicLibrary
 {
@@ -20,25 +23,31 @@ namespace MusicLibrary
     /// </summary>
     public partial class Visual : Window
     {
+        NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
+        
         public Visual()
         {
             InitializeComponent();
-            NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
+            
             var devices = enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.All, NAudio.CoreAudioApi.DeviceState.Active);
-
-            CbDevices.Items.Add(devices.ToArray());
-            //CbDevices.Items.
-
+            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += dispatcherTimer_Tick;
+            //dispatcherTimer.Interval = new TimeSpan(0, 0, 0.1);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+            
+            dispatcherTimer.Start();
 
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (CbDevices.SelectedItem != null)
-            {
-                var device = (NAudio.CoreAudioApi.MMDevice)CbDevices.SelectedItem;
-                PbVisual.Value = (int)(Math.Round(device.AudioMeterInformation.MasterPeakValue * 100 + 0.5));
-            }
+            MediaTimeline timeline = new MediaTimeline();
+            //var device = (NAudio.CoreAudioApi.MMDevice)CbDevices.SelectedItem;
+            var device = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Console);
+            PbVisual.Value = (int)(Math.Round(device.AudioMeterInformation.MasterPeakValue * 80 + 0.5));
+            PbVisual2.Value = (int)(Math.Round(device.AudioMeterInformation.MasterPeakValue * 65 + 0.2));
         }
+
     }
 }
