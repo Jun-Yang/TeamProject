@@ -115,7 +115,15 @@ namespace MusicLibrary
             }
             set
             {
-                this.year = value;
+                if (value.Year > 2099 || value.Year < 1900)
+                {
+                    throw new ArgumentOutOfRangeException("Year", value.Year, "Year should between 1900 and 2099");
+                }
+                else
+                {
+                    this.year = value;
+                }
+                
             }
         }
         public string Genre
