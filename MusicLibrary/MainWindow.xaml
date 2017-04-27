@@ -28,6 +28,8 @@
                 <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" />
                 <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" />
                 <MenuItem Name="MiSavePlayList" Header="_Save PlayList" />
+                <MenuItem Name="MiPrintPlayList" Header="_Print PlayList" Click="MiPrintPlayList_Click"/>
+                
             </MenuItem>
             <MenuItem Header="Library">
                 <MenuItem Name="MiClear" Header="_Clear" Click="MiEditClear_Click" />
@@ -131,17 +133,17 @@
                           SelectedItemChanged="TvPlaylists_SelectedItemChanged">
                     <TreeView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="New" Click="MenuItemPlay_Click" />
+                            <MenuItem Header="New" Click="CmPlayListNew_Click" />
                             <MenuItem Header="Delete"
                             Command="{Binding RemoveItem}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="TvPlayListItemRemove_Click"/>
                             <MenuItem Header="Save" />
                             <MenuItem Header="Property" Click="MenuItemProperty_Click" />
                         </ContextMenu>
                     </TreeView.ContextMenu>
                 </TreeView>
                 <GridSplitter Grid.Row="1" ShowsPreview="True" ResizeBehavior="PreviousAndNext" Width="1" />
-                <ListView Background="LightGray" Grid.Row ="2" Name="LvPlay" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" 
+                <ListView Name="LvPlay" Background="LightGray" Grid.Row ="2"  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" MinWidth="200" 
                           Drop="LvPlay_Drop" DragEnter="LvPlay_DragEnter" AllowDrop="True" MouseDoubleClick="LvPlay_MouseDoubleClick" SelectionChanged="LvPlay_SelectionChanged">
                     <ListView.View>
                         <GridView>
@@ -154,7 +156,7 @@
                             <MenuItem Header="Play" Click="MenuItemPlay_Click" />
                             <MenuItem Header="Delete"
                             Command="{Binding RemoveItem}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="LvPlayItemRemove_Click"/>
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>

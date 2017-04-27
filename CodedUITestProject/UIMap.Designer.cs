@@ -429,6 +429,304 @@ namespace CodedUITestProject
             Assert.AreEqual(this.AssertMethod1ExpectedValues.UIOpenWindow3ControlId, uIOpenWindow3.ControlId);
         }
         
+        /// <summary>
+        /// Click all menu item and test all function in treeview directory and musicLibrary
+        /// </summary>
+        public void AllMenuClick()
+        {
+            #region Variable Declarations
+            WpfWindow uIWpfWindow = this.UIWpfWindow;
+            WpfMenuItem uIOpenFileMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIFileMenuItem.UIOpenFileMenuItem;
+            WinEdit uINameEdit = this.UIOpenWindow.UIItemWindow.UIBeautyoldmp3ListItem.UINameEdit;
+            WinSplitButton uIOpenSplitButton = this.UIOpenWindow.UIOpenWindow1.UIOpenSplitButton;
+            WpfMenuItem uIImporttoMusicLibraryMenuItem = this.UIMusicPlayerWindow.UIItemMenu1.UIImporttoMusicLibraryMenuItem;
+            WinButton uIYesButton = this.UIQuestionWindow.UIYesWindow.UIYesButton;
+            WinTitleBar uIMusicPlayerTitleBar = this.UIMusicPlayerWindow1.UIMusicPlayerTitleBar;
+            WpfMenuItem uIPlayMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIPlaybackMenuItem.UIPlayMenuItem;
+            WpfMenuItem uINextMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIPlaybackMenuItem.UINextMenuItem;
+            WpfMenuItem uIPauseMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIPlaybackMenuItem.UIPauseMenuItem;
+            WpfMenuItem uIClearMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UILibraryMenuItem.UIClearMenuItem;
+            WpfMenuItem uIConfigureMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UILibraryMenuItem.UIConfigureMenuItem;
+            WpfMenuItem uIAboutMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIHelpMenuItem.UIAboutMenuItem;
+            WinButton uIOKButton = this.UIAboutMusicPlayerWindow.UIOKWindow.UIOKButton;
+            WpfMenuItem uIContextMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIHelpMenuItem.UIContextMenuItem;
+            WinButton uICloseButton = this.UIAboutMusicPlayerWindow.UIAboutMusicPlayerTitleBar.UICloseButton;
+            #endregion
+
+            // Launch '%USERPROFILE%\Documents\01 Project\TeamProject\MusicLibrary\bin\Debug\MusicLibrary.exe'
+            ApplicationUnderTest musicLibraryApplication = ApplicationUnderTest.Launch(this.AllMenuClickParams.ExePath, this.AllMenuClickParams.AlternateExePath);
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 13));
+
+            // Click 'File' -> 'Open File' menu item
+            Mouse.Click(uIOpenFileMenuItem, new Point(49, 18));
+
+            // Click 'Name' text box
+            Mouse.Click(uINameEdit, new Point(72, 22));
+
+            // Click '&Open' split button
+            Mouse.Click(uIOpenSplitButton, new Point(50, 22));
+
+            // Double-Click 'Wpf' window
+            Mouse.DoubleClick(uIWpfWindow, new Point(366, 352));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(21, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(170, 891));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(128, 885));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(96, 32));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(13, 37));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(113, 282));
+
+            // Right-Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, MouseButtons.Right, ModifierKeys.None, new Point(141, 282));
+
+            // Click 'Import to MusicLibrary' menu item
+            Mouse.Click(uIImporttoMusicLibraryMenuItem, new Point(99, 17));
+
+            // Click '&Yes' button
+            Mouse.Click(uIYesButton, new Point(33, 26));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(319, 389));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(348, 402));
+
+            // Click 'MusicPlayer' title bar
+            Mouse.Click(uIMusicPlayerTitleBar, new Point(117, 20));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(204, 10));
+
+            // Click 'Playback' -> 'Play' menu item
+            Mouse.Click(uIPlayMenuItem, new Point(40, 14));
+
+            // Double-Click 'Wpf' window
+            Mouse.DoubleClick(uIWpfWindow, new Point(347, 432));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(210, 13));
+
+            // Click 'Playback' -> 'Next' menu item
+            Mouse.Click(uINextMenuItem, new Point(100, 17));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(210, 14));
+
+            // Click 'Playback' -> 'Next' menu item
+            Mouse.Click(uINextMenuItem, new Point(69, 15));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(217, 13));
+
+            // Click 'Playback' -> 'Pause' menu item
+            Mouse.Click(uIPauseMenuItem, new Point(64, 16));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(74, 8));
+
+            // Click 'Library' -> 'Clear' menu item
+            Mouse.Click(uIClearMenuItem, new Point(45, 19));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(137, 7));
+
+            // Click 'Library' -> 'Configure' menu item
+            Mouse.Click(uIConfigureMenuItem, new Point(89, 17));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(141, 17));
+
+            // Click 'Help' -> 'About' menu item
+            Mouse.Click(uIAboutMenuItem, new Point(41, 18));
+
+            // Click '&OK' button
+            Mouse.Click(uIOKButton, new Point(79, 24));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(318, 5));
+
+            // Click 'Help' -> 'Context' menu item
+            Mouse.Click(uIContextMenuItem, new Point(30, 1));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(337, 15));
+
+            // Click 'Help' -> 'About' menu item
+            Mouse.Click(uIAboutMenuItem, new Point(32, 8));
+
+            // Click 'Close' button
+            Mouse.Click(uICloseButton, new Point(18, 4));
+        }
+        
+        /// <summary>
+        /// Playback_Click
+        /// </summary>
+        public void Playback_Click()
+        {
+            #region Variable Declarations
+            WpfWindow uIWpfWindow = this.UIWpfWindow;
+            WpfMenuItem uIPlayMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIPlaybackMenuItem.UIPlayMenuItem;
+            WpfMenuItem uIStopMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIPlaybackMenuItem.UIStopMenuItem;
+            WpfMenuItem uIPauseMenuItem = this.UIMusicPlayerWindow.UIItemMenu.UIPlaybackMenuItem.UIPauseMenuItem;
+            #endregion
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(198, 15));
+
+            // Click 'Playback' -> 'Play' menu item
+            Mouse.Click(uIPlayMenuItem, new Point(81, 13));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(353, 98));
+
+            // Double-Click 'Wpf' window
+            Mouse.DoubleClick(uIWpfWindow, new Point(346, 91));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(194, 11));
+
+            // Click 'Playback' -> 'Stop' menu item
+            Mouse.Click(uIStopMenuItem, new Point(49, 16));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(189, 16));
+
+            // Right-Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, MouseButtons.Right, ModifierKeys.None, new Point(394, 96));
+
+            // Double-Click 'Wpf' window
+            Mouse.DoubleClick(uIWpfWindow, new Point(373, 96));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(193, 13));
+
+            // Click 'Playback' -> 'Pause' menu item
+            Mouse.Click(uIPauseMenuItem, new Point(43, 18));
+        }
+        
+        /// <summary>
+        /// test my function Property_Click
+        /// </summary>
+        public void EditmediaProperty()
+        {
+            #region Variable Declarations
+            WpfWindow uIWpfWindow = this.UIWpfWindow;
+            WpfMenuItem uIPropertyMenuItem = this.UIMusicPlayerWindow.UIItemMenu1.UIPropertyMenuItem;
+            WpfEdit uITbYearEdit = this.UIMediaPropertyWindow.UITbYearEdit;
+            WpfEdit uITbDescriptionEdit = this.UIMediaPropertyWindow.UITbDescriptionEdit;
+            WinButton uIOKButton = this.UIOKWindow.UIOKButton;
+            #endregion
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(381, 141));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(386, 173));
+
+            // Right-Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, MouseButtons.Right, ModifierKeys.None, new Point(386, 173));
+
+            // Click 'Property' menu item
+            Mouse.Click(uIPropertyMenuItem, new Point(53, 20));
+
+            // Type '2009' in 'tbYear' text box
+            uITbYearEdit.Text = this.EditmediaPropertyParams.UITbYearEditText;
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(228, 341));
+
+            // Type 'This is a very very good songs' in 'tbDescription' text box
+            uITbDescriptionEdit.Text = this.EditmediaPropertyParams.UITbDescriptionEditText;
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(376, 344));
+
+            // Type 'This is a very very good songs        and I really love this song and this artist' in 'tbDescription' text box
+            uITbDescriptionEdit.Text = this.EditmediaPropertyParams.UITbDescriptionEditText1;
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(180, 465));
+
+            // Click 'OK' button
+            Mouse.Click(uIOKButton, new Point(54, 15));
+
+            // Click 'Wpf' window
+            Mouse.Click(uIWpfWindow, new Point(363, 462));
+        }
+        
         #region Properties
         public virtual MainWindow_BasicFunctionParams MainWindow_BasicFunctionParams
         {
@@ -451,6 +749,30 @@ namespace CodedUITestProject
                     this.mAssertMethod1ExpectedValues = new AssertMethod1ExpectedValues();
                 }
                 return this.mAssertMethod1ExpectedValues;
+            }
+        }
+        
+        public virtual AllMenuClickParams AllMenuClickParams
+        {
+            get
+            {
+                if ((this.mAllMenuClickParams == null))
+                {
+                    this.mAllMenuClickParams = new AllMenuClickParams();
+                }
+                return this.mAllMenuClickParams;
+            }
+        }
+        
+        public virtual EditmediaPropertyParams EditmediaPropertyParams
+        {
+            get
+            {
+                if ((this.mEditmediaPropertyParams == null))
+                {
+                    this.mEditmediaPropertyParams = new EditmediaPropertyParams();
+                }
+                return this.mEditmediaPropertyParams;
             }
         }
         
@@ -585,12 +907,28 @@ namespace CodedUITestProject
                 return this.mUIMusicPlayerWindow2;
             }
         }
+        
+        public UIMediaPropertyWindow UIMediaPropertyWindow
+        {
+            get
+            {
+                if ((this.mUIMediaPropertyWindow == null))
+                {
+                    this.mUIMediaPropertyWindow = new UIMediaPropertyWindow();
+                }
+                return this.mUIMediaPropertyWindow;
+            }
+        }
         #endregion
         
         #region Fields
         private MainWindow_BasicFunctionParams mMainWindow_BasicFunctionParams;
         
         private AssertMethod1ExpectedValues mAssertMethod1ExpectedValues;
+        
+        private AllMenuClickParams mAllMenuClickParams;
+        
+        private EditmediaPropertyParams mEditmediaPropertyParams;
         
         private UIOpenWindow mUIOpenWindow;
         
@@ -613,6 +951,8 @@ namespace CodedUITestProject
         private UIMusicPlayerWindow1 mUIMusicPlayerWindow1;
         
         private UIMusicPlayerWindow2 mUIMusicPlayerWindow2;
+        
+        private UIMediaPropertyWindow mUIMediaPropertyWindow;
         #endregion
     }
     
@@ -648,6 +988,54 @@ namespace CodedUITestProject
         /// Verify that the 'ControlId' property of '&Open' window equals '1'
         /// </summary>
         public int UIOpenWindow3ControlId = 1;
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'AllMenuClick'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "15.0.26208.0")]
+    public class AllMenuClickParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Launch '%USERPROFILE%\Documents\01 Project\TeamProject\MusicLibrary\bin\Debug\MusicLibrary.exe'
+        /// </summary>
+        public string ExePath = "C:\\Users\\ipd\\Documents\\01 Project\\TeamProject\\MusicLibrary\\bin\\Debug\\MusicLibrary" +
+            ".exe";
+        
+        /// <summary>
+        /// Launch '%USERPROFILE%\Documents\01 Project\TeamProject\MusicLibrary\bin\Debug\MusicLibrary.exe'
+        /// </summary>
+        public string AlternateExePath = "%USERPROFILE%\\Documents\\01 Project\\TeamProject\\MusicLibrary\\bin\\Debug\\MusicLibrar" +
+            "y.exe";
+        #endregion
+    }
+    
+    /// <summary>
+    /// Parameters to be passed into 'EditmediaProperty'
+    /// </summary>
+    [GeneratedCode("Coded UITest Builder", "15.0.26208.0")]
+    public class EditmediaPropertyParams
+    {
+        
+        #region Fields
+        /// <summary>
+        /// Type '2009' in 'tbYear' text box
+        /// </summary>
+        public string UITbYearEditText = "2009";
+        
+        /// <summary>
+        /// Type 'This is a very very good songs' in 'tbDescription' text box
+        /// </summary>
+        public string UITbDescriptionEditText = "This is a very very good songs";
+        
+        /// <summary>
+        /// Type 'This is a very very good songs        and I really love this song and this artist' in 'tbDescription' text box
+        /// </summary>
+        public string UITbDescriptionEditText1 = "This is a very very good songs        and I really love this song and this artist" +
+            "";
         #endregion
     }
     
@@ -946,10 +1334,24 @@ namespace CodedUITestProject
                 return this.mUIMusicLibraryListItem;
             }
         }
+        
+        public UIBeautyoldmp3ListItem UIBeautyoldmp3ListItem
+        {
+            get
+            {
+                if ((this.mUIBeautyoldmp3ListItem == null))
+                {
+                    this.mUIBeautyoldmp3ListItem = new UIBeautyoldmp3ListItem(this);
+                }
+                return this.mUIBeautyoldmp3ListItem;
+            }
+        }
         #endregion
         
         #region Fields
         private UIMusicLibraryListItem mUIMusicLibraryListItem;
+        
+        private UIBeautyoldmp3ListItem mUIBeautyoldmp3ListItem;
         #endregion
     }
     
@@ -962,6 +1364,42 @@ namespace CodedUITestProject
         {
             #region Search Criteria
             this.SearchProperties[WinListItem.PropertyNames.Name] = "MusicLibrary";
+            this.WindowTitles.Add("Open");
+            #endregion
+        }
+        
+        #region Properties
+        public WinEdit UINameEdit
+        {
+            get
+            {
+                if ((this.mUINameEdit == null))
+                {
+                    this.mUINameEdit = new WinEdit(this);
+                    #region Search Criteria
+                    this.mUINameEdit.SearchProperties[WinEdit.PropertyNames.Name] = "Name";
+                    this.mUINameEdit.WindowTitles.Add("Open");
+                    #endregion
+                }
+                return this.mUINameEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinEdit mUINameEdit;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "15.0.26208.0")]
+    public class UIBeautyoldmp3ListItem : WinListItem
+    {
+        
+        public UIBeautyoldmp3ListItem(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WinListItem.PropertyNames.Name] = "beauty old.mp3";
             this.WindowTitles.Add("Open");
             #endregion
         }
@@ -1700,6 +2138,18 @@ namespace CodedUITestProject
                 return this.mUIHelpMenuItem;
             }
         }
+        
+        public UILibraryMenuItem UILibraryMenuItem
+        {
+            get
+            {
+                if ((this.mUILibraryMenuItem == null))
+                {
+                    this.mUILibraryMenuItem = new UILibraryMenuItem(this);
+                }
+                return this.mUILibraryMenuItem;
+            }
+        }
         #endregion
         
         #region Fields
@@ -1710,6 +2160,8 @@ namespace CodedUITestProject
         private UIPlaybackMenuItem mUIPlaybackMenuItem;
         
         private UIHelpMenuItem mUIHelpMenuItem;
+        
+        private UILibraryMenuItem mUILibraryMenuItem;
         #endregion
     }
     
@@ -1797,12 +2249,31 @@ namespace CodedUITestProject
                 return this.mUIExitMenuItem;
             }
         }
+        
+        public WpfMenuItem UIOpenFileMenuItem
+        {
+            get
+            {
+                if ((this.mUIOpenFileMenuItem == null))
+                {
+                    this.mUIOpenFileMenuItem = new WpfMenuItem(this);
+                    #region Search Criteria
+                    this.mUIOpenFileMenuItem.SearchProperties[WpfMenuItem.PropertyNames.AutomationId] = "MiOpen";
+                    this.mUIOpenFileMenuItem.SearchConfigurations.Add(SearchConfiguration.ExpandWhileSearching);
+                    this.mUIOpenFileMenuItem.WindowTitles.Add("MusicPlayer");
+                    #endregion
+                }
+                return this.mUIOpenFileMenuItem;
+            }
+        }
         #endregion
         
         #region Fields
         private WpfMenuItem mUIImportToLibraryMenuItem;
         
         private WpfMenuItem mUIExitMenuItem;
+        
+        private WpfMenuItem mUIOpenFileMenuItem;
         #endregion
     }
     
@@ -1887,6 +2358,40 @@ namespace CodedUITestProject
                 return this.mUIRandomMenuItem;
             }
         }
+        
+        public WpfMenuItem UIPlayMenuItem
+        {
+            get
+            {
+                if ((this.mUIPlayMenuItem == null))
+                {
+                    this.mUIPlayMenuItem = new WpfMenuItem(this);
+                    #region Search Criteria
+                    this.mUIPlayMenuItem.SearchProperties[WpfMenuItem.PropertyNames.AutomationId] = "MiPlay";
+                    this.mUIPlayMenuItem.SearchConfigurations.Add(SearchConfiguration.ExpandWhileSearching);
+                    this.mUIPlayMenuItem.WindowTitles.Add("MusicPlayer");
+                    #endregion
+                }
+                return this.mUIPlayMenuItem;
+            }
+        }
+        
+        public WpfMenuItem UIStopMenuItem
+        {
+            get
+            {
+                if ((this.mUIStopMenuItem == null))
+                {
+                    this.mUIStopMenuItem = new WpfMenuItem(this);
+                    #region Search Criteria
+                    this.mUIStopMenuItem.SearchProperties[WpfMenuItem.PropertyNames.AutomationId] = "MiStop";
+                    this.mUIStopMenuItem.SearchConfigurations.Add(SearchConfiguration.ExpandWhileSearching);
+                    this.mUIStopMenuItem.WindowTitles.Add("MusicPlayer");
+                    #endregion
+                }
+                return this.mUIStopMenuItem;
+            }
+        }
         #endregion
         
         #region Fields
@@ -1897,6 +2402,10 @@ namespace CodedUITestProject
         private WpfMenuItem mUINextMenuItem;
         
         private WpfMenuItem mUIRandomMenuItem;
+        
+        private WpfMenuItem mUIPlayMenuItem;
+        
+        private WpfMenuItem mUIStopMenuItem;
         #endregion
     }
     
@@ -1930,10 +2439,85 @@ namespace CodedUITestProject
                 return this.mUIAboutMenuItem;
             }
         }
+        
+        public WpfMenuItem UIContextMenuItem
+        {
+            get
+            {
+                if ((this.mUIContextMenuItem == null))
+                {
+                    this.mUIContextMenuItem = new WpfMenuItem(this);
+                    #region Search Criteria
+                    this.mUIContextMenuItem.SearchProperties[WpfMenuItem.PropertyNames.Name] = "Context";
+                    this.mUIContextMenuItem.SearchConfigurations.Add(SearchConfiguration.ExpandWhileSearching);
+                    this.mUIContextMenuItem.WindowTitles.Add("MusicPlayer");
+                    #endregion
+                }
+                return this.mUIContextMenuItem;
+            }
+        }
         #endregion
         
         #region Fields
         private WpfMenuItem mUIAboutMenuItem;
+        
+        private WpfMenuItem mUIContextMenuItem;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "15.0.26208.0")]
+    public class UILibraryMenuItem : WpfMenuItem
+    {
+        
+        public UILibraryMenuItem(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.SearchProperties[WpfMenuItem.PropertyNames.Name] = "Library";
+            this.WindowTitles.Add("MusicPlayer");
+            #endregion
+        }
+        
+        #region Properties
+        public WpfMenuItem UIClearMenuItem
+        {
+            get
+            {
+                if ((this.mUIClearMenuItem == null))
+                {
+                    this.mUIClearMenuItem = new WpfMenuItem(this);
+                    #region Search Criteria
+                    this.mUIClearMenuItem.SearchProperties[WpfMenuItem.PropertyNames.AutomationId] = "MiClear";
+                    this.mUIClearMenuItem.SearchConfigurations.Add(SearchConfiguration.ExpandWhileSearching);
+                    this.mUIClearMenuItem.WindowTitles.Add("MusicPlayer");
+                    #endregion
+                }
+                return this.mUIClearMenuItem;
+            }
+        }
+        
+        public WpfMenuItem UIConfigureMenuItem
+        {
+            get
+            {
+                if ((this.mUIConfigureMenuItem == null))
+                {
+                    this.mUIConfigureMenuItem = new WpfMenuItem(this);
+                    #region Search Criteria
+                    this.mUIConfigureMenuItem.SearchProperties[WpfMenuItem.PropertyNames.Name] = "Configure";
+                    this.mUIConfigureMenuItem.SearchConfigurations.Add(SearchConfiguration.ExpandWhileSearching);
+                    this.mUIConfigureMenuItem.WindowTitles.Add("MusicPlayer");
+                    #endregion
+                }
+                return this.mUIConfigureMenuItem;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WpfMenuItem mUIClearMenuItem;
+        
+        private WpfMenuItem mUIConfigureMenuItem;
         #endregion
     }
     
@@ -1982,12 +2566,30 @@ namespace CodedUITestProject
                 return this.mUIAddtoPlaylistMenuItem;
             }
         }
+        
+        public WpfMenuItem UIPropertyMenuItem
+        {
+            get
+            {
+                if ((this.mUIPropertyMenuItem == null))
+                {
+                    this.mUIPropertyMenuItem = new WpfMenuItem(this);
+                    #region Search Criteria
+                    this.mUIPropertyMenuItem.SearchProperties[WpfMenuItem.PropertyNames.Name] = "Property";
+                    this.mUIPropertyMenuItem.WindowTitles.Add("MusicPlayer");
+                    #endregion
+                }
+                return this.mUIPropertyMenuItem;
+            }
+        }
         #endregion
         
         #region Fields
         private WpfMenuItem mUIImporttoMusicLibraryMenuItem;
         
         private WpfMenuItem mUIAddtoPlaylistMenuItem;
+        
+        private WpfMenuItem mUIPropertyMenuItem;
         #endregion
     }
     
@@ -2174,10 +2776,24 @@ namespace CodedUITestProject
                 return this.mUIOKWindow;
             }
         }
+        
+        public UIAboutMusicPlayerTitleBar UIAboutMusicPlayerTitleBar
+        {
+            get
+            {
+                if ((this.mUIAboutMusicPlayerTitleBar == null))
+                {
+                    this.mUIAboutMusicPlayerTitleBar = new UIAboutMusicPlayerTitleBar(this);
+                }
+                return this.mUIAboutMusicPlayerTitleBar;
+            }
+        }
         #endregion
         
         #region Fields
         private UIOKWindow1 mUIOKWindow;
+        
+        private UIAboutMusicPlayerTitleBar mUIAboutMusicPlayerTitleBar;
         #endregion
     }
     
@@ -2214,6 +2830,41 @@ namespace CodedUITestProject
         
         #region Fields
         private WinButton mUIOKButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "15.0.26208.0")]
+    public class UIAboutMusicPlayerTitleBar : WinTitleBar
+    {
+        
+        public UIAboutMusicPlayerTitleBar(UITestControl searchLimitContainer) : 
+                base(searchLimitContainer)
+        {
+            #region Search Criteria
+            this.WindowTitles.Add("About Music Player");
+            #endregion
+        }
+        
+        #region Properties
+        public WinButton UICloseButton
+        {
+            get
+            {
+                if ((this.mUICloseButton == null))
+                {
+                    this.mUICloseButton = new WinButton(this);
+                    #region Search Criteria
+                    this.mUICloseButton.SearchProperties[WinButton.PropertyNames.Name] = "Close";
+                    this.mUICloseButton.WindowTitles.Add("About Music Player");
+                    #endregion
+                }
+                return this.mUICloseButton;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WinButton mUICloseButton;
         #endregion
     }
     
@@ -2317,6 +2968,60 @@ namespace CodedUITestProject
         
         #region Fields
         private WinButton mUINOButton;
+        #endregion
+    }
+    
+    [GeneratedCode("Coded UITest Builder", "15.0.26208.0")]
+    public class UIMediaPropertyWindow : WpfWindow
+    {
+        
+        public UIMediaPropertyWindow()
+        {
+            #region Search Criteria
+            this.SearchProperties[WpfWindow.PropertyNames.Name] = "MediaProperty";
+            this.SearchProperties.Add(new PropertyExpression(WpfWindow.PropertyNames.ClassName, "HwndWrapper", PropertyExpressionOperator.Contains));
+            this.WindowTitles.Add("MediaProperty");
+            #endregion
+        }
+        
+        #region Properties
+        public WpfEdit UITbYearEdit
+        {
+            get
+            {
+                if ((this.mUITbYearEdit == null))
+                {
+                    this.mUITbYearEdit = new WpfEdit(this);
+                    #region Search Criteria
+                    this.mUITbYearEdit.SearchProperties[WpfEdit.PropertyNames.AutomationId] = "tbYear";
+                    this.mUITbYearEdit.WindowTitles.Add("MediaProperty");
+                    #endregion
+                }
+                return this.mUITbYearEdit;
+            }
+        }
+        
+        public WpfEdit UITbDescriptionEdit
+        {
+            get
+            {
+                if ((this.mUITbDescriptionEdit == null))
+                {
+                    this.mUITbDescriptionEdit = new WpfEdit(this);
+                    #region Search Criteria
+                    this.mUITbDescriptionEdit.SearchProperties[WpfEdit.PropertyNames.AutomationId] = "tbDescription";
+                    this.mUITbDescriptionEdit.WindowTitles.Add("MediaProperty");
+                    #endregion
+                }
+                return this.mUITbDescriptionEdit;
+            }
+        }
+        #endregion
+        
+        #region Fields
+        private WpfEdit mUITbYearEdit;
+        
+        private WpfEdit mUITbDescriptionEdit;
         #endregion
     }
 }

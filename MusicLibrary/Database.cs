@@ -85,6 +85,31 @@ namespace MusicLibrary
             }
         }
 
+        internal void SaveOnePlaylistsToLib(List<PlayList> lstPlaylist)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                foreach (var pl in lstPlaylist)
+                {
+                    ctx.PlayLists.Add(pl);
+                    Console.WriteLine("Playlist: {0}, {1}, {2}, {3}", pl.Id, pl.SongId, pl.PlayListName, pl.Description);
+                    try
+                    {
+                        ctx.SaveChanges();
+                    }
+                    catch (System.Data.Entity.Infrastructure.DbUpdateException ex)
+                    {
+                        Console.WriteLine("Entity.Infrastructure update Exception"+ex.StackTrace);
+                    }
+
+                    
+                }
+            }
+        }
+
+
+        //internal void SavePlaylist(String plName,String plDescription)
+   
         internal void DeleteSongsFromLib(List<Song> lstMusic)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -146,6 +171,15 @@ namespace MusicLibrary
             }
         }
 
+        //add by chen
+        internal int GetPlaylistsMaxId()
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                int maxId = ctx.PlayLists.Max(p => p.Id);
+                return maxId;
+            }
+        }
         internal List<String> GetPlaylistName()
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())

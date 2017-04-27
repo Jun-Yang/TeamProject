@@ -1,0 +1,30 @@
+﻿<Window x:Class="MusicLibrary.PlayListNewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicLibrary"
+        mc:Ignorable="d"
+        Title="PlayListNewWindow" Height="285.097" Width="345.631" MinWidth="280" MinHeight="190" Icon="@..\..\Image\player.png" WindowStartupLocation="Manual" >
+    <Grid Margin="0,0,-6.8,-1.2" Background="#DCDCDC">
+        <Grid.RowDefinitions  >
+            <RowDefinition Height="Auto" MinHeight="27.2" />
+            <RowDefinition Height="Auto" MinHeight="24" />
+            <RowDefinition Height="100" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition />
+            <ColumnDefinition Width="244" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Content="     New PlayList" Grid.ColumnSpan="2" Background="#DCDCDC" HorizontalAlignment="Left" Width="250" Margin="83,0,0,1.2"/>
+        <Label Grid.Column="0" Content="Playlist Name" Margin="0,26,1.8,0.2" Grid.RowSpan="2" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Description" Grid.ColumnSpan="2" Margin="0,0.8,-0.2,0.2"/>
+
+        <TextBox x:Name ="tbPlayListName" Grid.Column="1" Margin="7.2,1.8,6.8,0.2" Grid.Row="1" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name ="tbDescription" Grid.Column="1" Margin="7.2,0.8,5.8,0.2" Grid.Row="2" HorizontalAlignment="Stretch"/>
+        <Button Content="Save" Click="btSave_Click" HorizontalAlignment="Left" Margin="26,29.8,0,0" Grid.Row="3" VerticalAlignment="Top" Width="60" Grid.Column="1" Height="25" RenderTransformOrigin="0.461,1.283" />
+        <Button Content="Cancel"  Grid.Column="1"  Grid.Row="3" Click="btCancel_Click" VerticalAlignment="Top" Margin="138,29.8,44,0" Height="25"/>
+        <Label Grid.Column="0"  Grid.Row="0" Background="#DCDCDC" Margin="0,0,1.8,0.2" />
+    </Grid>
+</Window>

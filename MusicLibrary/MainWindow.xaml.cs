@@ -3,11 +3,13 @@ using NAudio.CoreAudioApi;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing.Printing;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -49,6 +51,40 @@ namespace MusicLibrary
         private void RefreshMusicLibrary()
         {
             LvLibrary.ItemsSource = ListMusicLibrary;
+            if (LvLibrary.Items.Count == 0)
+            {
+                DisablePlayControl();
+            }
+            else
+            {
+                LvLibrary.Focus();
+                LvLibrary.SelectedIndex = indexbeforeAdd;
+                LvLibrary.Items.Refresh();
+                EnablePlayControl();
+            }
+        }
+
+        //add by chen 0427 RefreshListViewPlaying()
+        private void RefreshListViewPlaying()
+        {
+            LvPlay.ItemsSource = ListPlaying;
+            if (LvPlay.Items.Count == 0)
+            {
+                DisablePlayControl();
+            }
+            else
+            {
+                LvPlay.Focus();
+                LvPlay.SelectedIndex = indexbeforeAdd;
+                LvPlay.Items.Refresh();
+                EnablePlayControl();
+            }
+        }
+
+        //add by chen 0427
+        private void RefreshLvPlay()
+        {
+            LvPlay.ItemsSource = ListPlaying;
             if (LvLibrary.Items.Count == 0)
             {
                 DisablePlayControl();
@@ -924,7 +960,114 @@ namespace MusicLibrary
             visual.Left = (this.Left + (this.Width / 2)) - visual.Width / 2;
             visual.Show();
         }
+
+        //add by chen 0427 
+        private void CmPlayListNew_Click(object sender, RoutedEventArgs e)
+        {
+            PlayListNewWindow playlistwindow = new PlayListNewWindow();
+            //position the playlistwindow
+            playlistwindow.Top = (this.Top + (this.Height / 2)) - playlistwindow.Height / 2;
+            playlistwindow.Left = (this.Left + (this.Width / 2)) - playlistwindow.Width / 2;
+            playlistwindow.Show();
+        }
+
+        //add by chen 0427
+        private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog pd = new PrintDialog();
+            if (pd.ShowDialog() != true) return;
+            PrintDocument doc = new PrintDocument();
+            //doc.PageHeight = pd.PrintableAreaHeight;
+            //doc.PageWidth = pd.PrintableAreaWidth;
+            IDocumentPaginatorSource idocument = doc as IDocumentPaginatorSource;
+            pd.PrintDocument(idocument.DocumentPaginator, "Printing Flow Document...");
+        }
+
+        //add by chen 0427
+        private void TvPlayListItemRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBoxEx.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                if (LvPlay.SelectedItem != null)
+                {
+
+                    ListPl.RemoveAt(LvPlay.SelectedIndex);
+                    //RefreshMusicLibrary();
+                }
+                else
+                {
+                    MessageBoxEx.Show("You should select a music");
+                }
+            }
+        }
+
+        private void LvPlayItemRemove_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBoxEx.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                if (LvPlay.SelectedItem != null)
+                {
+
+                    try {
+                        ListPlaying.RemoveAt(LvPlay.SelectedIndex);
+                        RefreshListViewPlaying();
+                    }
+                    catch (System.ArgumentOutOfRangeException ex)
+                    {
+                        MessageBoxEx.Show("ListPlaying Remove failed"+ex.StackTrace);
+                    }
+                    //RefreshMusicLibrary();
+                }
+                else
+                {
+                    MessageBoxEx.Show("You should select a music");
+                }
+
+            }
+
+
+            if (LvPlay.SelectedItem != null)
+            {
+                LvPlay.Focus();
+                
+            }
+            else
+            {
+                MessageBoxEx.Show("You should select a music");
+            }
+        }
+
+        //private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
+        //{
+        //    #region Printer Selection
+        //    PrintDialog printDlg = new PrintDialog();
+        //    #endregion
+
+        //    #region Create Document
+        //    PrintDocument printDoc = new PrintDocument();
+        //    printDoc.DocumentName = "Print Document";
+        //    printDoc.PrintPage += printDoc_PrintPage;
+        //    printDlg.Document = printDoc;
+        //    #endregion
+
+        //    if (printDlg.ShowDialog() == DialogResult.OK)
+        //        printDoc.Print();
+        //}
     }
+
+    //void printDoc_PrintPage(object sender, PrintPageEventArgs e)
+    //{
+    //    e.Graphics.DrawString(this.textBox1.Text, this.textBox1.Font, Brushes.Black, 10, 25);
+    //}
+
     /*end of Playlist listview operation*/
 
     public class ImageToHeaderConverter : IValueConverter

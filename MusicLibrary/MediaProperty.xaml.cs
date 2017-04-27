@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,8 +20,6 @@ namespace MusicLibrary
             InitializeComponent();
             propertyList.Add(new FileProperty { name = "Title", value = s.Title });
             db = new Database();
-
-
             song = s;
         }
 
@@ -72,9 +71,6 @@ namespace MusicLibrary
 
         private void checkAllTextBoxChanged()
         {
-           //don't need to do it  
-
-
         }
         private void btSave_Click(object sender, RoutedEventArgs e)
         {
@@ -85,13 +81,24 @@ namespace MusicLibrary
             int AlbumId = Convert.ToInt32(tbAlbumId.Text);
             String pathToFile = tbPath.Text;
             //DateTime dt = Convert.ToDateTime(tbYear.Text);
-            int yearInt = Convert.ToInt32(tbYear.Text);
+            Regex regex = new Regex(@"\d+");
+            String input_year = tbYear.Text;
+            int yearInt = 1000;
+            if (Regex.IsMatch(input_year, "^(19|20)[0-9][0-9]"))
+            {
+                yearInt = Convert.ToInt32(tbYear.Text);
+            }
+            else {
+                MessageBox.Show("Please input 4 digital year");
+                return;
+            }
+            
 
             //To Do Format date and validation
 
             uint yearUint = (uint)(yearInt);
             String genre = tbGenre.Text;
-            //string date = song.Year.ToString("yyyy-MM-dd");
+            string date = song.Year.ToString("yyyy");
             int rating = Convert.ToInt32(tbRating.Text);
             String description = tbDescription.Text;
 
