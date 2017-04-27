@@ -32,10 +32,50 @@ namespace MusicLibrary
             Description = description;
         }
 
-        public int Id { get; set; }
-        public int SongId { get; set; }
-        public string PlayListName { get; set; }
-        public string Description { get; set; }
+        public int Id
+        {
+            get
+            {
+                return this.id;
+            }
+            set
+            {
+                this.id = value;
+            }
+        }
+        public int SongId
+        {
+            get
+            {
+                return this.songId;
+            }
+            set
+            {
+                this.songId = value;
+            }
+        }
+        public string PlayListName
+        {
+            get
+            {
+                return this.playListName;
+            }
+            set
+            {
+                this.playListName = value;
+            }
+        }
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+            set
+            {
+                this.description = value;
+            }
+        }
     
         public virtual Song Song { get; set; }
         

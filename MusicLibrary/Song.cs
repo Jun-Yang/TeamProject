@@ -24,10 +24,11 @@ namespace MusicLibrary
         private string artistName;
         private int? albumId;
         private int? sequenceId;
-        private string description;
+        private string pathToFile;
         private int? rating;
         private DateTime year;
         private string genre;
+        private string description;
 
         public Song(string title, string artist, int albumId, int sequenceId, string description, string filePath, uint year, string genre, int rating)
         {
@@ -50,17 +51,106 @@ namespace MusicLibrary
             Rating = rating;
         }
 
-
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string ArtistName { get; set; }
-        public Nullable<int> AlbumId { get; set; }
-        public Nullable<int> SequenceId { get; set; }
-        public string PathToFile { get; set; }
-        public System.DateTime Year { get; set; }
-        public string Genre { get; set; }
-        public Nullable<int> Rating { get; set; }
-        public string Description { get; set; }
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                this.title = value;
+            }
+        }
+        public string ArtistName
+        {
+            get
+            {
+                return this.artistName;
+            }
+            set
+            {
+                this.artistName = value;
+            }
+        }
+        public Nullable<int> AlbumId
+        {
+            get
+            {
+                return this.albumId;
+            }
+            set
+            {
+                this.albumId = value;
+            }
+        }
+        public Nullable<int> SequenceId
+        {
+            get
+            {
+                return this.sequenceId;
+            }
+            set
+            {
+                this.sequenceId = value;
+            }
+        }
+        public string PathToFile
+        {
+            get
+            {
+                return this.pathToFile;
+            }
+            set
+            {
+                this.pathToFile = value;
+            }
+        }
+        public System.DateTime Year
+        {
+            get
+            {
+                return this.year;
+            }
+            set
+            {
+                this.year = value;
+            }
+        }
+        public string Genre
+        {
+            get
+            {
+                return this.genre;
+            }
+            set
+            {
+                this.genre = value;
+            }
+        }
+        public Nullable<int> Rating
+        {
+            get
+            {
+                return this.rating;
+            }
+            set
+            {
+                this.rating = value;
+            }
+        }
+        public string Description
+        {
+            get
+            {
+                return this.description;
+            }
+            set
+            {
+                this.description = value;
+            }
+        }
     
         public virtual Album Album { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
