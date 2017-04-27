@@ -570,10 +570,10 @@ namespace MusicLibrary
                             MessageBoxEx.Show("You should select a music");
                         }
                     }
-                    else
-                    {
-                        PlayControl.Pause(ImagePlay);
-                    }
+                }
+                else
+                {
+                    PlayControl.Pause(ImagePlay);
                 }
             }
             catch (ArgumentNullException ex)
