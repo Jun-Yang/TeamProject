@@ -26,9 +26,9 @@ namespace MusicLibrary
 
         public PlayList(int id, int songId, string playlistName, string description)
         {
-            this.id = id;
-            this.SongId = songId;
-            this.playListName = playlistName;
+            Id = id;
+            SongId = songId;
+            PlayListName = playlistName;
             Description = description;
         }
 

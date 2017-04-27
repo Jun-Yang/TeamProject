@@ -30,7 +30,7 @@ namespace MusicLibrary
 
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
             InitTimer();
             db = new Database();
             ResetAllFields();
@@ -281,7 +281,7 @@ namespace MusicLibrary
                 BtPlay_Click(null, null);
             }
         }
-        
+
         private void MiAddToPlayList_Click(object sender, RoutedEventArgs e)
         {
             throw new NotImplementedException();
@@ -318,8 +318,6 @@ namespace MusicLibrary
             }
         }
 
-
-        //0420 adding by cc
         private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBoxEx.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
@@ -391,10 +389,6 @@ namespace MusicLibrary
         private void MiImportToLibrary_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            //openFileDialog.ValidateNames = false;
-            //openFileDialog.CheckFileExists = false;
-            //openFileDialog.CheckPathExists = true;
-            //openFileDialog.FileName = "Folder Selection.";
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -526,7 +520,6 @@ namespace MusicLibrary
         private void MiPlaybackPrevious_Click(object sender, RoutedEventArgs e)
         {
             BtPrevious_Click(sender, e);
-
         }
 
         //Adding by Chen 0426
@@ -544,10 +537,7 @@ namespace MusicLibrary
             }
 
         }
-
-
         /* End of Menu Item Operation */
-
 
         /* Begin of Play Control Operation */
         private void BtPlay_Click(object sender, RoutedEventArgs e)
@@ -620,7 +610,7 @@ namespace MusicLibrary
                 MessageBox.Show("Internal Error");
                 return;
             }
-            
+
             PlayControl.mediaPlayer.Open(new Uri(currentFile));
             PlayControl.Play(ImagePlay);
         }
@@ -754,7 +744,8 @@ namespace MusicLibrary
                         DataObject dataObject = new DataObject("myFormat", item);
                         DragDrop.DoDragDrop(item, dataObject, DragDropEffects.Move);
                     }
-                    else {
+                    else
+                    {
                         MessageBox.Show("Please choose a music file");
                     }
                 }
@@ -768,7 +759,7 @@ namespace MusicLibrary
                 }
             }
         }
-        
+
         private void LvLibrary_DragEnter(object sender, DragEventArgs e)
         {
             if (!e.Data.GetDataPresent("myFormat") || sender == e.Source)
@@ -780,7 +771,7 @@ namespace MusicLibrary
         private void LvLibrary_Drop(object sender, DragEventArgs e)
         {
             TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
-            
+
             if (e.Data.GetDataPresent("myFormat"))
             {
                 try
@@ -802,14 +793,13 @@ namespace MusicLibrary
                 {
                     Console.WriteLine(ex.StackTrace);
                 }
-                
             }
         }
 
         // Drag and drop from music library to playlist
         private void LvLibrary_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)                
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
                 // Get the dragged ListViewItem
                 ListView listView = sender as ListView;
@@ -940,5 +930,5 @@ namespace MusicLibrary
             throw new NotImplementedException();
         }
     }
-    
+
 }
