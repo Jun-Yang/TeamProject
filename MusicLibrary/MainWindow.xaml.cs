@@ -552,7 +552,7 @@ namespace MusicLibrary
 
                 mediaProperty.Top = (this.Top + (this.Height / 2)) - mediaProperty.Height / 2;
                 mediaProperty.Left = (this.Left + (this.Width / 2)) - mediaProperty.Width / 2;
-                mediaProperty.Show();
+                mediaProperty.ShowDialog();
             }
 
         }
