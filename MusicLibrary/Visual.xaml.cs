@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NAudio.CoreAudioApi;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using NAudio;
-using NAudio.CoreAudioApi;
-using System.Windows.Threading;
-using System.Runtime.InteropServices;
 
 namespace MusicLibrary
 {
@@ -31,7 +18,7 @@ namespace MusicLibrary
             
             var devices = enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.All, NAudio.CoreAudioApi.DeviceState.Active);
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += dispatcherTimer_Tick;
+            dispatcherTimer.Tick += DispatcherTimer_Tick;
             //dispatcherTimer.Interval = new TimeSpan(0, 0, 0.1);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             
@@ -40,7 +27,7 @@ namespace MusicLibrary
         }
 
 
-        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             MediaTimeline timeline = new MediaTimeline();
             //var device = (NAudio.CoreAudioApi.MMDevice)CbDevices.SelectedItem;

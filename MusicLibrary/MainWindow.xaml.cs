@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NAudio.CoreAudioApi;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,8 +11,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using NAudio;
-using NAudio.CoreAudioApi;
 
 namespace MusicLibrary
 {
@@ -102,11 +101,11 @@ namespace MusicLibrary
             {
                 Interval = TimeSpan.FromSeconds(1)
             };
-            timer.Tick += timer_Tick;
+            timer.Tick += Timer_Tick;
             timer.Start();
         }
 
-        internal void timer_Tick(object sender, EventArgs e)
+        internal void Timer_Tick(object sender, EventArgs e)
         {
             if ((PlayControl.mediaPlayer.Source != null) && (PlayControl.mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
             {
