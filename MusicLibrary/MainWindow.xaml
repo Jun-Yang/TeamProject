@@ -87,7 +87,6 @@
                                                 <ContextMenu>
                                                     <MenuItem Header="Play Media" Click="TvMenuPlayMedia_Click"/>
                                                     <MenuItem Header="Import to MusicLibrary" Click="TvMenuImportToLibrary_Click" />
-                                                    <MenuItem Header="Add to Playlist" />
                                                 </ContextMenu>
                                             </TextBlock.ContextMenu>
                                         </TextBlock>
@@ -116,6 +115,7 @@
                         <MenuItem Header="Delete"
                             Command="{Binding RemoveItem}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
+                        <MenuItem Header="Add to Playlist" />
                         <MenuItem Header="Property" Click="MenuItemProperty_Click" />
                     </ContextMenu>
                 </ListView.ContextMenu>
@@ -131,10 +131,11 @@
                           SelectedItemChanged="TvPlaylists_SelectedItemChanged">
                     <TreeView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Add" Click="MenuItemPlay_Click" />
+                            <MenuItem Header="New" Click="MenuItemPlay_Click" />
                             <MenuItem Header="Delete"
                             Command="{Binding RemoveItem}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
+                            <MenuItem Header="Save" />
                             <MenuItem Header="Property" Click="MenuItemProperty_Click" />
                         </ContextMenu>
                     </TreeView.ContextMenu>
@@ -154,7 +155,6 @@
                             <MenuItem Header="Delete"
                             Command="{Binding RemoveItem}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
-                            <MenuItem Header="Property" Click="MenuItemProperty_Click" />
                         </ContextMenu>
                     </ListView.ContextMenu>
                 </ListView>
