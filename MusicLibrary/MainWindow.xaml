@@ -20,15 +20,16 @@
             <MenuItem Header="_File">
                 <MenuItem Name="MiOpen" Header="_Open File" Click="MiOpenFile_Click"/>
                 <MenuItem Name="MiImportToLibrary" Header="_Import To Library" Click="MiImportToLibrary_Click"/>
-                <MenuItem Name="MiAddToPlayList" Header="_Add to PlayList" Click="MiAddToPlayList_Click"/>
-                <Separator />
-                <MenuItem Name="MiNewPlayList" Header="_New PlayList" />
-                <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" />
-                <MenuItem Name="MiSavePlayList" Header="_Save PlayList" />
                 <Separator />
                 <MenuItem Name="MiExit" Header="E_xit" Click="MiExit_Click"/>
             </MenuItem>
-            <MenuItem Header="Edit">
+            <MenuItem Header="Playlist">
+                <MenuItem Name="MiNewPlayList" Header="_New PlayList" />
+                <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" />
+                <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" />
+                <MenuItem Name="MiSavePlayList" Header="_Save PlayList" />
+            </MenuItem>
+            <MenuItem Header="Library">
                 <MenuItem Name="MiClear" Header="_Clear" Click="MiEditClear_Click" />
                 <MenuItem Name="MiSelectAll" Header="_SelectAll" />
                 <MenuItem Name="MiSelection" Header="_Selection" />
@@ -36,10 +37,7 @@
                 <Separator />
                 <MenuItem Name="MiSearch" Header="_Search" />
                 <MenuItem Name="MiRemove" Header="_Remove" Click="MenuItemRemove_Click"  />
-            </MenuItem>
-            <MenuItem Header="View">
-                <MenuItem Name="MiVisualizations" Header="_Visualizations" />
-                <MenuItem Name="MiPlaylistManager" Header="_PlaylistManager" />
+                <MenuItem Header="Configure" />
             </MenuItem>
             <MenuItem Header="Playback">
                 <MenuItem Name="MiPlay" Header="_Play" Click="MiPlayBackPlay_Click" />
@@ -54,20 +52,14 @@
             <MenuItem Header="Sound">
                 <MenuItem x:Name="EnableBase" Header="Base" IsCheckable="True" IsChecked="True"  />
                 <MenuItem x:Name="EnableSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
-            </MenuItem>
-            <MenuItem Header="Library">
-                <MenuItem Header="AlbumList" />
-                <MenuItem Header="Search" />
-                <Separator />
-                <MenuItem Header="Configure" />
-            </MenuItem>
+            </MenuItem>    
             <MenuItem Header="Help">
                 <MenuItem Header="Context" />
                 <MenuItem Header="About"  Click="MenuItemAbout_Click"/>
             </MenuItem>
         </Menu>
-        <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" CornerRadius="2">
-            <StackPanel Margin="5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Height="20">
+        <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" CornerRadius="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Height="20">
                 <Image Name="ImageSearch" Source="pack://application:,,,/image/search.png" />
                 <TextBox Name="TbFilter" Width="200"  Height="20" TextChanged="TbFilter_OnTextChanged" />
             </StackPanel>
