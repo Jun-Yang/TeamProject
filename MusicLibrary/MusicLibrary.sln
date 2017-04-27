@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicLibrary", "MusicLibrary.csproj", "{980085FF-A6C5-453A-8024-13681A3162A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "..\UnitTestProject\UnitTestProject.csproj", "{C83CF21C-AF7B-4C81-941E-8E39040022FF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodedUITestProject", "..\CodedUITestProject\CodedUITestProject.csproj", "{0A35B225-9B48-444E-928D-B8F314C35F31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestMusicLibrary", "UnitTestMusicLibrary\UnitTestMusicLibrary.csproj", "{F1576D53-CA56-4BF8-A26D-2531F9FB203B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{980085FF-A6C5-453A-8024-13681A3162A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{980085FF-A6C5-453A-8024-13681A3162A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{980085FF-A6C5-453A-8024-13681A3162A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C83CF21C-AF7B-4C81-941E-8E39040022FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C83CF21C-AF7B-4C81-941E-8E39040022FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C83CF21C-AF7B-4C81-941E-8E39040022FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C83CF21C-AF7B-4C81-941E-8E39040022FF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0A35B225-9B48-444E-928D-B8F314C35F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0A35B225-9B48-444E-928D-B8F314C35F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A35B225-9B48-444E-928D-B8F314C35F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A35B225-9B48-444E-928D-B8F314C35F31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1576D53-CA56-4BF8-A26D-2531F9FB203B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1576D53-CA56-4BF8-A26D-2531F9FB203B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1576D53-CA56-4BF8-A26D-2531F9FB203B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1576D53-CA56-4BF8-A26D-2531F9FB203B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
