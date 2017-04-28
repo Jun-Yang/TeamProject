@@ -209,6 +209,14 @@ namespace MusicLibrary
             }
         }
 
+        internal int GetPlaylistIdByName(string name)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                return (from pl in ctx.PlayLists where pl.PlayListName == name select pl.Id).First();
+            }
+        }
+
         internal String GetPlaylistNameByMaxId()
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -270,6 +278,16 @@ namespace MusicLibrary
             }
         }
 
+        internal void DeleteSongInPlaylist(PlayList pl)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                ctx.PlayLists.Remove(pl);
+                ctx.SaveChanges();
+                Console.WriteLine("Playlist: {0}, {1}, {2}, {3}", pl.Id, pl.SongId, pl.PlayListName, pl.Description);
+            }
+        }
+
         internal List<Song> GetSongByPlaylistName(string plName)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
@@ -286,6 +304,8 @@ namespace MusicLibrary
                 return lstMusic;
             }
         }
+
+        
 
         internal PlayList GetPlaylistByName(string plName)
         {

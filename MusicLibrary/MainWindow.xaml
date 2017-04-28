@@ -29,12 +29,11 @@
                 <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" />
                 <MenuItem Name="MiSavePlayList" Header="_Save PlayList" />
                 <MenuItem Name="MiPrintPlayList" Header="_Print PlayList" Click="MiPrintPlayList_Click"/>
-                
             </MenuItem>
             <MenuItem Header="Library">
                 <MenuItem Name="MiClear" Header="_Clear" Click="MiEditClear_Click" />
                 <MenuItem Name="MiSelectAll" Header="_SelectAll" />
-                <MenuItem Name="MiSelection" Header="_Selection" Click="MiVisual_Click"/>
+                <MenuItem Name="MiSelection" Header="_Selection" />
                 <MenuItem Name="MiSort" Header="_Sort" Click="MiEditSort_Click" />
                 <Separator />
                 <MenuItem Name="MiSearch" Header="_Search" />

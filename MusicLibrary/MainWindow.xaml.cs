@@ -1,5 +1,4 @@
 ﻿using Microsoft.Win32;
-using NAudio.CoreAudioApi;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,8 +37,6 @@ namespace MusicLibrary
             InitTimer();
             db = new Database();
             ResetAllFields();
-            NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
-            var devices = enumerator.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.All, NAudio.CoreAudioApi.DeviceState.Active);
             ListMusicLibrary = db.GetAllSongsFromLib();
             LvLibrary.ItemsSource = ListMusicLibrary;
             RefreshMusicLibrary();
@@ -150,18 +147,6 @@ namespace MusicLibrary
                 try
                 {
                     LblStatus.Content = String.Format("{0} / {1}", PlayControl.mediaPlayer.Position.ToString(@"mm\:ss"), PlayControl.mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
-
-                    //if (CbDevices.SelectedItem != null)
-                    //{
-                    //var device = (NAudio.CoreAudioApi.MMDevice)CbDevices.SelectedItem;
-                    //PbVisual.Value = (int)(Math.Round(device.AudioMeterInformation.MasterPeakValue * 100 + 0.5));
-                    NAudio.CoreAudioApi.MMDeviceEnumerator enumerator = new NAudio.CoreAudioApi.MMDeviceEnumerator();
-
-                    NAudio.CoreAudioApi.MMDevice defaultDevice =
-                    enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
-                    Visual v = new Visual();
-                    v.PbVisual.Value = (int)(Math.Round(defaultDevice.AudioMeterInformation.MasterPeakValue * 100 + 0.5));
-                    //}
                 }
                 catch (System.InvalidOperationException ex)
                 {
@@ -209,6 +194,7 @@ namespace MusicLibrary
                 rootItem.Items.Add(childItem);
             }
             rootItem.ExpandSubtree();
+            rootItem.IsSelected = true;
         }
 
         void PlaylistsExpanded(object sender, RoutedEventArgs e)
@@ -262,18 +248,25 @@ namespace MusicLibrary
         {
             TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
 
-            if (item.Header == null)
+            try
             {
+                if (item.Header == null)
+                {
 
-                MessageBox.Show("TreeViewItem playName is Null");
-                return;
+                    MessageBox.Show("TreeViewItem playName is Null");
+                    return;
+                }
+                else
+                {
+                    string plName = (string)item.Header;
+                    db.GetPlaylistByName(plName);
+                    ListPlaying = db.GetSongByPlaylistName(plName);
+                    LvPlay.ItemsSource = ListPlaying;
+                }
             }
-            else
+            catch (System.NullReferenceException ex)
             {
-                string plName = (string)item.Header;
-                db.GetPlaylistByName(plName);
-                ListPlaying = db.GetSongByPlaylistName(plName);
-                LvPlay.ItemsSource = ListPlaying;
+                Console.WriteLine("Item is null" + ex.StackTrace);
             }
         }
 
@@ -998,21 +991,9 @@ namespace MusicLibrary
             }
         }
 
-        private void MiVisual_Click(object sender, RoutedEventArgs e)
-        {
-
-            Visual visual = new Visual();
-
-            visual.Top = (this.Top + (this.Height / 2)) - visual.Height / 2;
-            visual.Left = (this.Left + (this.Width / 2)) - visual.Width / 2;
-            visual.Show();
-        }
-
         //add by chen 0427 
         private void CmPlayListNew_Click(object sender, RoutedEventArgs e)
         {
-            TreeViewItem rootItem = null;
-
             Song song = (Song)ListMusicLibrary[LvLibrary.SelectedIndex];
             PlayListNewWindow playlistwindow = new PlayListNewWindow(song);
             //position the playlistwindow
@@ -1051,7 +1032,7 @@ namespace MusicLibrary
         //add by chen 0427
         private void TvPlayListItemRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBoxEx.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBoxEx.Show("Delete this Playlist?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
@@ -1059,12 +1040,11 @@ namespace MusicLibrary
             {
                 if (TvPlaylists.SelectedItem != null)
                 {
-
                     TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
                     string plName = (string)item.Header;
                     db.DeletePlaylistFromLib(plName);
+                    TvPlaylists.Items.Clear();
                     PopulatePlaylists();
-
                 }
                 else
                 {
@@ -1076,7 +1056,7 @@ namespace MusicLibrary
         //0429 Add by Chen
         private void LvPlayItemRemove_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBoxEx.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBoxEx.Show("Delete this music?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
@@ -1084,7 +1064,6 @@ namespace MusicLibrary
             {
                 if (LvPlay.SelectedItem != null)
                 {
-
                     try
                     {
                         //fixed delete from database not remove ListView
@@ -1101,6 +1080,7 @@ namespace MusicLibrary
                             ListPlaying.RemoveAt(LvPlay.SelectedIndex);
                             db.DeletePlaylistFromLibBySongIdAndplName(song.Id, plName);
                             RefreshListViewPlaying();
+                            return;
                             //MessageBox.Show("Sucessfully delete song id " + song.Id + " playlist name" + plName);
                         }
                     }
@@ -1114,21 +1094,8 @@ namespace MusicLibrary
                 {
                     MessageBoxEx.Show("You should select a music");
                 }
-
-            }
-
-
-            if (LvPlay.SelectedItem != null)
-            {
-                LvPlay.Focus();
-
-            }
-            else
-            {
-                MessageBoxEx.Show("You should select a music");
             }
         }
-
     }
 
         /*end of Playlist listview operation*/
