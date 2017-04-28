@@ -4,8 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicLibrary"
-        mc:Ignorable="d" Closing="Window_Closing"
-        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="MusicPlayer" Height="768" Width="1024" MinWidth="1010" MinHeight="750" Loaded="Window_Loaded" Icon="@..\..\Image\player.png">
     <Window.Resources>
         <local:ImageToHeaderConverter x:Key="img"/>
@@ -19,6 +18,7 @@
         <Menu Grid.Row="0" VerticalAlignment="Center">
             <MenuItem Header="_File">
                 <MenuItem Name="MiOpen" Header="_Open File" InputGestureText="Ctrl+O" Click="MiOpenFile_Click"/>
+                <MenuItem Name="MiImportToLibrary" Header="_Import To Library" InputGestureText="Ctrl+I" Click="MiImportToLibrary_Click"/>
                 <Separator />
                 <MenuItem Name="MiExit" Header="E_xit" InputGestureText="Ctrl+X" Click="MiExit_Click"/>
             </MenuItem>
@@ -26,10 +26,8 @@
                 <MenuItem Name="MiNewPlayList" Header="_New PlayList" InputGestureText="Ctrl+P" Click="TvPlayListNew_Click" />
                 <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" InputGestureText="Ctrl+E" Click="TvPlayListProperty_Click"/>
                 <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" InputGestureText="Ctrl+D" Click="TvPlayListDelete_Click"/>
-                
             </MenuItem>
             <MenuItem Header="Library">
-                <MenuItem Name="MiImportToLibrary" Header="_Import To Library" InputGestureText="Ctrl+I" Click="MiImportToLibrary_Click"/>
                 <MenuItem Name="MiSearch" Header="_Search" InputGestureText="Ctrl+S" Click="MiSearch_Click"/>
                 <MenuItem Name="MiDelete" Header="_Delete" InputGestureText="Ctrl+D" Click="MenuItemDelete_Click"  />
                 <MenuItem Name="MiPrintLibrary" Header="_Print Library" InputGestureText="Ctrl+P" Click="MiPrintLibrary_Click"/>
@@ -46,12 +44,7 @@
                 <MenuItem Name="MiRandom" Header="_Random" IsCheckable="True" InputGestureText="Ctrl+R" Click="MiRandom_Click"/>
                 <MenuItem Name="MiRepeat" Header="_Repeat" IsCheckable="True" InputGestureText="Ctrl+E" Click="MiRepeat_Click"/>
             </MenuItem>
-            <MenuItem Header="Sound">
-                <MenuItem x:Name="EnableBase" Header="Base" IsCheckable="True" IsChecked="True"  />
-                <MenuItem x:Name="EnableSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
-            </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="Context" InputGestureText="Ctrl+C" />
                 <MenuItem Header="About"  InputGestureText="Ctrl+A" Click="MenuItemAbout_Click"/>
             </MenuItem>
         </Menu>

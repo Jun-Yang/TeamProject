@@ -10,14 +10,22 @@ namespace MusicLibrary
     {
         internal List<Song> GetAllSongsFromLib()
         {
-            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            try
             {
-                var lstSongs = (from s in ctx.Songs select s).ToList<Song>();
-                foreach (var s in lstSongs)
+                using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
                 {
-                    Console.WriteLine("S: {0}, {1}, {2},{3}", s.Id, s.Title, s.ArtistName, s.PathToFile);
+                    var lstSongs = (from s in ctx.Songs select s).ToList<Song>();
+                    foreach (var s in lstSongs)
+                    {
+                        Console.WriteLine("S: {0}, {1}, {2},{3}", s.Id, s.Title, s.ArtistName, s.PathToFile);
+                    }
+                    return lstSongs;
                 }
-                return lstSongs;
+            }
+            catch (System.Data.Entity.Core.EntityException ex)
+            {
+                MessageBoxEx.Show("Please check your network connection", ex.StackTrace);
+                return null;
             }
         }
 
