@@ -10,12 +10,27 @@ using System.Windows.Media.Imaging;
 
 namespace MusicLibrary
 {
-    class PlayControl
+    partial class PlayControl
     {
-
+        internal PlayMode mode;
         internal static bool isPlaying = false;
         internal static MediaPlayer mediaPlayer = new MediaPlayer();
         internal static double savedVolume = 0;
+
+        private PlayControl()
+        {
+            mediaPlayer.MediaEnded += new EventHandler(Media_Ended);
+            
+        }
+
+        private void Media_Ended(object sender, EventArgs e)
+        {
+            //if (mode == PlayMode.Sequence)
+            //{
+            //    BtPl
+            //}
+
+        }
 
         internal static void Play(Image imgObj)
         {

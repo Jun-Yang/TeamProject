@@ -48,8 +48,9 @@
                 <MenuItem Name="MiPrevious" Header="_Previous" Click="MiPlaybackPrevious_Click" />
                 <MenuItem Name="MiNext" Header="_Next"  Click="MiPlaybackNext_Click"/>
                 <Separator />
-                <MenuItem Name="MiRandom" Header="_Random" />
-                <MenuItem Name="MiOrder" Header="_Order" />
+                <MenuItem Name="MiSequence" Header="Se_quence" IsCheckable="True" Click="MiSequence_Click"/>
+                <MenuItem Name="MiRandom" Header="_Random" IsCheckable="True" Click="MiRandom_Click"/>
+                <MenuItem Name="MiRepeat" Header="_Repeat" IsCheckable="True" Click="MiRepeat_Click"/>
             </MenuItem>
             <MenuItem Header="Sound">
                 <MenuItem x:Name="EnableBase" Header="Base" IsCheckable="True" IsChecked="True"  />
@@ -138,7 +139,7 @@
                             Command="{Binding RemoveItem}"
                             CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="TvPlayListItemRemove_Click"/>
                             <MenuItem Header="Save" />
-                            <MenuItem Header="Property" Click="MenuItemProperty_Click" />
+                            <MenuItem Header="Property" Click="CmPlayListNew_Click" />
                         </ContextMenu>
                     </TreeView.ContextMenu>
                 </TreeView>

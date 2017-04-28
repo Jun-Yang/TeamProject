@@ -111,6 +111,7 @@
     <Compile Include="PlayListNewWindow.xaml.cs">
       <DependentUpon>PlayListNewWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlayMode.cs" />
     <Compile Include="RemoteLibraryModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

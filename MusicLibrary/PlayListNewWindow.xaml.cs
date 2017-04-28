@@ -21,10 +21,12 @@ namespace MusicLibrary
     {
         private List<PlayList> lsPlayList = new List<PlayList>();
         private Database db;
-        public PlayListNewWindow()
+        Song song;
+        public PlayListNewWindow(Song s)
         {
             InitializeComponent();
             db = new Database();
+            song = s;
         }
 
         private void btCancel_Click(object sender, RoutedEventArgs e)
@@ -37,10 +39,9 @@ namespace MusicLibrary
             String plName = tbPlayListName.Text;
             String plDescription = tbDescription.Text;
             int playListId = db.GetPlaylistsMaxId()+1;
-            PlayList pl = new PlayList(playListId, 2000, plName, plDescription);
+            PlayList pl = new PlayList(playListId, 0xff, plName, plDescription);
             //Playlist: {0}, {1}, {2}, {3}", pl.Id, pl.SongId, pl.PlayListName, pl.Description
-            lsPlayList.Add(pl);
-            db.SaveOnePlaylistsToLib(lsPlayList);
+            db.InsertSongToPlaylist(pl);
             MessageBox.Show("New Playlist Added into Remote Database MusicLibrary , playlist id is"+ playListId);
 
         }

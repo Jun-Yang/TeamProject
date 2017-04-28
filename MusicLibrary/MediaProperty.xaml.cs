@@ -39,7 +39,7 @@ namespace MusicLibrary
             //}
         }
 
-        private void btCancel_Click(object sender, RoutedEventArgs e)
+        private void BtPropertyCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -68,11 +68,8 @@ namespace MusicLibrary
             }
 
         }
-
-        private void checkAllTextBoxChanged()
-        {
-        }
-        private void btSave_Click(object sender, RoutedEventArgs e)
+        
+        private void BtPropertySave_Click(object sender, RoutedEventArgs e)
         {
             String title = tbSongTitle.Text;
             String artistName = tbArtistName.Text ;

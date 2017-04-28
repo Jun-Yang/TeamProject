@@ -26,6 +26,7 @@ namespace MusicLibrary
         private static bool isLibrary = false;
         private static bool isPlaylist = false;
         private Database db;
+        internal static PlayControl.PlayMode playMode = PlayControl.PlayMode.Sequence;
 
         internal static List<Song> ListMusicLibrary = new List<Song>();
         internal static List<Song> ListPlaying = new List<Song>();
@@ -590,7 +591,27 @@ namespace MusicLibrary
                 mediaProperty.Left = (this.Left + (this.Width / 2)) - mediaProperty.Width / 2;
                 mediaProperty.ShowDialog();
             }
+        }
 
+        private void MiSequence_Click(object sender, RoutedEventArgs e)
+        {
+            MiRandom.IsChecked = false;
+            MiRepeat.IsChecked = false;
+            playMode = PlayControl.PlayMode.Sequence;
+        }
+
+        private void MiRandom_Click(object sender, RoutedEventArgs e)
+        {
+            MiSequence.IsChecked = false;
+            MiRepeat.IsChecked = false;
+            playMode = PlayControl.PlayMode.Random;
+        }
+
+        private void MiRepeat_Click(object sender, RoutedEventArgs e)
+        {
+            MiRandom.IsChecked = false;
+            MiSequence.IsChecked = false;
+            playMode = PlayControl.PlayMode.Repeat;
         }
         /* End of Menu Item Operation */
 
@@ -964,11 +985,12 @@ namespace MusicLibrary
         //add by chen 0427 
         private void CmPlayListNew_Click(object sender, RoutedEventArgs e)
         {
-            PlayListNewWindow playlistwindow = new PlayListNewWindow();
+            Song song = (Song)ListMusicLibrary[LvLibrary.SelectedIndex];
+            PlayListNewWindow playlistwindow = new PlayListNewWindow(song);
             //position the playlistwindow
             playlistwindow.Top = (this.Top + (this.Height / 2)) - playlistwindow.Height / 2;
             playlistwindow.Left = (this.Left + (this.Width / 2)) - playlistwindow.Width / 2;
-            playlistwindow.Show();
+            playlistwindow.ShowDialog();
         }
 
         //add by chen 0427

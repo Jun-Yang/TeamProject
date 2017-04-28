@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
-        Title="MediaProperty" Height="446" Width="405" MinWidth="300" MinHeight="350" Icon="@..\..\Image\player.png" Closing="MediaProperty_Closing" WindowStartupLocation="Manual" Loaded="PropertyWindow_Loaded">
-    <Grid Background="#DCDCDC" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        Title="MediaProperty" Height="446" Width="405" MinWidth="300" MinHeight="350" Icon="@..\..\Image\player.png" 
+        Closing="MediaProperty_Closing" WindowStartupLocation="Manual" Loaded="PropertyWindow_Loaded" ResizeMode="NoResize">
+    <Grid Background="#DCDCDC" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         <Grid.RowDefinitions >
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -46,8 +47,8 @@
         <TextBox x:Name ="tbGenre"  Grid.Column="1" Margin="6,0,6,0" Grid.Row="8" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbRating"  Grid.Column="1" Margin="6,0,6,0" Grid.Row="9" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbDescription" Grid.Column="1" Margin="6,0,6,0" Grid.Row="10" HorizontalAlignment="Stretch"/>
-        <Button Content="Save" Click="btSave_Click" HorizontalAlignment="Left" Margin="6,10,0,0" Grid.Row="11" VerticalAlignment="Top" Width="60" Grid.Column="1" Height="20" RenderTransformOrigin="0.461,1.283" />
-        <Button Content="Cancel"  Grid.Column="1"  Grid.Row="11" Click="btCancel_Click" VerticalAlignment="Top" Margin="158,10,42,0" Height="20"/>
+        <Button Content="Save" Name="BtPropertySave" Click="BtPropertySave_Click" HorizontalAlignment="Right" Margin="0,20,249.4,0" Grid.Row="11" VerticalAlignment="Top" Width="80" Height="20" Grid.ColumnSpan="2" />
+        <Button Content="Cancel"  Name="BtPropertyCancel" Grid.Column="1"  Grid.Row="11" Click="BtPropertyCancel_Click" Margin="120,20,0,0" HorizontalAlignment="Left" Width="80"  Height="20" VerticalAlignment="Top"/>
         <Label Grid.Column="0"  Grid.Row="0" Background="#DCDCDC" />
     </Grid>
 </Window>
