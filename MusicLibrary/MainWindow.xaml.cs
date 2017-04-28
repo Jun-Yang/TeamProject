@@ -45,7 +45,14 @@ namespace MusicLibrary
             mediaPlayer.MediaEnded += new EventHandler(Media_Ended);
             db = new Database();
             ResetAllFields();
-            ListMusicLibrary = db.GetAllSongsFromLib();
+            if (db.GetAllSongsFromLib() != null)
+            {
+                ListMusicLibrary = db.GetAllSongsFromLib();
+            }
+            else
+            {
+                Close();
+            }
             LvLibrary.ItemsSource = ListMusicLibrary;
             RefreshMusicLibrary();
             if (ListMusicLibrary.Count > 0)
@@ -367,24 +374,6 @@ namespace MusicLibrary
         private void MiExit_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void Window_Closing(object sender, CancelEventArgs e)
-        {
-            //if (!_fileChanged) return;
-
-            var result = MessageBoxEx.Show("Do you want to save changes to PlayList?", "MusicPlayer", MessageBoxButton.YesNoCancel);
-            switch (result)
-            {
-                case MessageBoxResult.Yes:
-                    //MiSave_Click(null, null);
-                    break;
-                case MessageBoxResult.No:
-                    break;
-                case MessageBoxResult.Cancel:
-                    e.Cancel = true;
-                    return;
-            }
         }
 
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
