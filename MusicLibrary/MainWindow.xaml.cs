@@ -180,7 +180,6 @@ namespace MusicLibrary
                 if (driv.IsReady)
                     PopulateDirectory(driv.VolumeLabel + "(" + driv.Name + ")", driv.Name, tvDirectory, null, false);
             }
-
             PopulatePlaylists();
         }
 
@@ -400,9 +399,9 @@ namespace MusicLibrary
             }
         }
 
-        private void MenuItemRemove_Click(object sender, RoutedEventArgs e)
+        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBoxEx.Show("Delete this item?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBoxEx.Show("Delete this music from library?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
@@ -417,6 +416,16 @@ namespace MusicLibrary
             }
         }
 
+        private void MiSelectAll_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MiSearch_Click(object sender, RoutedEventArgs e)
+        {
+            TbFilter.Focus();
+        }
+
         private void MenuItemPlay_Click(object sender, RoutedEventArgs e)
         {
             if (LvLibrary.SelectedIndex != -1)
@@ -425,45 +434,6 @@ namespace MusicLibrary
                 BtStop_Click(null, null);
                 mediaPlayer.Open(new Uri(currentFile));
                 BtPlay_Click(null, null);
-            }
-        }
-
-        //treeview select one song right click -play song
-        private void TvMenuPlayMedia_Click(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("Play Media?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-            {
-                return;
-            }
-            else
-            {
-                TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
-                if (File.Exists(item.Tag.ToString()))
-                {
-                    FileInfo fileInfo = new FileInfo(item.Tag.ToString());
-                    AddMusicToLibrary(fileInfo.FullName);
-                    if (LvLibrary.SelectedIndex != -1)
-                    {
-                        currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
-                        EnablePlayControl();
-                        BtStop_Click(null, null);
-                        mediaPlayer.Open(new Uri(currentFile));
-                        BtPlay_Click(null, null);
-                    }
-                }
-                //tvDirectory.SelectedItem.ToString();
-            }
-        }
-
-        private void TvMenuImportToLibrary_Click(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("Import to Library?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-            {
-                return;
-            }
-            else
-            {
-                ImportToLibrary_Click(sender, e);
             }
         }
 
@@ -635,10 +605,16 @@ namespace MusicLibrary
             MiSequence.IsChecked = false;
             playMode = PlayMode.Repeat;
         }
+
+        private void MiEditSort_Click(object sender, RoutedEventArgs e)
+        {
+            //read media information from database 
+            ListMusicLibrary = db.GetAllSongsFromLib();
+            RefreshMusicLibrary();
+        }
         /* End of Menu Item Operation */
 
         /* Begin of Play Control Operation */
-
         private void Media_Ended(object sender, EventArgs e)
         {
             BtStop_Click(null, null);
@@ -761,7 +737,6 @@ namespace MusicLibrary
             savedVolume = v;
         }
 
-
         private void BtPlay_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -832,7 +807,6 @@ namespace MusicLibrary
                 MessageBox.Show("Internal Error");
                 return;
             }
-
             mediaPlayer.Open(new Uri(currentFile));
             Play(ImagePlay);
         }
@@ -894,7 +868,6 @@ namespace MusicLibrary
         {
             mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
         }
-
         /* End of Play Control Operation */
 
         internal static bool IsMusicFile(FileInfo info)
@@ -907,6 +880,46 @@ namespace MusicLibrary
                 default: return false;
             }
         }
+
+        // Begin directory treeview context menu
+        private void TvMenuPlayMedia_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Play this music?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                TreeViewItem item = (TreeViewItem)tvDirectory.SelectedItem;
+                if (File.Exists(item.Tag.ToString()))
+                {
+                    FileInfo fileInfo = new FileInfo(item.Tag.ToString());
+                    AddMusicToLibrary(fileInfo.FullName);
+                    if (LvLibrary.SelectedIndex != -1)
+                    {
+                        currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
+                        EnablePlayControl();
+                        BtStop_Click(null, null);
+                        mediaPlayer.Open(new Uri(currentFile));
+                        BtPlay_Click(null, null);
+                    }
+                }
+                //tvDirectory.SelectedItem.ToString();
+            }
+        }
+
+        private void TvMenuImportToLibrary_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Import to Library?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                ImportToLibrary_Click(sender, e);
+            }
+        }
+        // end directory treeview context menu
 
         /* Begin of Music library listview Operation */
         private void LvLibrary_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -939,13 +952,6 @@ namespace MusicLibrary
             }
         }
         /* End of Music library listview Operation */
-
-        private void MiEditSort_Click(object sender, RoutedEventArgs e)
-        {
-            //read media information from database 
-            ListMusicLibrary = db.GetAllSongsFromLib();
-            RefreshMusicLibrary();
-        }
 
         // Drag and drop from directory to music library
         private void TvDirectory_MouseMove(object sender, MouseEventArgs e)
@@ -1118,8 +1124,7 @@ namespace MusicLibrary
             }
         }
 
-        //add by chen 0427 
-        private void CmPlayListNew_Click(object sender, RoutedEventArgs e)
+        private void TvPlayListNew_Click(object sender, RoutedEventArgs e)
         {
             Song song = (Song)ListMusicLibrary[LvLibrary.SelectedIndex];
             PlayListNewWindow playlistwindow = new PlayListNewWindow(song);
@@ -1127,7 +1132,6 @@ namespace MusicLibrary
             playlistwindow.Top = (this.Top + (this.Height / 2)) - playlistwindow.Height / 2;
             playlistwindow.Left = (this.Left + (this.Width / 2)) - playlistwindow.Width / 2;
             playlistwindow.ShowDialog();
-            //TvPlaylists_SelectedItemChanged(null,null);
             TvPlaylists.Items.Clear();
             PopulatePlaylists();
             string plName = db.GetPlaylistNameByMaxId();
@@ -1143,29 +1147,54 @@ namespace MusicLibrary
             LvPlay.ItemsSource = ListPlaying;
         }
 
-
-        //add by chen 0428
-        private void MiPrintMusicLibrary_Click(object sender, RoutedEventArgs e)
-            
+        private void TvPlayListProperty_Click(object sender, RoutedEventArgs e)
         {
-            
-            PrintMusicLibraryWindow printMLWindow = new PrintMusicLibraryWindow(ListMusicLibrary);
-            printMLWindow.Top = (this.Top + (this.Height / 2)) - printMLWindow.Height / 2;
-            printMLWindow.Left = (this.Left + (this.Width / 2)) - printMLWindow.Width / 2;
-            printMLWindow.ShowDialog();
-        }
-
-
-        //add by chen 0427
-        private void TvPlayListItemRemove_Click(object sender, RoutedEventArgs e)
-        {
-            if (MessageBoxEx.Show("Delete this Playlist?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            string plName = ((TreeViewItem)TvPlaylists.SelectedItem).Header.ToString();
+            if (!plName.Equals("Playlists") && plName != null)
             {
-                return;
+                PlaylistProperty playlistwindow = new PlaylistProperty(plName);
+                //position the playlistwindow
+                playlistwindow.Top = (this.Top + (this.Height / 2)) - playlistwindow.Height / 2;
+                playlistwindow.Left = (this.Left + (this.Width / 2)) - playlistwindow.Width / 2;
+                playlistwindow.ShowDialog();
+                TvPlaylists.Items.Clear();
+                PopulatePlaylists();
+                if (FindItemByHeader(TvPlaylists, "Playlists", "Playlists") != null)
+                {
+                    FindItemByHeader(TvPlaylists, "Playlists", "Playlists").IsSelected = true;
+                }
+                else
+                {
+                    Console.WriteLine("Internal error, cannot find a node");
+                }
             }
             else
             {
-                if (TvPlaylists.SelectedItem != null)
+                MessageBoxEx.Show("Please select a playlist");
+            }
+        }
+
+        private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog pd = new PrintDialog();
+            if (pd.ShowDialog() != true) return;
+            PrintDocument doc = new PrintDocument();
+            //doc.PageHeight = pd.PrintableAreaHeight;
+            //doc.PageWidth = pd.PrintableAreaWidth;
+            IDocumentPaginatorSource idocument = doc as IDocumentPaginatorSource;
+            pd.PrintDocument(idocument.DocumentPaginator, "Printing Flow Document...");
+        }
+
+        private void TvPlayListDelete_Click(object sender, RoutedEventArgs e)
+        {
+            string header = ((TreeViewItem)(TvPlaylists.SelectedItem)).Header.ToString();
+            if (!header.Equals("Playlists") && header != null)
+            {
+                if (MessageBoxEx.Show("Delete this Playlist?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    return;
+                }
+                else
                 {
                     TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
                     string plName = (string)item.Header;
@@ -1173,14 +1202,14 @@ namespace MusicLibrary
                     TvPlaylists.Items.Clear();
                     PopulatePlaylists();
                 }
-                else
-                {
-                    MessageBoxEx.Show("You should select a playlist");
-                }
+            }
+            else
+            {
+                MessageBoxEx.Show("You should select a playlist");
             }
         }
 
-        //0429 Add by Chen
+        //Begin listview playing list operation
         private void LvPlayItemRemove_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBoxEx.Show("Delete this music?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
@@ -1193,14 +1222,12 @@ namespace MusicLibrary
                 {
                     try
                     {
-                        //fixed delete from database not remove ListView
                         TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
                         if (item.Header != null)
                         {
                             string plName = (string)item.Header;
                             db.GetPlaylistByName(plName);
                             ListPlaying = db.GetSongByPlaylistName(plName);
-                            //LvPlay.ItemsSource = ListPlaying;
 
                             Song song = (Song)LvPlay.SelectedItem;
                             int songId = song.Id;
@@ -1208,14 +1235,12 @@ namespace MusicLibrary
                             db.DeletePlaylistFromLibBySongIdAndplName(song.Id, plName);
                             RefreshListViewPlaying();
                             return;
-                            //MessageBox.Show("Sucessfully delete song id " + song.Id + " playlist name" + plName);
                         }
                     }
                     catch (System.ArgumentOutOfRangeException ex)
                     {
                         MessageBoxEx.Show("ListPlaying Remove failed" + ex.StackTrace);
                     }
-                    //RefreshMusicLibrary();
                 }
                 else
                 {
@@ -1223,13 +1248,7 @@ namespace MusicLibrary
                 }
             }
         }
-
-        private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
-
     /*end of Playlist listview operation*/
 
     public class ImageToHeaderConverter : IValueConverter
@@ -1264,5 +1283,4 @@ namespace MusicLibrary
             throw new NotImplementedException();
         }
     }
-
 }

@@ -18,47 +18,40 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" VerticalAlignment="Center">
             <MenuItem Header="_File">
-                <MenuItem Name="MiOpen" Header="_Open File" Click="MiOpenFile_Click"/>
-                <MenuItem Name="MiImportToLibrary" Header="_Import To Library" Click="MiImportToLibrary_Click"/>
+                <MenuItem Name="MiOpen" Header="_Open File" InputGestureText="Ctrl+O" Click="MiOpenFile_Click"/>
                 <Separator />
-                <MenuItem Name="MiExit" Header="E_xit" Click="MiExit_Click"/>
+                <MenuItem Name="MiExit" Header="E_xit" InputGestureText="Ctrl+X" Click="MiExit_Click"/>
             </MenuItem>
             <MenuItem Header="Playlist">
-                <MenuItem Name="MiNewPlayList" Header="_New PlayList" />
-                <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" />
-                <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" />
-                <MenuItem Name="MiSavePlayList" Header="_Save PlayList" />
-                <MenuItem Name="MiMusicLibrary" Header="_Print Music Library" Click="MiPrintMusicLibrary_Click"/>
-                <MenuItem Name="MiPlayList" Header="_Print PlayList" Click="MiPrintPlayList_Click"/>
+                <MenuItem Name="MiNewPlayList" Header="_New PlayList" InputGestureText="Ctrl+P" Click="TvPlayListNew_Click" />
+                <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" InputGestureText="Ctrl+E" Click="TvPlayListProperty_Click"/>
+                <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" InputGestureText="Ctrl+D" Click="TvPlayListDelete_Click"/>
+                <MenuItem Name="MiPrintPlayList" Header="_Print PlayList" InputGestureText="Ctrl+P" Click="MiPrintPlayList_Click"/>
             </MenuItem>
             <MenuItem Header="Library">
-                <MenuItem Name="MiClear" Header="_Clear" Click="MiEditClear_Click" />
-                <MenuItem Name="MiSelectAll" Header="_SelectAll" />
-                <MenuItem Name="MiSelection" Header="_Selection" />
-                <MenuItem Name="MiSort" Header="_Sort" Click="MiEditSort_Click" />
-                <Separator />
-                <MenuItem Name="MiSearch" Header="_Search" />
-                <MenuItem Name="MiRemove" Header="_Remove" Click="MenuItemRemove_Click"  />
-                <MenuItem Header="Configure" />
+                <MenuItem Name="MiImportToLibrary" Header="_Import To Library" InputGestureText="Ctrl+I" Click="MiImportToLibrary_Click"/>
+                <MenuItem Name="MiSearch" Header="_Search" InputGestureText="Ctrl+S" Click="MiSearch_Click"/>
+                <MenuItem Name="MiDelete" Header="_Delete" InputGestureText="Ctrl+D" Click="MenuItemDelete_Click"  />
+                <MenuItem Name="MiClear" Header="_Clear" InputGestureText="Ctrl+C" Click="MiEditClear_Click" />
             </MenuItem>
             <MenuItem Header="Playback">
-                <MenuItem Name="MiPlay" Header="_Play" Click="MiPlayBackPlay_Click" />
-                <MenuItem Name="MiStop" Header="_Stop" Click="MiPlaybackStop_Click" />
-                <MenuItem Name="MiPause" Header="_Pause" Click="MiPlaybackPause_Click" />
-                <MenuItem Name="MiPrevious" Header="_Previous" Click="MiPlaybackPrevious_Click" />
-                <MenuItem Name="MiNext" Header="_Next"  Click="MiPlaybackNext_Click"/>
+                <MenuItem Name="MiPlay" Header="_Play" InputGestureText="Ctrl+P" Click="MiPlayBackPlay_Click" />
+                <MenuItem Name="MiStop" Header="_Stop" InputGestureText="Ctrl+S" Click="MiPlaybackStop_Click" />
+                <MenuItem Name="MiPause" Header="_Pause" InputGestureText="Ctrl+P" Click="MiPlaybackPause_Click" />
+                <MenuItem Name="MiPrevious" Header="_Previous" InputGestureText="Ctrl+V" Click="MiPlaybackPrevious_Click" />
+                <MenuItem Name="MiNext" Header="_Next" InputGestureText="Ctrl+N" Click="MiPlaybackNext_Click"/>
                 <Separator />
-                <MenuItem Name="MiSequence" Header="Se_quence" IsCheckable="True" Click="MiSequence_Click" IsChecked="True"/>
-                <MenuItem Name="MiRandom" Header="_Random" IsCheckable="True" Click="MiRandom_Click"/>
-                <MenuItem Name="MiRepeat" Header="_Repeat" IsCheckable="True" Click="MiRepeat_Click"/>
+                <MenuItem Name="MiSequence" Header="Se_quence" IsCheckable="True" InputGestureText="Ctrl+S" Click="MiSequence_Click" IsChecked="True"/>
+                <MenuItem Name="MiRandom" Header="_Random" IsCheckable="True" InputGestureText="Ctrl+R" Click="MiRandom_Click"/>
+                <MenuItem Name="MiRepeat" Header="_Repeat" IsCheckable="True" InputGestureText="Ctrl+E" Click="MiRepeat_Click"/>
             </MenuItem>
             <MenuItem Header="Sound">
                 <MenuItem x:Name="EnableBase" Header="Base" IsCheckable="True" IsChecked="True"  />
                 <MenuItem x:Name="EnableSounds" Header="Sounds" IsCheckable="True" IsChecked="True"  />
             </MenuItem>
             <MenuItem Header="Help">
-                <MenuItem Header="Context" />
-                <MenuItem Header="About"  Click="MenuItemAbout_Click"/>
+                <MenuItem Header="Context" InputGestureText="Ctrl+C" />
+                <MenuItem Header="About"  InputGestureText="Ctrl+A" Click="MenuItemAbout_Click"/>
             </MenuItem>
         </Menu>
         <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" CornerRadius="1">
@@ -116,8 +109,8 @@
                     <ContextMenu>
                         <MenuItem Header="Play" Click="MenuItemPlay_Click" />
                         <MenuItem Header="Delete"
-                            Command="{Binding RemoveItem}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemRemove_Click"/>
+                            Command="{Binding DeleteItem}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="MenuItemDelete_Click"/>
                         <MenuItem Header="Add to Playlist" />
                         <MenuItem Header="Property" Click="MenuItemProperty_Click" />
                     </ContextMenu>
@@ -134,12 +127,11 @@
                           SelectedItemChanged="TvPlaylists_SelectedItemChanged">
                     <TreeView.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="New" Click="CmPlayListNew_Click" />
+                            <MenuItem Header="New" Click="TvPlayListNew_Click" />
                             <MenuItem Header="Delete"
-                            Command="{Binding RemoveItem}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="TvPlayListItemRemove_Click"/>
-                            <MenuItem Header="Save" />
-                            <MenuItem Header="Property" Click="CmPlayListNew_Click" />
+                            Command="{Binding DeleteItem}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" Click="TvPlayListDelete_Click"/>
+                            <MenuItem Header="Property" Click="TvPlayListProperty_Click" />
                         </ContextMenu>
                     </TreeView.ContextMenu>
                 </TreeView>
