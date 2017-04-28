@@ -26,7 +26,8 @@
                 <MenuItem Name="MiNewPlayList" Header="_New PlayList" InputGestureText="Ctrl+P" Click="TvPlayListNew_Click" />
                 <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" InputGestureText="Ctrl+E" Click="TvPlayListProperty_Click"/>
                 <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" InputGestureText="Ctrl+D" Click="TvPlayListDelete_Click"/>
-                <MenuItem Name="MiPrintMusicLibrary" Header="_Print Music Library" InputGestureText="Ctrl+D" Click="MiPrintMusicLibrary_Click"/>
+                <MenuItem Name="MiPrintMusicLibrary" Header="_Print Music Library" InputGestureText="Ctrl+P" Click="MiPrintMusicLibrary_Click"/>
+            </MenuItem>
             </MenuItem>
             <MenuItem Header="Library">
                 <MenuItem Name="MiSearch" Header="_Search" InputGestureText="Ctrl+S" Click="MiSearch_Click"/>
@@ -45,7 +46,6 @@
                 <MenuItem Name="MiRandom" Header="_Random" IsCheckable="True" InputGestureText="Ctrl+R" Click="MiRandom_Click"/>
                 <MenuItem Name="MiRepeat" Header="_Repeat" IsCheckable="True" InputGestureText="Ctrl+E" Click="MiRepeat_Click"/>
             </MenuItem>
-            
             <MenuItem Header="Help">
                 <MenuItem Header="About"  InputGestureText="Ctrl+A" Click="MenuItemAbout_Click"/>
             </MenuItem>
