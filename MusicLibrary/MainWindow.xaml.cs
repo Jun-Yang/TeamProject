@@ -1144,17 +1144,17 @@ namespace MusicLibrary
         }
 
 
-        //add by chen 0427
-        private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
+        //add by chen 0428
+        private void MiPrintMusicLibrary_Click(object sender, RoutedEventArgs e)
+            
         {
-            PrintDialog pd = new PrintDialog();
-            if (pd.ShowDialog() != true) return;
-            PrintDocument doc = new PrintDocument();
-            //doc.PageHeight = pd.PrintableAreaHeight;
-            //doc.PageWidth = pd.PrintableAreaWidth;
-            IDocumentPaginatorSource idocument = doc as IDocumentPaginatorSource;
-            pd.PrintDocument(idocument.DocumentPaginator, "Printing Flow Document...");
+            
+            PrintMusicLibraryWindow printMLWindow = new PrintMusicLibraryWindow(ListMusicLibrary);
+            printMLWindow.Top = (this.Top + (this.Height / 2)) - printMLWindow.Height / 2;
+            printMLWindow.Left = (this.Left + (this.Width / 2)) - printMLWindow.Width / 2;
+            printMLWindow.ShowDialog();
         }
+
 
         //add by chen 0427
         private void TvPlayListItemRemove_Click(object sender, RoutedEventArgs e)
@@ -1222,6 +1222,11 @@ namespace MusicLibrary
                     MessageBoxEx.Show("You should select a music");
                 }
             }
+        }
+
+        private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

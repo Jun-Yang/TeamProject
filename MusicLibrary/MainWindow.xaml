@@ -28,7 +28,8 @@
                 <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" />
                 <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" />
                 <MenuItem Name="MiSavePlayList" Header="_Save PlayList" />
-                <MenuItem Name="MiPrintPlayList" Header="_Print PlayList" Click="MiPrintPlayList_Click"/>
+                <MenuItem Name="MiMusicLibrary" Header="_Print Music Library" Click="MiPrintMusicLibrary_Click"/>
+                <MenuItem Name="MiPlayList" Header="_Print PlayList" Click="MiPrintPlayList_Click"/>
             </MenuItem>
             <MenuItem Header="Library">
                 <MenuItem Name="MiClear" Header="_Clear" Click="MiEditClear_Click" />
