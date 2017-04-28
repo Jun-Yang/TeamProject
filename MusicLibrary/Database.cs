@@ -138,6 +138,24 @@ namespace MusicLibrary
             }
         }
 
+        //add by chenchen 0428 
+        internal void DeletePlaylistFromLibBySongIdAndplName(int id,String plName)
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                var lstPlaylist = (from pl in ctx.PlayLists
+                                   where pl.SongId ==id && pl.PlayListName == plName
+                                   select pl
+                                   ).ToList<PlayList>();
+                foreach (var pl in lstPlaylist)
+                {
+                    ctx.PlayLists.Remove(pl);
+                    ctx.SaveChanges();
+                    Console.WriteLine("Playlist: {0}, {1}, {2}, {3}", pl.Id, pl.SongId, pl.PlayListName, pl.Description);
+                }
+            }
+        }
+
         internal void TruncatePlaylistsFromLib(string plName)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
