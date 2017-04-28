@@ -107,11 +107,11 @@
     <Compile Include="PlayListNewWindow.xaml.cs">
       <DependentUpon>PlayListNewWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlaylistProperty.xaml.cs">
+      <DependentUpon>PlaylistProperty.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PrintMusicLibraryWindow.xaml.cs">
       <DependentUpon>PrintMusicLibraryWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PrintWindow.xaml.cs">
-      <DependentUpon>PrintWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="RemoteLibraryModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -151,11 +151,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PrintMusicLibraryWindow.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="PlaylistProperty.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="PrintWindow.xaml">
+    <Page Include="PrintMusicLibraryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

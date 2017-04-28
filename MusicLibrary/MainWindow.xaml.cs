@@ -1176,13 +1176,13 @@ namespace MusicLibrary
 
         private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
         {
-            PrintDialog pd = new PrintDialog();
+            PrintMusicLibraryWindow pd = new PrintMusicLibraryWindow(ListMusicLibrary);
             if (pd.ShowDialog() != true) return;
             PrintDocument doc = new PrintDocument();
             //doc.PageHeight = pd.PrintableAreaHeight;
             //doc.PageWidth = pd.PrintableAreaWidth;
             IDocumentPaginatorSource idocument = doc as IDocumentPaginatorSource;
-            pd.PrintDocument(idocument.DocumentPaginator, "Printing Flow Document...");
+            //pd.PrintDocument(idocument.DocumentPaginator, "Printing Flow Document...");
         }
 
         private void TvPlayListDelete_Click(object sender, RoutedEventArgs e)
