@@ -47,7 +47,7 @@
                 <MenuItem Name="MiPrevious" Header="_Previous" Click="MiPlaybackPrevious_Click" />
                 <MenuItem Name="MiNext" Header="_Next"  Click="MiPlaybackNext_Click"/>
                 <Separator />
-                <MenuItem Name="MiSequence" Header="Se_quence" IsCheckable="True" Click="MiSequence_Click"/>
+                <MenuItem Name="MiSequence" Header="Se_quence" IsCheckable="True" Click="MiSequence_Click" IsChecked="True"/>
                 <MenuItem Name="MiRandom" Header="_Random" IsCheckable="True" Click="MiRandom_Click"/>
                 <MenuItem Name="MiRepeat" Header="_Repeat" IsCheckable="True" Click="MiRepeat_Click"/>
             </MenuItem>

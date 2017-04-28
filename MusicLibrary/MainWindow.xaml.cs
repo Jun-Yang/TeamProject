@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
 namespace MusicLibrary
@@ -25,7 +26,12 @@ namespace MusicLibrary
         private static bool isLibrary = false;
         private static bool isPlaylist = false;
         private Database db;
-        internal static PlayControl.PlayMode playMode = PlayControl.PlayMode.Sequence;
+        internal enum PlayMode { Sequence, Random, Repeat };
+        internal static PlayMode playMode = PlayMode.Sequence;
+
+        internal static bool isPlaying = false;
+        internal static MediaPlayer mediaPlayer = new MediaPlayer();
+        internal static double savedVolume = 0;
 
         internal static List<Song> ListMusicLibrary = new List<Song>();
         internal static List<Song> ListPlaying = new List<Song>();
@@ -35,11 +41,19 @@ namespace MusicLibrary
         {
             InitializeComponent();
             InitTimer();
+            mediaPlayer.MediaEnded += new EventHandler(Media_Ended);
             db = new Database();
             ResetAllFields();
             ListMusicLibrary = db.GetAllSongsFromLib();
             LvLibrary.ItemsSource = ListMusicLibrary;
             RefreshMusicLibrary();
+            if (ListMusicLibrary.Count > 0)
+            {
+                currentFile = ListMusicLibrary[0].PathToFile;
+                isLibrary = true;
+                isPlaylist = false;
+                mediaPlayer.Open(new Uri(currentFile));
+            }
         }
 
         private void RefreshMusicLibrary()
@@ -93,7 +107,7 @@ namespace MusicLibrary
         }
         private void ResetAllFields()
         {
-            SliVolume.Value = PlayControl.mediaPlayer.Volume * 4;
+            SliVolume.Value = mediaPlayer.Volume * 4;
         }
 
         private void DisablePlayControl()
@@ -136,17 +150,17 @@ namespace MusicLibrary
 
         internal void Timer_Tick(object sender, EventArgs e)
         {
-            if ((PlayControl.mediaPlayer.Source != null) && (PlayControl.mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
+            if ((mediaPlayer.Source != null) && (mediaPlayer.NaturalDuration.HasTimeSpan) && (!userIsDraggingSlider))
             {
                 SliProgress.Minimum = 0;
-                SliProgress.Maximum = PlayControl.mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-                SliProgress.Value = PlayControl.mediaPlayer.Position.TotalSeconds;
+                SliProgress.Maximum = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                SliProgress.Value = mediaPlayer.Position.TotalSeconds;
             }
 
-            if (PlayControl.mediaPlayer.Source != null)
+            if (mediaPlayer.Source != null)
                 try
                 {
-                    LblStatus.Content = String.Format("{0} / {1}", PlayControl.mediaPlayer.Position.ToString(@"mm\:ss"), PlayControl.mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
+                    LblStatus.Content = String.Format("{0} / {1}", mediaPlayer.Position.ToString(@"mm\:ss"), mediaPlayer.NaturalDuration.TimeSpan.ToString(@"mm\:ss"));
                 }
                 catch (System.InvalidOperationException ex)
                 {
@@ -318,7 +332,6 @@ namespace MusicLibrary
             }
         }
 
-
         private void TbFilter_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             string filter = TbFilter.Text.ToLower();
@@ -329,12 +342,6 @@ namespace MusicLibrary
             else
             {
                 List<Song> list = db.GetSongsByTitleArtist(filter);
-                ///* var filteredList = list.Where(b => b.Title.ToLower().Contains(filter)
-                //                                   || b.Author.ToLower().Contains(filter)); */
-                //var filteredList = from s in db.GetAllSongsFromLib()
-                //                   where (s.title.ToLower().Contains(filter) || s.name.ToLower().Contains(filter))
-                //                   select s;
-
                 LvLibrary.ItemsSource = db.GetSongsByTitleArtist(filter); ;
             }
         }
@@ -352,7 +359,7 @@ namespace MusicLibrary
                 currentFile = openFileDialog.FileName;
                 AddMusicToLibrary(currentFile);
                 BtStop_Click(null, null);
-                PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                mediaPlayer.Open(new Uri(currentFile));
                 BtPlay_Click(null, null);
             }
         }
@@ -415,9 +422,8 @@ namespace MusicLibrary
             if (LvLibrary.SelectedIndex != -1)
             {
                 EnablePlayControl();
-                //currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
                 BtStop_Click(null, null);
-                PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                mediaPlayer.Open(new Uri(currentFile));
                 BtPlay_Click(null, null);
             }
         }
@@ -441,7 +447,7 @@ namespace MusicLibrary
                         currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
                         EnablePlayControl();
                         BtStop_Click(null, null);
-                        PlayControl.mediaPlayer.Open(new Uri(currentFile));
+                        mediaPlayer.Open(new Uri(currentFile));
                         BtPlay_Click(null, null);
                     }
                 }
@@ -508,9 +514,6 @@ namespace MusicLibrary
                 {
                     currentFile = (String)ListMusicLibrary[indexbeforeAdd].PathToFile;
                     EnablePlayControl();
-                    //BtStop_Click(null, null);
-                    //PlayControl.mediaPlayer.Open(new Uri(currentFile));
-                    //BtPlay_Click(null, null);
                 }
                 else
                 {
@@ -579,12 +582,12 @@ namespace MusicLibrary
 
         private void MiPlaybackPause_Click(object sender, RoutedEventArgs e)
         {
-            PlayControl.Pause(ImagePlay);
+            Pause(ImagePlay);
         }
 
         private void MiPlaybackStop_Click(object sender, RoutedEventArgs e)
         {
-            PlayControl.Stop(ImagePlay);
+            Stop(ImagePlay);
         }
 
         private void MiPlaybackNext_Click(object sender, RoutedEventArgs e)
@@ -616,37 +619,161 @@ namespace MusicLibrary
         {
             MiRandom.IsChecked = false;
             MiRepeat.IsChecked = false;
-            playMode = PlayControl.PlayMode.Sequence;
+            playMode = PlayMode.Sequence;
         }
 
         private void MiRandom_Click(object sender, RoutedEventArgs e)
         {
             MiSequence.IsChecked = false;
             MiRepeat.IsChecked = false;
-            playMode = PlayControl.PlayMode.Random;
+            playMode = PlayMode.Random;
         }
 
         private void MiRepeat_Click(object sender, RoutedEventArgs e)
         {
             MiRandom.IsChecked = false;
             MiSequence.IsChecked = false;
-            playMode = PlayControl.PlayMode.Repeat;
+            playMode = PlayMode.Repeat;
         }
         /* End of Menu Item Operation */
 
         /* Begin of Play Control Operation */
+
+        private void Media_Ended(object sender, EventArgs e)
+        {
+            BtStop_Click(null, null);
+            if (playMode == PlayMode.Sequence)
+            {
+                BtNext_Click(null, null);
+            }
+            else if (playMode == PlayMode.Random)
+            {
+                Random random = new Random();
+                
+                if (isLibrary)
+                {
+                    int index = random.Next(0, ListMusicLibrary.Count);
+                    currentFile = (String)ListMusicLibrary[index].PathToFile;
+                    LvLibrary.SelectedIndex = index;
+                }
+                else if (isPlaylist)
+                {
+                    int index = random.Next(0, ListPlaying.Count);
+                    currentFile = (String)ListPlaying[index].PathToFile;
+                    LvPlay.SelectedIndex = index;
+                }
+                mediaPlayer.Open(new Uri(currentFile));
+                BtPlay_Click(null, null);
+            }
+            else if (playMode == PlayMode.Repeat)
+            {
+                BtPlay_Click(null,null);
+            }
+        }
+
+        internal static void Play(Image imgObj)
+        {
+            if (imgObj != null)
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                img.UriSource = new Uri("pack://application:,,,/image/pause.png");
+                img.EndInit();
+                imgObj.Source = img;
+                mediaPlayer.Play();
+                isPlaying = true;
+            }
+            else
+            {
+                MessageBox.Show("Internal error");
+            }
+        }
+
+        internal static void Pause(Image imgObj)
+        {
+            if (imgObj != null)
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                img.UriSource = new Uri("pack://application:,,,/image/play.png");
+                img.EndInit();
+                imgObj.Source = img;
+                mediaPlayer.Pause();
+                isPlaying = false;
+            }
+            else
+            {
+                MessageBox.Show("Internal error");
+            }
+        }
+
+        internal static void Stop(Image imgObj)
+        {
+            if (imgObj != null)
+            {
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                img.UriSource = new Uri("pack://application:,,,/image/play.png");
+                img.EndInit();
+                imgObj.Source = img;
+                mediaPlayer.Stop();
+                isPlaying = false;
+            }
+            else
+            {
+                MessageBox.Show("Internal error");
+            }
+        }
+
+        internal static void Speaker(Image imgObj)
+        {
+            if (imgObj != null)
+            {
+                if (mediaPlayer.Volume != 0)
+                {
+                    BitmapImage img = new BitmapImage();
+                    img.BeginInit();
+                    img.UriSource = new Uri("pack://application:,,,/image/mute.png");
+                    img.EndInit();
+                    imgObj.Source = img;
+                    savedVolume = mediaPlayer.Volume;
+                    mediaPlayer.Volume = 0;
+                }
+                else
+                {
+                    BitmapImage img = new BitmapImage();
+                    img.BeginInit();
+                    img.UriSource = new Uri("pack://application:,,,/image/loud.png");
+                    img.EndInit();
+                    imgObj.Source = img;
+                    mediaPlayer.Volume = savedVolume;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Internal error");
+            }
+        }
+
+        internal static void SetVolume(double v)
+        {
+            mediaPlayer.Volume = v;
+            savedVolume = v;
+        }
+
+
         private void BtPlay_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (!PlayControl.isPlaying)
+                if (!isPlaying)
                 {
                     if (isLibrary)
                     {
                         if (LvLibrary.SelectedItem != null)
                         {
                             LvLibrary.Focus();
-                            PlayControl.Play(ImagePlay);
+                            Play(ImagePlay);
                         }
                         else
                         {
@@ -658,7 +785,7 @@ namespace MusicLibrary
                         if (LvPlay.SelectedItem != null)
                         {
                             LvPlay.Focus();
-                            PlayControl.Play(ImagePlay);
+                            Play(ImagePlay);
                         }
                         else
                         {
@@ -668,7 +795,7 @@ namespace MusicLibrary
                 }
                 else
                 {
-                    PlayControl.Pause(ImagePlay);
+                    Pause(ImagePlay);
                 }
             }
             catch (ArgumentNullException ex)
@@ -679,7 +806,7 @@ namespace MusicLibrary
 
         private void BtStop_Click(object sender, RoutedEventArgs e)
         {
-            PlayControl.Stop(ImagePlay);
+            Stop(ImagePlay);
         }
 
         private void BtNext_Click(object sender, RoutedEventArgs e)
@@ -706,8 +833,8 @@ namespace MusicLibrary
                 return;
             }
 
-            PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(ImagePlay);
+            mediaPlayer.Open(new Uri(currentFile));
+            Play(ImagePlay);
         }
 
         private void BtPrevious_Click(object sender, RoutedEventArgs e)
@@ -733,18 +860,18 @@ namespace MusicLibrary
                 MessageBox.Show("Internal Error");
                 return;
             }
-            PlayControl.mediaPlayer.Open(new Uri(currentFile));
-            PlayControl.Play(ImagePlay);
+            mediaPlayer.Open(new Uri(currentFile));
+            Play(ImagePlay);
         }
 
         private void BtSpeaker_Click(object sender, RoutedEventArgs e)
         {
-            PlayControl.Speaker(ImageSpeaker);
+            Speaker(ImageSpeaker);
         }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            PlayControl.SetVolume(SliVolume.Value / 4);
+            SetVolume(SliVolume.Value / 4);
         }
 
         private void SliProgress_DragStarted(object sender, DragStartedEventArgs e)
@@ -755,7 +882,7 @@ namespace MusicLibrary
         private void SliProgress_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             userIsDraggingSlider = false;
-            PlayControl.mediaPlayer.Position = TimeSpan.FromSeconds(SliProgress.Value);
+            mediaPlayer.Position = TimeSpan.FromSeconds(SliProgress.Value);
         }
 
         private void SliProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -765,7 +892,7 @@ namespace MusicLibrary
 
         private void Grid_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            PlayControl.mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
+            mediaPlayer.Volume += (e.Delta > 0) ? 0.1 : -0.1;
         }
 
         /* End of Play Control Operation */
@@ -789,8 +916,8 @@ namespace MusicLibrary
                 currentFile = (String)ListMusicLibrary[LvLibrary.SelectedIndex].PathToFile;
                 isLibrary = true;
                 isPlaylist = false;
-                PlayControl.mediaPlayer.Open(new Uri(currentFile));
-                PlayControl.Play(ImagePlay);
+                mediaPlayer.Open(new Uri(currentFile));
+                Play(ImagePlay);
             }
         }
 
@@ -969,8 +1096,8 @@ namespace MusicLibrary
                 currentFile = ListPlaying[LvPlay.SelectedIndex].PathToFile;
                 isPlaylist = true;
                 isLibrary = false;
-                PlayControl.mediaPlayer.Open(new Uri(currentFile));
-                PlayControl.Play(ImagePlay);
+                mediaPlayer.Open(new Uri(currentFile));
+                Play(ImagePlay);
             }
         }
 
@@ -1098,39 +1225,39 @@ namespace MusicLibrary
         }
     }
 
-        /*end of Playlist listview operation*/
+    /*end of Playlist listview operation*/
 
-        public class ImageToHeaderConverter : IValueConverter
+    public class ImageToHeaderConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            string tag = (string)value;
+            if (File.Exists(tag))
             {
-                string tag = (string)value;
-                if (File.Exists(tag))
+                string fileExt = Path.GetExtension(tag).ToUpper();
+                if (fileExt == ".MP3" || fileExt == ".WMA")
                 {
-                    string fileExt = Path.GetExtension(tag).ToUpper();
-                    if (fileExt == ".MP3" || fileExt == ".WMA")
-                    {
-                        return "pack://application:,,,/image/music.png";
-                    }
-                    else
-                    {
-                        return "pack://application:,,,/image/file.png";
-                    }
-                }
-                if (tag.Length > 3)
-                {
-                    return "pack://application:,,,/image/folder.png";
+                    return "pack://application:,,,/image/music.png";
                 }
                 else
                 {
-                    return "pack://application:,,,/image/hardDrive.png";
+                    return "pack://application:,,,/image/file.png";
                 }
             }
-
-            public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+            if (tag.Length > 3)
             {
-                throw new NotImplementedException();
+                return "pack://application:,,,/image/folder.png";
+            }
+            else
+            {
+                return "pack://application:,,,/image/hardDrive.png";
             }
         }
-    
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

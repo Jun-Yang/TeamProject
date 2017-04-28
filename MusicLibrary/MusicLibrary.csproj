@@ -101,14 +101,12 @@
     </Compile>
     <Compile Include="MessageBoxEx.cs" />
     <Compile Include="Database.cs" />
-    <Compile Include="PlayControl.cs" />
     <Compile Include="PlayList.cs">
       <DependentUpon>RemoteLibraryModel.tt</DependentUpon>
     </Compile>
     <Compile Include="PlayListNewWindow.xaml.cs">
       <DependentUpon>PlayListNewWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlayMode.cs" />
     <Compile Include="RemoteLibraryModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
