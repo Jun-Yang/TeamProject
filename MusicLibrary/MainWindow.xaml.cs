@@ -363,11 +363,6 @@ namespace MusicLibrary
             }
         }
 
-        private void MiAddToPlayList_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         private void MiExit_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -415,12 +410,7 @@ namespace MusicLibrary
                 }
             }
         }
-
-        private void MiSelectAll_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        
         private void MiSearch_Click(object sender, RoutedEventArgs e)
         {
             TbFilter.Focus();
@@ -792,6 +782,10 @@ namespace MusicLibrary
                 {
                     LvLibrary.SelectedIndex++;
                 }
+                else if (LvLibrary.SelectedIndex == LvLibrary.Items.Count - 1)
+                {
+                    LvLibrary.SelectedIndex = 0;
+                }
                 LvLibrary.Focus();
             }
             else if (isPlaylist)
@@ -799,6 +793,10 @@ namespace MusicLibrary
                 if (LvPlay.SelectedIndex < LvPlay.Items.Count - 1)
                 {
                     LvPlay.SelectedIndex++;
+                }
+                else if (LvPlay.SelectedIndex == LvPlay.Items.Count - 1)
+                {
+                    LvPlay.SelectedIndex = 0;
                 }
                 LvPlay.Focus();
             }
@@ -1174,15 +1172,12 @@ namespace MusicLibrary
             }
         }
 
-        private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
+        private void MiPrintLibrary_Click(object sender, RoutedEventArgs e)
         {
             PrintMusicLibraryWindow pd = new PrintMusicLibraryWindow(ListMusicLibrary);
+            pd.Top = (this.Top + (this.Height / 2)) - pd.Height / 2;
+            pd.Left = (this.Left + (this.Width / 2)) - pd.Width / 2;
             if (pd.ShowDialog() != true) return;
-            PrintDocument doc = new PrintDocument();
-            //doc.PageHeight = pd.PrintableAreaHeight;
-            //doc.PageWidth = pd.PrintableAreaWidth;
-            IDocumentPaginatorSource idocument = doc as IDocumentPaginatorSource;
-            //pd.PrintDocument(idocument.DocumentPaginator, "Printing Flow Document...");
         }
 
         private void TvPlayListDelete_Click(object sender, RoutedEventArgs e)
@@ -1259,7 +1254,7 @@ namespace MusicLibrary
             if (File.Exists(tag))
             {
                 string fileExt = Path.GetExtension(tag).ToUpper();
-                if (fileExt == ".MP3" || fileExt == ".WMA")
+                if (fileExt == ".MP3" || fileExt == ".WMA" || fileExt==".WAV" || fileExt == ".AAC")
                 {
                     return "pack://application:,,,/image/music.png";
                 }

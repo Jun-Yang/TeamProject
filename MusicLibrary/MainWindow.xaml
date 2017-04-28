@@ -26,12 +26,13 @@
                 <MenuItem Name="MiNewPlayList" Header="_New PlayList" InputGestureText="Ctrl+P" Click="TvPlayListNew_Click" />
                 <MenuItem Name="MiEditPlayList" Header="_Edit PlayList" InputGestureText="Ctrl+E" Click="TvPlayListProperty_Click"/>
                 <MenuItem Name="MiDeletePlayList" Header="_Delete PlayList" InputGestureText="Ctrl+D" Click="TvPlayListDelete_Click"/>
-                <MenuItem Name="MiPrintPlayList" Header="_Print PlayList" InputGestureText="Ctrl+P" Click="MiPrintPlayList_Click"/>
+                
             </MenuItem>
             <MenuItem Header="Library">
                 <MenuItem Name="MiImportToLibrary" Header="_Import To Library" InputGestureText="Ctrl+I" Click="MiImportToLibrary_Click"/>
                 <MenuItem Name="MiSearch" Header="_Search" InputGestureText="Ctrl+S" Click="MiSearch_Click"/>
                 <MenuItem Name="MiDelete" Header="_Delete" InputGestureText="Ctrl+D" Click="MenuItemDelete_Click"  />
+                <MenuItem Name="MiPrintLibrary" Header="_Print Library" InputGestureText="Ctrl+P" Click="MiPrintLibrary_Click"/>
                 <MenuItem Name="MiClear" Header="_Clear" InputGestureText="Ctrl+C" Click="MiEditClear_Click" />
             </MenuItem>
             <MenuItem Header="Playback">
