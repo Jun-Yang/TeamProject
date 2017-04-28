@@ -991,6 +991,12 @@ namespace MusicLibrary
             playlistwindow.Top = (this.Top + (this.Height / 2)) - playlistwindow.Height / 2;
             playlistwindow.Left = (this.Left + (this.Width / 2)) - playlistwindow.Width / 2;
             playlistwindow.ShowDialog();
+            //TvPlaylists_SelectedItemChanged(null,null);
+            TvPlaylists.Items.Clear();
+            PopulatePlaylists();
+            //string plName = db.GetPlaylistNameByMaxId();
+            //ListPlaying = db.GetSongByPlaylistName(plName);
+            //LvPlay.ItemsSource = ListPlaying;
         }
 
         //add by chen 0427

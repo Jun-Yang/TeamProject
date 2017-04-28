@@ -101,8 +101,6 @@ namespace MusicLibrary
                     {
                         Console.WriteLine("Entity.Infrastructure update Exception"+ex.StackTrace);
                     }
-
-                    
                 }
             }
         }
@@ -190,6 +188,14 @@ namespace MusicLibrary
                     Console.WriteLine("Playlist Name: " + pl);
                 }
                 return lstPlName;
+            }
+        }
+
+        internal String GetPlaylistNameByMaxId()
+        {
+            using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
+            {
+                return (from pl in ctx.PlayLists orderby pl.Id descending select pl.PlayListName).SingleOrDefault();
             }
         }
 
