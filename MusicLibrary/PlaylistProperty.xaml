@@ -1,0 +1,27 @@
+﻿<Window x:Class="MusicLibrary.PlaylistProperty"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicLibrary"
+        mc:Ignorable="d"
+       Title="Playlist Property" Height="258.978" Width="338.436" MinWidth="280" MinHeight="190" Icon="@..\..\Image\player.png" WindowStartupLocation="Manual" ResizeMode="NoResize">
+    <Grid Background="#DCDCDC" HorizontalAlignment="Left" Width="336" Margin="0,0,-4,0" Height="237" VerticalAlignment="Top">
+        <Grid.RowDefinitions  >
+            <RowDefinition Height="Auto" MinHeight="40" />
+            <RowDefinition Height="Auto" MinHeight="100"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition />
+            <ColumnDefinition Width="244" />
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Name"  Height="24" Width="90" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Description" Height="33" Width="90" HorizontalAlignment="left" VerticalAlignment="Top" Margin="0,19.6,0,0"/>
+
+        <TextBox Grid.Row ="0" x:Name ="tbPlayListName" Height="24" HorizontalAlignment="Left" Width="200" Grid.Column="1" Margin="0,5,0,0" VerticalAlignment="Top" Grid.RowSpan="2"/>
+        <TextBox Grid.Row ="1" x:Name ="tbDescription" Height="100"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="200" Grid.Column="1" Margin="0,19.8,0,-13.4" Grid.RowSpan="3" />
+        <Button Grid.Row ="2" Content="Save" Click="BtSave_Click" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,184,-58.2" Grid.Column="1"  />
+        <Button Grid.Row ="2" Grid.Column="1" Click="BtCancel_Click" Content="Cancel" Height="30" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,-58.2"/>
+    </Grid>
+</Window>
