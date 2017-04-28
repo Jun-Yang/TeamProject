@@ -195,7 +195,7 @@ namespace MusicLibrary
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                return (from pl in ctx.PlayLists orderby pl.Id descending select pl.PlayListName).SingleOrDefault();
+                return (from pl in ctx.PlayLists orderby pl.Id descending select pl.PlayListName).First();
             }
         }
 

@@ -243,6 +243,26 @@ namespace MusicLibrary
             }
         }
 
+        TreeViewItem FindItemByHeader(TreeView tv, string root, string header)
+        {
+            TreeViewItem rootItem = null;
+            foreach (TreeViewItem item in tv.Items)
+            {
+                if (item.Header.Equals(root))
+                {
+                    rootItem = item;
+                }
+            }
+            foreach (TreeViewItem item in rootItem.Items)
+            {
+                if (item.Header.Equals(header))
+                {
+                    return(item);
+                }
+            }
+            return null;
+        }
+
         private void TvPlaylists_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             TreeViewItem item = (TreeViewItem)TvPlaylists.SelectedItem;
@@ -299,6 +319,7 @@ namespace MusicLibrary
                 }
             }
         }
+
 
         private void TbFilter_OnTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -985,6 +1006,8 @@ namespace MusicLibrary
         //add by chen 0427 
         private void CmPlayListNew_Click(object sender, RoutedEventArgs e)
         {
+            TreeViewItem rootItem = null;
+
             Song song = (Song)ListMusicLibrary[LvLibrary.SelectedIndex];
             PlayListNewWindow playlistwindow = new PlayListNewWindow(song);
             //position the playlistwindow
@@ -994,10 +1017,18 @@ namespace MusicLibrary
             //TvPlaylists_SelectedItemChanged(null,null);
             TvPlaylists.Items.Clear();
             PopulatePlaylists();
-            //string plName = db.GetPlaylistNameByMaxId();
-            //ListPlaying = db.GetSongByPlaylistName(plName);
-            //LvPlay.ItemsSource = ListPlaying;
+            string plName = db.GetPlaylistNameByMaxId();
+            if (FindItemByHeader(TvPlaylists, "Playlists", plName) != null)
+            {
+                FindItemByHeader(TvPlaylists, "Playlists", plName).IsSelected = true;
+            }
+            else {
+                Console.WriteLine("Internal error, cannot find a node");
+            }
+            ListPlaying = db.GetSongByPlaylistName(plName);
+            LvPlay.ItemsSource = ListPlaying;
         }
+
 
         //add by chen 0427
         private void MiPrintPlayList_Click(object sender, RoutedEventArgs e)
