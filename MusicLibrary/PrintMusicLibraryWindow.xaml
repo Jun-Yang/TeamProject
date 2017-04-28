@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
-        Title="PrintMusicLibraryWindow" Height="480" Width="600">
+        Title="PrintMusicLibraryWindow" Height="540" Width="600" MinHeight="520">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -13,9 +13,9 @@
             <RowDefinition Height="380*"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Left" Height="362" Margin="10,10,0,0" VerticalAlignment="Top" Width="574" Grid.RowSpan="4">
+        <StackPanel HorizontalAlignment="Left" Height="417" Margin="10,10,0,0" VerticalAlignment="Top" Width="574" Grid.RowSpan="2">
             <Label Content="Music Library" HorizontalAlignment="Left" Margin="205,19,0,0" VerticalAlignment="Top" Width="166"/>
-            <DataGrid Name="DgMusicLibrary" ItemsSource="{Binding Song}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="318"  Grid.Row="1" VerticalAlignment="Top" Width="574" GridLinesVisibility="Vertical" HeadersVisibility="All" RowHeight="30" ColumnWidth="100" Background="LightGray"  IsReadOnly="True" AreRowDetailsFrozen="True" FrozenColumnCount="2" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" >
+            <DataGrid Name="DgMusicLibrary" ItemsSource="{Binding Song}" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="362"  Grid.Row="1" VerticalAlignment="Top" Width="574" GridLinesVisibility="Vertical" HeadersVisibility="All" RowHeight="30" ColumnWidth="100" Background="LightGray"  IsReadOnly="True" AreRowDetailsFrozen="True" FrozenColumnCount="2" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
                     <DataGridTextColumn Header="Artist" Binding="{Binding ArtistName}" />

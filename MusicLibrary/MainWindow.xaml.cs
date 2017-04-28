@@ -1243,6 +1243,14 @@ namespace MusicLibrary
                 }
             }
         }
+
+        private void MiPrintMusicLibrary_Click(object sender, RoutedEventArgs e)
+        {
+            PrintMusicLibraryWindow pd = new PrintMusicLibraryWindow(ListMusicLibrary);
+            pd.Top = (this.Top + (this.Height / 2)) - pd.Height / 2;
+            pd.Left = (this.Left + (this.Width / 2)) - pd.Width / 2;
+            if (pd.ShowDialog() != true) return;
+        }
     }
     /*end of Playlist listview operation*/
 
