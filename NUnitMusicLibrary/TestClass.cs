@@ -20,17 +20,38 @@ namespace NUnitMusicLibrary
         }
 
         [Test]
-        public void TestSongYearFailed()
+        public void TestSongYearLowBoundaryFailed()
         {
             // TODO: Add your test code here
             Song song = new Song("Hello", "Adele", 1, 1, "PoP", "C:\\MusicLibrary\\hello.mp3", 1900, "Pop", 3);
-            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => song.Year = DateTime.ParseExact("1899", "yyyy", null));
-            Assert.That(ex.Message == "Blah");
             song.Year = DateTime.ParseExact("1899", "yyyy", null);
+        }
+
+        [Test]
+        public void TestSongYearHighBoundaryFailed()
+        {
+            // TODO: Add your test code here
+            Song song = new Song("Hello", "Adele", 1, 1, "PoP", "C:\\MusicLibrary\\hello.mp3", 1900, "Pop", 3);
+
             song.Year = DateTime.ParseExact("2100", "yyyy", null);
+        }
+
+        [Test]
+        public void TestSongYearLowInvalidValueFailed()
+        {
+            // TODO: Add your test code here
+            Song song = new Song("Hello", "Adele", 1, 1, "PoP", "C:\\MusicLibrary\\hello.mp3", 1900, "Pop", 3);
+
             song.Year = DateTime.ParseExact("1855", "yyyy", null);
+        }
+
+        [Test]
+        public void TestSongYearHighInvalidValueFailed()
+        {
+            // TODO: Add your test code here
+            Song song = new Song("Hello", "Adele", 1, 1, "PoP", "C:\\MusicLibrary\\hello.mp3", 1900, "Pop", 3);
+
             song.Year = DateTime.ParseExact("2150", "yyyy", null);
-            Assert.Pass("Your second passing test");
         }
     }
 }
