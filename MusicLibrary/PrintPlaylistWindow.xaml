@@ -1,0 +1,36 @@
+﻿<Window x:Class="MusicLibrary.PrintPlaylistWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicLibrary"
+        mc:Ignorable="d"
+        Title="PrintPlaylistWindow" Height="321.277" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="221*"/>
+            <RowDefinition Height="69*"/>
+        </Grid.RowDefinitions>
+        <StackPanel HorizontalAlignment="Left" Width="500" Height="300" Margin="10,30,-18,-40" VerticalAlignment="Top" Grid.RowSpan="2" />
+        <Grid Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="237*"/>
+
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TabControl Margin="0,0,0,2">
+                <TabItem Header="Playlists">
+                    <Label Margin="0,0,0,104" >
+                        <DataGrid Height="132" Width="480"/>
+                    </Label>
+                </TabItem>
+                <TabItem Header="Security" />
+                <TabItem Header="Details" />
+            </TabControl>
+
+            <Button Content="Create PDF" Name="BtGenPDF" HorizontalAlignment="Left" Margin="79,232,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.01,0.637"/>
+            <Button Content="Cancel" HorizontalAlignment="Left" Margin="374,232,0,0" VerticalAlignment="Top" Width="75" Click="BtCancel_Click"/>
+        </Grid>
+        <Button Content="Print" HorizontalAlignment="Left" Margin="222,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75"/>
+    </Grid>
+</Window>

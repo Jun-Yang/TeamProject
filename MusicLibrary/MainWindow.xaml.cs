@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.VisualStudio.TestTools.UITesting.WpfControls;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1172,7 +1173,11 @@ namespace MusicLibrary
             pd.Top = (this.Top + (this.Height / 2)) - pd.Height / 2;
             pd.Left = (this.Left + (this.Width / 2)) - pd.Width / 2;
             if (pd.ShowDialog() != true) return;
+
+            
         }
+
+        
 
         private void TvPlayListDelete_Click(object sender, RoutedEventArgs e)
         {
