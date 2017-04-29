@@ -375,7 +375,7 @@ namespace MusicLibrary
             Close();
         }
 
-        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
+        private void MiAbout_Click(object sender, RoutedEventArgs e)
         {
             using (AboutBox box = new AboutBox())
             {
@@ -383,7 +383,7 @@ namespace MusicLibrary
             }
         }
 
-        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
+        private void MiDelete_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBoxEx.Show("Delete this music from library?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
@@ -405,7 +405,7 @@ namespace MusicLibrary
             TbFilter.Focus();
         }
 
-        private void MenuItemPlay_Click(object sender, RoutedEventArgs e)
+        private void MiPlay_Click(object sender, RoutedEventArgs e)
         {
             if (LvLibrary.SelectedIndex != -1)
             {
@@ -518,10 +518,22 @@ namespace MusicLibrary
             RefreshMusicLibrary();
         }
 
-        private void MiEditClear_Click(object sender, RoutedEventArgs e)
+        private void MiClear_Click(object sender, RoutedEventArgs e)
         {
-            LvLibrary.ItemsSource = null;
-            LvLibrary.Items.Clear();
+            if (MessageBoxEx.Show("Clear all the information in library, including playlists?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                return;
+            }
+            else
+            {
+                db.TruncatePlaylistsFromLib();
+                db.TruncateSongsFromLib();
+                LvLibrary.ItemsSource = null;
+                LvLibrary.Items.Clear();
+                LvPlay.ItemsSource = null;
+                LvPlay.Items.Clear();
+                TvPlaylists.Items.Clear();
+            }
         }
 
         private void MiPlayBackPlay_Click(object sender, RoutedEventArgs e)
@@ -550,7 +562,7 @@ namespace MusicLibrary
         }
 
         //Adding by Chen 0426
-        private void MenuItemProperty_Click(object sender, RoutedEventArgs e)
+        private void MiProperty_Click(object sender, RoutedEventArgs e)
         {
             if (LvLibrary.SelectedIndex != -1)
             {
@@ -583,13 +595,6 @@ namespace MusicLibrary
             MiRandom.IsChecked = false;
             MiSequence.IsChecked = false;
             playMode = PlayMode.Repeat;
-        }
-
-        private void MiEditSort_Click(object sender, RoutedEventArgs e)
-        {
-            //read media information from database 
-            ListMusicLibrary = db.GetAllSongsFromLib();
-            RefreshMusicLibrary();
         }
         /* End of Menu Item Operation */
 
@@ -1068,7 +1073,7 @@ namespace MusicLibrary
             }
             else
             {
-                MessageBox.Show("Please select a playlist to add songs");
+                MessageBox.Show("Please select a playlist to add musics");
             }
         }
 

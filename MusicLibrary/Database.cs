@@ -164,7 +164,7 @@ namespace MusicLibrary
             }
         }
 
-        internal void TruncatePlaylistsFromLib(string plName)
+        internal void TruncatePlaylistsFromLib()
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
@@ -172,7 +172,7 @@ namespace MusicLibrary
             }
         }
 
-        internal void TruncateSongsFromLib(string plName)
+        internal void TruncateSongsFromLib()
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {

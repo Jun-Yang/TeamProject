@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicLibrary"
         mc:Ignorable="d"
-        Title="MediaProperty" Height="446" Width="405" MinWidth="300" MinHeight="350" Icon="@..\..\Image\player.png" 
+        Title="MusicProperty" Height="446" Width="405" MinWidth="300" MinHeight="350" Icon="@..\..\Image\player.png" 
         Closing="MediaProperty_Closing" WindowStartupLocation="Manual" Loaded="PropertyWindow_Loaded" ResizeMode="NoResize">
     <Grid Background="#DCDCDC" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
         <Grid.RowDefinitions >
@@ -26,6 +26,7 @@
             <ColumnDefinition />
             <ColumnDefinition Width="279" />
         </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="1" Content="Music Details" Grid.ColumnSpan="1" Background="#DCDCDC" HorizontalAlignment="Center" Width="240"/>
         <Label Grid.Row="1" Grid.Column="0" Content="Title" Grid.ColumnSpan="2" />
         <Label Grid.Row="2" Grid.Column="0" Content="Artist Name" Grid.ColumnSpan="2"/>
         <Label Grid.Row="3" Grid.Column="0" Content="Albumn Name" Grid.ColumnSpan="2"/>
@@ -36,7 +37,6 @@
         <Label Grid.Row="8" Grid.Column="0" Content="Genre" Grid.ColumnSpan="2"/>
         <Label Grid.Row="9" Grid.Column="0" Content="Rating" Grid.ColumnSpan="2"/>
         <Label Grid.Row="10" Grid.Column="0" Content="Description:" Grid.ColumnSpan="2"/>
-        <Label Grid.Row="0" Grid.Column="1" Content="Media   Details" Grid.ColumnSpan="1" Background="#DCDCDC" HorizontalAlignment="Left" Width="240"/>
         <TextBox x:Name ="tbSongTitle" Grid.Column="1" Margin="6,0,6,0" Grid.Row="1" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbArtistName" Grid.Column="1" Margin="6,0,6,0" Grid.Row="2" HorizontalAlignment="Stretch"/>
         <TextBox x:Name ="tbAlbumName" Grid.Column="1" Margin="6,0,6,0" Grid.Row="3" HorizontalAlignment="Stretch"/>

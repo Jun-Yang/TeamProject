@@ -131,6 +131,7 @@
     <Compile Include="Song.cs">
       <DependentUpon>RemoteLibraryModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SongYearTest.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -223,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\previous.png" />
