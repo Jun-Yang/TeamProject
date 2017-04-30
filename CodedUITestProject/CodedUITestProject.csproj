@@ -56,8 +56,6 @@
     <Compile Include="CodedUITest2-Playback.cs" />
     <Compile Include="CodedUITest3-MenuFile.cs" />
     <Compile Include="CodedUITest4.cs" />
-    <Compile Include="CodedUITest5.cs" />
-    <Compile Include="CodedUITest6.cs" />
     <Compile Include="EditProperty1.cs" />
     <Compile Include="EditProperty2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
