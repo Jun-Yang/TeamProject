@@ -200,8 +200,16 @@ namespace MusicLibrary
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                int maxId = ctx.PlayLists.Max(p => p.Id);
-                return maxId;
+
+                try
+                {
+                    int maxId = ctx.PlayLists.Max(p => p.Id);
+                    return maxId;
+                }
+                catch (InvalidOperationException)
+                {
+                    return 0;
+                }
             }
         }
         internal List<String> GetPlaylistName()
