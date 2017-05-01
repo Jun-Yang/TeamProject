@@ -41,15 +41,6 @@ namespace MusicLibrary
             mediaPlayer.MediaEnded += new EventHandler(Media_Ended);
             db = new Database();
             ResetAllFields();
-            if (db.GetAllSongsFromLib() != null)
-            {
-                ListMusicLibrary = db.GetAllSongsFromLib();
-            }
-            else
-            {
-                Close();
-            }
-            LvLibrary.ItemsSource = ListMusicLibrary;
             RefreshMusicLibrary();
             if (ListMusicLibrary.Count > 0)
             {
@@ -62,6 +53,15 @@ namespace MusicLibrary
 
         private void RefreshMusicLibrary()
         {
+            if (db.GetAllSongsFromLib() != null)
+            {
+                ListMusicLibrary = db.GetAllSongsFromLib();
+            }
+            else
+            {
+                Close();
+            }
+
             LvLibrary.ItemsSource = ListMusicLibrary;
             if (LvLibrary.Items.Count == 0)
             {
@@ -270,7 +270,7 @@ namespace MusicLibrary
                 if (item.Header == null)
                 {
 
-                    MessageBox.Show("TreeViewItem playName is Null");
+                    MessageBoxEx.Show("TreeViewItem playName is Null");
                     return;
                 }
                 else
@@ -391,8 +391,13 @@ namespace MusicLibrary
                 if (LvLibrary.SelectedIndex == -1) return;
                 else
                 {
+                    db.DeleteSongFromLib(ListMusicLibrary[LvLibrary.SelectedIndex]);
                     ListMusicLibrary.RemoveAt(LvLibrary.SelectedIndex);
                     RefreshMusicLibrary();
+                    if (isPlaying)
+                    {
+                        BtPlay_Click(null,null);
+                    }
                 }
             }
         }
@@ -438,7 +443,7 @@ namespace MusicLibrary
                     }
                     else
                     {
-                        MessageBox.Show("Please select a music file");
+                        MessageBoxEx.Show("Please select a music file");
                         return;
                     }
                 }
@@ -463,16 +468,16 @@ namespace MusicLibrary
                 }
                 else
                 {
-                    MessageBox.Show("No music file found in directory");
+                    MessageBoxEx.Show("No music file found in directory");
                 }
             }
             catch (IOException ex)
             {
-                MessageBox.Show("Invalid directory" + ex.StackTrace);
+                MessageBoxEx.Show("Invalid directory" + ex.StackTrace);
             }
             catch (NullReferenceException ex)
             {
-                MessageBox.Show("You must select a directory" + ex.StackTrace);
+                MessageBoxEx.Show("You must select a directory" + ex.StackTrace);
             }
             RefreshMusicLibrary();
         }
@@ -512,6 +517,7 @@ namespace MusicLibrary
             indexbeforeAdd = LvLibrary.Items.Count;
             Song song = new Song(title, strArtist, albumId, (int)sequenceId, description, filePath, year, strGenre, rating);
             ListMusicLibrary.Add(song);
+            db.SaveSongToLib(song);
             RefreshMusicLibrary();
         }
 
@@ -571,6 +577,7 @@ namespace MusicLibrary
                 mediaProperty.Left = (this.Left + (this.Width / 2)) - mediaProperty.Width / 2;
                 mediaProperty.ShowDialog();
             }
+            RefreshMusicLibrary();
         }
 
         private void MiSequence_Click(object sender, RoutedEventArgs e)
@@ -642,7 +649,7 @@ namespace MusicLibrary
             }
             else
             {
-                MessageBox.Show("Internal error");
+                MessageBoxEx.Show("Internal error");
             }
         }
 
@@ -660,7 +667,7 @@ namespace MusicLibrary
             }
             else
             {
-                MessageBox.Show("Internal error");
+                MessageBoxEx.Show("Internal error");
             }
         }
 
@@ -678,7 +685,7 @@ namespace MusicLibrary
             }
             else
             {
-                MessageBox.Show("Internal error");
+                MessageBoxEx.Show("Internal error");
             }
         }
 
@@ -708,7 +715,7 @@ namespace MusicLibrary
             }
             else
             {
-                MessageBox.Show("Internal error");
+                MessageBoxEx.Show("Internal error");
             }
         }
 
@@ -793,7 +800,7 @@ namespace MusicLibrary
             }
             else
             {
-                MessageBox.Show("Internal Error");
+                MessageBoxEx.Show("Internal Error");
                 return;
             }
             mediaPlayer.Open(new Uri(currentFile));
@@ -820,7 +827,7 @@ namespace MusicLibrary
             }
             else
             {
-                MessageBox.Show("Internal Error");
+                MessageBoxEx.Show("Internal Error");
                 return;
             }
             mediaPlayer.Open(new Uri(currentFile));
@@ -873,7 +880,7 @@ namespace MusicLibrary
         // Begin directory treeview context menu
         private void TvMenuPlayMedia_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Play this music?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBoxEx.Show("Play this music?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
@@ -899,7 +906,7 @@ namespace MusicLibrary
 
         private void TvMenuImportToLibrary_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Import to Library?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBoxEx.Show("Import to Library?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 return;
             }
@@ -963,7 +970,7 @@ namespace MusicLibrary
                     }
                     else
                     {
-                        MessageBox.Show("Please choose a music file");
+                        MessageBoxEx.Show("Please choose a music file");
                     }
                 }
                 catch (NullReferenceException ex)
@@ -1070,7 +1077,7 @@ namespace MusicLibrary
             }
             else
             {
-                MessageBox.Show("Please select a playlist to add musics");
+                MessageBoxEx.Show("Please select a playlist to add musics");
             }
         }
 

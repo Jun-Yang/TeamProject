@@ -27,7 +27,7 @@
         <TextBox Grid.Row ="1" x:Name ="tbSongTitle" IsReadOnly="True" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Grid.Column="1" Margin="0,9.2,11,0" Grid.RowSpan="2"/>
         <TextBox Grid.Row ="2" x:Name ="tbSongArtist" IsReadOnly="True" Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Grid.Column="1" Margin="0,11,0,0" Grid.RowSpan="2" />
         <TextBox Grid.Row ="3" x:Name ="tbDescription" Height="100"  HorizontalAlignment="Left"  VerticalAlignment="Top" Width="200" Grid.Column="1" Margin="0,19.8,0,-13.4" Grid.RowSpan="3" />
-        <Button Grid.Row ="5" Content="Save" Click="btSave_Click" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,184,-58.2" Grid.Column="1"  />
-        <Button Grid.Row ="5" Grid.Column="1" Content="Cancel" Click="btCancel_Click"  Height="30" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,-58.2"/>
+        <Button Grid.Row ="5" Content="Save" Click="BtSave_Click" HorizontalAlignment="Right"  VerticalAlignment="Bottom" Width="60" Height="30" Margin="0,0,184,-58.2" Grid.Column="1"  />
+        <Button Grid.Row ="5" Grid.Column="1" Content="Cancel" Click="BtCancel_Click"  Height="30" Width="60" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,70,-58.2"/>
     </Grid>
 </Window>

@@ -67,16 +67,13 @@ namespace MusicLibrary
             }
         }
 
-        internal void SaveSongsToLib(List<Song> lstMusic)
+        internal void SaveSongToLib(Song song)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                foreach (var s in lstMusic)
-                {
-                    ctx.Songs.Add(s);
+                    ctx.Songs.Add(song);
                     ctx.SaveChanges();
-                    Console.WriteLine("Song: {0}, {1}, {2}", s.Id, s.Title, s.ArtistName);
-                }
+                    Console.WriteLine("Song: {0}, {1}, {2}", song.Id, song.Title, song.ArtistName);
             }
         }
 
@@ -116,15 +113,21 @@ namespace MusicLibrary
 
         //internal void SavePlaylist(String plName,String plDescription)
    
-        internal void DeleteSongsFromLib(List<Song> lstMusic)
+        internal void DeleteSongFromLib(Song song)
         {
             using (RemoteLibraryEntities ctx = new RemoteLibraryEntities())
             {
-                foreach (var s in lstMusic)
+                var songToRemove = ctx.Songs.SingleOrDefault(s => s.Id == song.Id);
+
+                if (songToRemove != null)
                 {
-                    ctx.Songs.Remove(s);
+                    ctx.Songs.Remove(songToRemove);
                     ctx.SaveChanges();
-                    Console.WriteLine("Song: {0}, {1}, {2}", s.Id, s.Title, s.ArtistName);
+                    Console.WriteLine("Song: {0}, {1}, {2}", song.Id, song.Title, song.ArtistName);
+                }
+                else
+                {
+                    Console.WriteLine("Database internal error");
                 }
             }
         }

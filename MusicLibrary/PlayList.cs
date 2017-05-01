@@ -62,7 +62,15 @@ namespace MusicLibrary
             }
             set
             {
-                this.playListName = value;
+                if (value.Length <= 50)
+                {
+                    this.playListName = value;
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException(value, "Playlist Name must less than 50 character");
+                }
+                
             }
         }
         public string Description

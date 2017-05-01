@@ -11,7 +11,8 @@ namespace MusicLibrary
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Text.RegularExpressions;
+
     public partial class Song
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -104,7 +105,15 @@ namespace MusicLibrary
             }
             set
             {
-                this.pathToFile = value;
+                Match match = Regex.Match(value, @"^(.+)\\([^\\]+)$");
+                if (match.Success)
+                {
+                    this.pathToFile = value;
+                }
+                else
+                {
+                    throw new ArgumentNullException(value, "Path cannot be null or empty");
+                }
             }
         }
         public System.DateTime Year

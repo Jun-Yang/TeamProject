@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace MusicLibrary
 {
@@ -49,7 +48,7 @@ namespace MusicLibrary
             //song = (Song)ListMusicLibrary[lvLi];
             if (song == null)
             {
-                MessageBox.Show("PropertyWindow load Error media is null");
+                MessageBoxEx.Show("PropertyWindow load Error media is null");
                 return;
             }
             else
@@ -60,7 +59,7 @@ namespace MusicLibrary
                 tbAlbumId.Text = song.AlbumId + "";
                 tbSequenceId.Text = song.SequenceId + "";
                 tbPath.Text = song.PathToFile;
-                string date = song.Year.ToString("yyyy-MM-dd");
+                string date = song.Year.ToString("yyyy");
                 tbYear.Text = date;
                 tbGenre.Text = song.Genre;
                 tbRating.Text = song.Rating + "";
@@ -86,13 +85,11 @@ namespace MusicLibrary
                 yearInt = Convert.ToInt32(tbYear.Text);
             }
             else {
-                MessageBox.Show("Please input 4 digital year");
+                MessageBoxEx.Show("Please input 4 digital year");
                 return;
             }
-            
 
             //To Do Format date and validation
-
             uint yearUint = (uint)(yearInt);
             String genre = tbGenre.Text;
             string date = song.Year.ToString("yyyy");
@@ -101,8 +98,8 @@ namespace MusicLibrary
 
             Song new_song = new Song(title, artistName, sequenceId, (int)sequenceId, description, pathToFile, yearUint, genre, rating);
             db.UpdateSongByPath(new_song);
-            MessageBox.Show("Song is " + new_song.ArtistName+"being saved");
-            //ListMusicLibrary.Add(song);
+            MessageBoxEx.Show("Song of " + new_song.ArtistName + " is being saved");
+            this.Close();
         }
     }
 }

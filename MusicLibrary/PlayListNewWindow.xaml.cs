@@ -31,12 +31,12 @@ namespace MusicLibrary
             tbSongArtist.Text = s.ArtistName;
         }
 
-        private void btCancel_Click(object sender, RoutedEventArgs e)
+        private void BtCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        private void btSave_Click(object sender, RoutedEventArgs e)
+        private void BtSave_Click(object sender, RoutedEventArgs e)
         {
             String plName = tbPlayListName.Text;
             String plDescription = tbDescription.Text;
